@@ -25,7 +25,7 @@ SECRET_KEY = 'us5=x&bo9eh2yka%ctfq6sz)t00!!eh-364k+#obkscp(mm1!l'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +41,8 @@ DJANGO_APPS = [
 
 PROJECT_APPS = [
     "users.apps.UsersConfig", 
-    "purchases.apps.PurchasesConfig"
+    "purchases.apps.PurchasesConfig",
+    "core.apps.CoreConfig"
 ]
 
 
@@ -62,7 +63,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
