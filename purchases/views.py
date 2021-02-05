@@ -24,6 +24,10 @@ class HomeView(ListView):
         else:
             ip = request.META.get('REMOTE_ADDR')
 
+            g = GeoIP2()
+            print(g.country('naver.com'))
+        
+
         return render(request, "home.html", {
             "ip": ip,
             "client_id_naver": client_id,
