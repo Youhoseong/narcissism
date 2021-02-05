@@ -7,8 +7,14 @@ name = "pypi"
 django = "==2.2.5"
 django-ipware = "*"
 geoip2 = "*"
+channels = "*"
+channels-redis = "*"
+
 
 [dev-packages]
+flake8 = "*"
+black = "==18.9b0"
+
 
 [requires]
 python_version = "3.9"
