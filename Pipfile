@@ -10,11 +10,10 @@ geoip2 = "*"
 channels = "*"
 channels-redis = "*"
 
-
 [dev-packages]
 flake8 = "*"
 black = "==18.9b0"
-
+pylint = "*"
 
 [requires]
 python_version = "3.9"

@@ -31,33 +31,22 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 DJANGO_APPS = [
-<<<<<<< HEAD
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'geoip2'
-=======
-    "channels",
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
->>>>>>> 733afb57299177add4e2e01c730426685f2a6bb7
+    'geoip2',
+    # "channels",
 ]
 
 PROJECT_APPS = [
-    "chats.apps.ChatsConfig",
+    #"chats.apps.ChatsConfig",
     "users.apps.UsersConfig",
     "purchases.apps.PurchasesConfig",
     "core.apps.CoreConfig",
 ]
-
-ASGI_APPLICATION = "routing.application"
 
 CHANNEL_LAYERS = {
     "default": {
@@ -139,12 +128,12 @@ USE_L10N = True
 USE_TZ = True
 
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+GEOIP_PATH =os.path.join(BASE_DIR, 'geoip')
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-<<<<<<< HEAD
-STATIC_URL = '/static/'
-GEOIP_PATH =os.path.join(BASE_DIR, 'geoip')
-=======
-STATIC_URL = "/static/"
->>>>>>> 733afb57299177add4e2e01c730426685f2a6bb7
+
