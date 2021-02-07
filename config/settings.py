@@ -37,19 +37,18 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'geoip2'
+    'geoip2',
+    # "channels",
 ]
 
 PROJECT_APPS = [
-    "chats.apps.ChatsConfig",
+    #"chats.apps.ChatsConfig",
     "users.apps.UsersConfig",
     "purchases.apps.PurchasesConfig",
     "core.apps.CoreConfig",
     "lists.apps.ListsConfig",
     "reviews.apps.ReviewsConfig",
 ]
-
-ASGI_APPLICATION = "routing.application"
 
 CHANNEL_LAYERS = {
     "default": {
@@ -131,8 +130,12 @@ USE_L10N = True
 USE_TZ = True
 
 
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+GEOIP_PATH =os.path.join(BASE_DIR, 'geoip')
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
-GEOIP_PATH =os.path.join(BASE_DIR, 'geoip')
+
