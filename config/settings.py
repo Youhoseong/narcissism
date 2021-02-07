@@ -46,6 +46,8 @@ PROJECT_APPS = [
     "users.apps.UsersConfig",
     "purchases.apps.PurchasesConfig",
     "core.apps.CoreConfig",
+    "lists.apps.ListsConfig",
+    "reviews.apps.ReviewsConfig",
 ]
 
 CHANNEL_LAYERS = {
