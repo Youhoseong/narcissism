@@ -4,8 +4,7 @@ from users import models as user_model
 # Create your models here.
 
 class Photo(core_model.TimeStampedModel):
-
-    file = models.ImageField(upload_to="room_photos")
+    file = models.FileField(upload_to="room_photos")
     purchases = models.ForeignKey("Purchase", related_name="photos", on_delete=models.CASCADE)
 
 class Purchase(core_model.TimeStampedModel):
