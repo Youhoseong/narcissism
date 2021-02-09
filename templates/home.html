@@ -1,33 +1,10 @@
-{% load static %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"
-    />
-    
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
-
-
-    <link rel="stylesheet" href="{% static "css/styles.css" %}">
-    <title>Home | 자아도취</title>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{client_id_kakao}}"></script>
-  </head>
-
-<body class="text-gray-800 mt-24 font-light">
-  <header class="container max-w-full flex items-center inset-0 justify-between px-6 h-20 border-b border-gray-400 fixed bg-white">
-    <a href="{% url "core:home" %}" class="mr-6">
-      <img class="w-12" src="{% static 'img/logo2.png' %}" />
-    </a>
-    
-    
-    {% include "nav.html" %}
-  </header>
+{% block page_title %}Home{% endblock page_title %}
+{% block content %}
+    <header>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{client_id_kakao}}"></script>
+    </header>
     <div class="text-center font-body text-5xl font-medium w-full mb-10 flex flex-col">
        <span class="my-4"> Where Are You ?</span> 
        <span> Start to buying with your neighborhood </span>
@@ -108,8 +85,4 @@
     <div class="font-sans-kr">
        homeview experiment {{ip}}
     </div>
-
-  
-
-  </body>
-</html>
+{% endblock content %}

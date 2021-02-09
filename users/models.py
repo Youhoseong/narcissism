@@ -6,10 +6,7 @@ class User(AbstractUser):
     GENDER_FEMALE = "female"
     GENDER_OTHER = "other"
 
-    GENDER_CHOICES = (
-        (GENDER_MALE, "Male"),
-        (GENDER_FEMALE, "Female"),
-    )
+    GENDER_CHOICES = ((GENDER_MALE, "Male"), (GENDER_FEMALE, "Female"))
 
     LOGIN_EMAIL = "email"
     LOGIN_GITHUB = "github"
@@ -18,13 +15,16 @@ class User(AbstractUser):
     LOGIN_CHOICES = (
         (LOGIN_EMAIL, "Email"),
         (LOGIN_GITHUB, "Github"),
+        (LOGIN_KAKAO, "Kakao"),
+    )
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
+    email = models.EmailField(unique=True)
+    avatar = models.FileField(upload_to="avatars", blank=True)
+
         (LOGIN_KAKAO, "Kakao")
     )
 
     avatar = models.FileField(upload_to="avatars", blank=True)
-    gender = models.CharField(
-        choices=GENDER_CHOICES, max_length=10, blank=True
-    )
     bio = models.TextField(default="", blank=True)
     birthdate = models.DateField(blank=True, null=True)
     address = models.CharField(max_length=80, blank=True)

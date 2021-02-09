@@ -11,15 +11,15 @@
   },
   "homepage": "https://github.com/CLUG-kr/narcissism#readme",
   "devDependencies": {
+    "autoprefixer": "^10.2.4",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
     "gulp-postcss": "^9.0.0",
     "gulp-sass": "^4.1.0",
     "node-sass": "^5.0.0",
-    "tailwindcss": "^2.0.2"
+    "tailwindcss": "^2.0.3"
   },
   "dependencies": {
-    "autoprefixer": "^10.2.4",
     "postcss": "^8.2.4"
   }
 }

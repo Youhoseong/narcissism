@@ -1,0 +1,8 @@
+<div class="input {% if field.errors %}has_error{% endif %} mb-2">
+    {{field}}
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <span class="text-red-700 font_medium text-am">{{error}}</span>
+        {% endfor %}
+    {% endif %}
+</div>
