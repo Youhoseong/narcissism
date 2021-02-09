@@ -47,3 +47,9 @@ def home(request):
         ip = request.META.get('REMOTE_ADDR')
     
     return HttpResponse("Welcome Home<br>You are visiting from: {}".format(ip)) """
+
+
+def Participate(request):
+    model = models.Purchase
+    user = request.user
+    model.participants.add(user)
