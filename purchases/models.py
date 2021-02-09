@@ -3,17 +3,28 @@ from core import models as core_model
 from users import models as user_model
 # Create your models here.
 
+class Photo(core_model.TimeStampedModel):
+
+    file = models.ImageField(upload_to="room_photos")
+    purchases = models.ForeignKey("Purchase", related_name="photos", on_delete=models.CASCADE)
 
 class Purchase(core_model.TimeStampedModel):
-    closed = models.DateTimeField()
 
+    closed = models.DateTimeField()
     title = models.CharField(max_length=40, blank=True)
-    host = models.ForeignKey("users.User", related_name="purchase", on_delete=models.CASCADE)
-    
-    # 사진, 구매 링크, 공유 단위, 가격, 총 개수, 남은 개수, 상품 설명 필드, 지역, 참여자, is_closed,  (별도 클래스) 카테고리...
+    host = models.ForeignKey(user_model.User, related_name="purchase", on_delete=models.CASCADE)
+    explain = models.TextField(blank=True)
+    max_people = models.IntegerField(default=0)
+    participants = models.ManyToManyField(user_model.User, related_name="participate")
+
+    # 공유 단위, 가격, 총 개수, 남은 개수, 참여자, (별도 클래스) 카테고리...
 
     # immaterial
     # material
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        print('hello', self.participants)
 
 class material(Purchase):
     UNIT_KG = "kg"
@@ -25,8 +36,8 @@ class material(Purchase):
     )
 
     unit = models.CharField(choices=UNIT_CHOICE, max_length=5, blank=True)
-
     total = models.IntegerField()
+    link_address = models.TextField(blank=True)
 
 class immaterial(Purchase):
     pass
