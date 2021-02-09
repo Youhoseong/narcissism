@@ -10,7 +10,7 @@
 @tailwind components;
 
 .nav_link{
-    @apply ml-8 border-b-4 border-white h-full flex items-center;
+    @apply mx-8 border-b-2 border-white h-full flex items-center;
     a {
         @apply py-10 px-5;
     }
@@ -20,5 +20,16 @@
     }
 };
 
+.btn{
+    @apply w-full text-center rounded-2xl py-5 font-light text-lg;
+}
+
+input{
+    @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
+};
+
+select {
+    @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
+}
 
 @tailwind utilities;
