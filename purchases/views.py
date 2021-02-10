@@ -33,26 +33,10 @@ class HomeView(ListView):
 
         return render(request, "home.html", {
             "ip": ip,
-            "latt": g.city('218.146.29.228').get('latitude'),
-            "long": g.city('218.146.29.228').get('longitude'),
-            "client_id_kakao": client_id,
+       
         }) 
 
-    def post(self, request):
-        location = request.POST.get('location')
-        print(location)
-        # user = user_models.User.objects.get(pk=request.user.pk)
-        # user.address = location
-        # user.save()
 
-        return redirect(reverse("core:home"))
-
-# user pk 추가해야함 => login 추가 후
-def create_user_location(request):
-    location = request.POST['location']
-    print(location)
-
-    return redirect(reverse("core:home"))
 
 def Participate(request):
     model = models.Purchase

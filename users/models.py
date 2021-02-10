@@ -31,6 +31,7 @@ class User(AbstractUser):
     bank_account = models.CharField(max_length=80, blank=True)
 
     email_verified = models.BooleanField(default=False)
+    location_verified = models.BooleanField(default=False)
     login_method = models.CharField(max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL)
 
     def bank_info_name(self):
