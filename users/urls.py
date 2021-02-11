@@ -10,4 +10,5 @@ urlpatterns = [
     path("<int:pk>/", views.UserProfileView.as_view(), name="profile"),
     path("verify/", views.LocationVerifyView.as_view(), name="verify"),
     path("verify/complete/", views.verify_complete, name="verify-complete"),
+    path("verify/detail/", views.LocationVerifyDetailView.as_view(), name="verify-detail")
 ]

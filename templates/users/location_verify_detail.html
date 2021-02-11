@@ -24,21 +24,25 @@
 
     <div class="container text-center font-dohyun text-3xl my-5 flex flex-col mx-auto">
     
-        <span class="my-4 p-2 text-gray-500">회원님의 위치를 확인해주세요.</span> 
-
-        <span id="loc" class="p-2 text-2xl animate-bounce"> </span>
+        <span class="my-4 p-2 text-gray-500">회원님의 위치를 입력해주세요.</span> 
+        <div class="container py-5 w-1/2 mx-auto">
+            <div class="flex flex-col items-center text-2xl">
+                <textarea id="msg" class="border rounded-md w-1/2 mr-3 animate-bounce"></textarea>
+                <button id="msgbtn" class="w-1/4">제출</button>
+            </div>
+         </div>
 
     </div>
 
     <div class="container h-36 justify-center mx-auto p-2 w-1/2 flex">
         
         <a href="{% url 'users:verify-complete' %}">
-            <span id="btn-yes" class="py-3 px-7 font-medium rounded-md my-auto w-1/4 text-center mr-2 h-1/3 border-2 border-black hover:border-yellow-400 hover:text-white hover:bg-yellow-400">
+            <span id="btn-yes" class="py-3 px-7 font-medium rounded-md my-auto w-1/4 text-center mr-2 h-1/3 border-2 text-black border-black hover:text-white hover:border-yellow-400 hover:bg-yellow-400">
                 일치
             </span>
         </a>
-        <a href="{% url 'users:verify-detail' %}">
-            <span id="btn-no" class="py-3 px-7 font-medium rounded-md my-auto w-1/4 text-center mr-2 h-1/3 border-2 border-black hover:border-red-400 hover:text-white hover:bg-red-400">
+        <a href="#">
+            <span id="btn-yes" class="py-3 px-7 font-medium rounded-md my-auto w-1/4 text-center mr-2 h-1/3 border-2 border-black hover:border-red-400 hover:text-white hover:bg-red-400">
                 다름
             </span>
         </a>
@@ -49,16 +53,18 @@
     </div>
 
     <div class="text-center text-lg">
-        현재 위치를 불러오는데 몇 초의 시간이 걸릴 수 있습니다.
+        검색 결과를 불러오는데 몇 초의 시간이 걸릴 수 있습니다.
     </div>
 
+  
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{client_id_kakao}}&libraries=services"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script>
-        var verify_complete_url = "{% url 'users:verify-complete' %}";
-        var verify_detail_url = "{% url 'users:verify-detail' %}"
+    <script src="{% static 'js/map_verify_detail.js' %}">
+        
     </script>
-    <script src="{% static 'js/map_verify.js' %}">  
+    <script>
+        var verify_detail_url = "{% url 'users:verify-detail' %}";
+        var verify_complete_url = "{% url 'users:verify-complete' %}";
     </script>
     
     <div class="font-sans-kr">

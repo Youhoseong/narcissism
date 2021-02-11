@@ -9,6 +9,11 @@ from . import models
 from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import render, HttpResponse
 import os
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.utils.decorators import method_decorator
+
+
+
 
 # Create your views here.
 
@@ -16,6 +21,36 @@ import os
 class LocationException(Exception):
     pass
 
+class LocationVerifyDetailView(ListView):
+    template_name = "users/location_verify_detail.html"
+    model = models.User
+    context_object_name = "users"
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+       return super(LocationVerifyDetailView, self).dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        client_id = os.environ.get("KAKAO_MAP_KEY")
+
+        return render(
+            request,
+            "users/location_verify_detail.html",
+            {
+                "client_id_kakao": client_id,
+            },
+        )
+
+    def post(self, request, *args, **kwargs):
+        lat = request.POST.get("lat")
+        lon = request.POST.get("lon")
+
+        print(lat, lon)
+
+        return redirect(reverse("core:home"))
+
+ 
+user_create = csrf_exempt(LocationVerifyDetailView.as_view())
 
 class LocationVerifyView(ListView):
     template_name = "users/location_verify.html"
@@ -44,7 +79,7 @@ class LocationVerifyView(ListView):
             },
         )
 
-
+@csrf_exempt
 def verify_complete(request):
     try:
         location = request.POST.get("location")
