@@ -8,6 +8,9 @@
                 <li class="nav_link font-sans-kr">
                     <a href="{% url 'users:logout' %}">Logout</a>
                 </li>
+                <li nav_link font-sans-kr>
+                    <a href="#">{% include "mixins/avatar_thumbnail.html" with user=user %}</a>
+                </li>
             {% else %}
                 <li class="nav_link font-sans-kr">
                     <a href="{% url 'users:login' %}">Login</a>

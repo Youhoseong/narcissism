@@ -1,8 +1,9 @@
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from . import models
 from . import forms
 
 # Create your views here.
@@ -52,3 +53,8 @@ class SignUpView(FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
+
+
+class UserProfileView(DetailView):
+    model = models.User
+    context_object_name = "user_obj"

@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 from django.db import models
+
 
 class User(AbstractUser):
     GENDER_MALE = "male"
@@ -20,9 +22,6 @@ class User(AbstractUser):
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
     email = models.EmailField(unique=True)
     avatar = models.FileField(upload_to="avatars", blank=True)
-
-
-    avatar = models.FileField(upload_to="avatars", blank=True)
     bio = models.TextField(default="", blank=True)
     birthdate = models.DateField(blank=True, null=True)
     address = models.CharField(max_length=80, blank=True)
@@ -31,10 +30,16 @@ class User(AbstractUser):
     bank_account = models.CharField(max_length=80, blank=True)
 
     email_verified = models.BooleanField(default=False)
-    login_method = models.CharField(max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL)
+    login_method = models.CharField(
+        max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
+    )
+
+    def get_absolute_url(self):
+        return reverse("users:profile", kwargs={"pk": self.pk})
 
     def bank_info_name(self):
         return self.bank_name
-    
+
     def bank_info_account(self):
         return self.bank_account
+
