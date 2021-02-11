@@ -7,16 +7,18 @@
 
 .font-body {font-family: 'Anton', sans-serif;}
 
+.font-dohyun {font-family: 'Do Hyeon', sans-serif;}
+
 @tailwind components;
 
 .nav_link{
-    @apply mx-8 border-b-2 border-white h-full flex items-center;
+    @apply mx-8 border-b-4 border-white h-full flex items-center;
     a {
         @apply py-10 px-5;
     }
 
     &:hover {
-        @apply border-gray-400;
+        @apply border-yellow-400;
     }
 };
 

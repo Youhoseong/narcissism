@@ -8,4 +8,6 @@ urlpatterns = [
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("logout/", views.log_out, name="logout"),
     path("<int:pk>/", views.UserProfileView.as_view(), name="profile"),
+    path("verify/", views.LocationVerifyView.as_view(), name="verify"),
+    path("verify/complete/", views.verify_complete, name="verify-complete"),
 ]
