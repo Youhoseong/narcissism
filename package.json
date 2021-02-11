@@ -20,6 +20,7 @@
     "tailwindcss": "^2.0.3"
   },
   "dependencies": {
+    "@alexcarpenter/tailwindcss-aria": "^0.1.1",
     "postcss": "^8.2.4"
   }
 }

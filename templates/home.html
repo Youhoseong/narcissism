@@ -2,16 +2,20 @@
 {% block page_title %} Home {% endblock page_title %}
 
 {% block content %}
-<div class="container mx-auto pb-10">
+<div class="container mx-auto pb-10 pt-5">
+    
+    <span class="hover:drop_down"> 
+        ddddddddx
+    </span>
 
     <div class="container relative rounded-xl bg-gray-800 h-96 mt-10 mb-12 bg-cover bg-bottom" style="background-image:url(https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&)">
         <div class="container mx-auto flex flex-col absolute bottom-12">
-            <span class="mt-7 mr-7 font-body text-right text-yellow-400 text-5xl">Share with your neighborhood</span>
-            <span class="mr-7 font-body text-right text-red-400 text-5xl">Anything.</span>
+            <span class="mt-7 mr-7 font-body text-right text-yellow-400 text-5xl text-opacity-75">Share with your neighborhood</span>
+            <span class="mr-7 font-body text-right text-red-400 text-5xl text-opacity-75">Anything.</span>
 
             <div class="mt-12 mr-9 text-white">
                 <a href="#">
-                    <span class="float-right border text-4xl border-solid py-2 px-4 font-body mr-7 rounded-lg">LINK</span>    
+                    <span class="float-right border text-4xl border-solid py-2 px-4 font-body mr-7 rounded-xl hover:text-gray-500 hover:border-gray-400 animate-bounce">LINK</span>    
                 </a>
             </div>
 
@@ -32,7 +36,7 @@
         {% if user.is_authenticated %}
             
             <span class="text-2xl font-semibold">{{user.address}} </span>
-            <span class="text-2xl">근처 최근 공동구매</span>
+            <span class="text-2xl">근처 공동구매</span>
 
         {% endif %}
     </div>

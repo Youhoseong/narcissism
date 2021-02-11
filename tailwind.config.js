@@ -5,7 +5,10 @@ module.exports = {
     extend: {},
   },
   variants: {
-    extend: {},
+    textColor: ['current'],
+    rotate: ['expanded']
   },
-  plugins: [],
+  plugins: [
+    require('@alexcarpenter/tailwindcss-aria'),
+  ],
 }
