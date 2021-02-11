@@ -6,7 +6,7 @@
                     <a href="{% url 'users:verify' %}">Location Verify</a>
                 </li>
                 <li class="nav_link font-sans-kr">
-                    <a href="{{user.get_absolute_url}}">Profile</a>
+                    <a href="{{user.get_absolute_url}}">{{user.email}}</a>
                 </li>
                 <li class="nav_link font-sans-kr">
                     <a href="{% url 'users:logout' %}">Logout</a>
