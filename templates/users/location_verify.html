@@ -11,9 +11,9 @@
         #centerAddr {display:block;margin-top:2px;font-weight: normal;}
         .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
     </style>
-    <div class="container border rounded-xl mx-auto">
+    <div class="container mx-auto pt-16">
         <div class="map_wrap">
-        <div id="map" class="bg-gray-400" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
+        <div id="map" class="bg-gray-400 border rounded-xl w-full h-full relative overflow-hidden"></div>
         <div class="hAddr">
             <span class="title">지도중심기준 행정동 주소정보</span>
             <span id="centerAddr"></span>
@@ -21,9 +21,11 @@
         </div>
     </div>
 
-    <div class="text-center font-dohyun text-3xl w-full my-5 flex flex-col">
-        <span class="my-4 text-gray-500">회원님의 위치를 확인해주세요.</span> 
-        <span></span>
+    <div class="container text-center font-dohyun text-3xl my-5 flex flex-col mx-auto">
+    
+        <span class="my-4 p-2 text-gray-500">회원님의 위치를 확인해주세요.</span> 
+
+        <span id="loc" class="p-2 text-2xl animate-bounce"> </span>
 
     </div>
 
@@ -41,9 +43,15 @@
         </a>
     </div>
     
-    <div >
-        위치 인증 정보를 업데이트 합니다.
+    <div class="text-center text-lg">
+        {{user.username}} 님의 위치 인증 정보를 업데이트 합니다.
     </div>
+
+    <div class="text-center text-lg">
+        현재 위치를 불러오는데 몇 초의 시간이 걸릴 수 있습니다.
+    </div>
+
+
 
  
   
@@ -135,11 +143,13 @@
           function displayCenterInfo(result, status) {
               if (status === kakao.maps.services.Status.OK) {
                   var infoDiv = document.getElementById('centerAddr');
+                  var infoDiv2 = document.getElementById('loc');
 
                   for(var i = 0; i < result.length; i++) {
                       // 행정동의 region_type 값은 'H' 이므로
                       if (result[i].region_type === 'H') {
                            infoDiv.innerHTML = result[i].address_name;
+                           infoDiv2.innerHTML = result[i].address_name;
                            temp = result[i].address_name;
                           break;
                       }

@@ -5,14 +5,12 @@
                 <li class="nav_link font-sans-kr">
                     <a href="{% url 'users:verify' %}">Location Verify</a>
                 </li>
-                <li class="nav_link font-sans-kr">
-                    <a href="{{user.get_absolute_url}}">{{user.email}}</a>
-                </li>
+    
                 <li class="nav_link font-sans-kr">
                     <a href="{% url 'users:logout' %}">Logout</a>
                 </li>
-                <li nav_link font-sans-kr>
-                    <a href="#">{% include "mixins/avatar_thumbnail.html" with user=user %}</a>
+                <li class="profile_link font-sans-kr">
+                    <a href="{{user.get_absolute_url}}">{% include "mixins/avatar_thumbnail.html" with user=user %}</a>
                 </li>
             {% else %}
                 <li class="nav_link font-sans-kr">
