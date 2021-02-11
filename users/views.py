@@ -1,14 +1,17 @@
 from django.shortcuts import render, reverse, redirect
-from django.views.generic import View, FormView, ListView
+from django.views.generic import View, FormView, ListView, DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from . import models
 from . import forms
 from . import models
 from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import render, HttpResponse
 import os
+
 # Create your views here.
+
 
 class LocationException(Exception):
     pass
@@ -30,17 +33,21 @@ class LocationVerifyView(ListView):
 
         g = GeoIP2()
 
-        return render(request, "users/location_verify.html", {
-            "ip": ip,
-            "latt": g.city('218.146.29.228').get('latitude'),
-            "long": g.city('218.146.29.228').get('longitude'),
-            "client_id_kakao": client_id,
-        }) 
+        return render(
+            request,
+            "users/location_verify.html",
+            {
+                "ip": ip,
+                "latt": g.city("218.146.29.228").get("latitude"),
+                "long": g.city("218.146.29.228").get("longitude"),
+                "client_id_kakao": client_id,
+            },
+        )
 
-      
+
 def verify_complete(request):
     try:
-        location = request.POST.get('location')
+        location = request.POST.get("location")
         if location == None:
             raise LocationException()
         else:
@@ -53,9 +60,9 @@ def verify_complete(request):
                 user.save()
             except Models.User.DoesNotExist:
                 raise LocationException()
-           
+
         return redirect(reverse("core:home"))
-            
+
     except LocationException as e:
         return redirect(reverse("core:home"))
 
@@ -81,12 +88,11 @@ class LoginView(FormView):
         print(next_arg)
         print(user)
         user = models.User.objects.get(pk=self.request.user.pk)
-        
+
         if user.location_verified:
             return reverse("core:home")
         else:
             return reverse("users:verify")
-        
 
 
 def log_out(request):
@@ -109,3 +115,8 @@ class SignUpView(FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
+
+
+class UserProfileView(DetailView):
+    model = models.User
+    context_object_name = "user_obj"
