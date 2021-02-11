@@ -7,8 +7,7 @@ name = "pypi"
 django = "==2.2.5"
 django-ipware = "*"
 geoip2 = "*"
-channels = "*"
-channels-redis = "*"
+django-braces = "*"
 
 [dev-packages]
 flake8 = "*"
