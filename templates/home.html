@@ -33,7 +33,12 @@
             
             <span class="text-2xl font-semibold">{{user.address}} </span>
             <span class="text-2xl">근처 공동구매</span>
-
+            <div class="w-full mt-10 border-b border-black"></div>
+            <div class="flex flex-wrap mt-10 mb-10 h-full">
+                {% for purchase in purchases %}
+                    {% include "purchases/purchase_card.html" with purchase=purchase %}
+                {% endfor %}
+            </div>
         {% endif %}
     </div>
     

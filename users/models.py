@@ -45,3 +45,5 @@ class User(AbstractUser):
     def bank_info_account(self):
         return self.bank_account
 
+    def dong(self):
+        return self.address.split()[-1]
