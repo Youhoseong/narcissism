@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load pagetags %}
 {% block page_title %} Home {% endblock page_title %}
 
 {% block content %}
@@ -42,8 +43,27 @@
         {% endif %}
     </div>
     
-    <div class="font-sans-kr">
-       homeview experiment {{ip}}
+    <div class="font-sans-kr text-center">
+        {% if page_obj.number > 1 %}
+            <a href="?page=1">
+                <span> < </span>
+            </a>
+        {% endif %}
+        {% page_range page_obj.number page_obj.paginator.num_pages as pages%}
+        {% for page in pages %}
+            {% if page == page_obj.number %}
+                <span class="font-bold border-b border-black">{{page}}</span>
+            {% else %}
+                <a href="?page={{page}}">
+                    <span>{{page}}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.number < page_obj.paginator.num_pages %}
+            <a href="?page={{page_obj.paginator.num_pages}}">
+                <span> > </span>
+            </a>
+        {% endif %}
     </div>
 
 </div>
