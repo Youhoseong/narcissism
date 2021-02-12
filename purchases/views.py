@@ -17,8 +17,8 @@ class HomeView(ListView):
     """ HomeView Definition """
 
     model = models.Purchase
-    paginate_by = 10
-    paginate_orphans = 4
+    paginate_by = 1
+    paginate_orphans = 0
     ordering = "-created"
     context_object_name = "purchases"
     template_name = "home.html"
