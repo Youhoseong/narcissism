@@ -4,7 +4,5 @@ from purchases import views as purchase_views
 
 app_name = "core"
 
-urlpatterns = [
-    path("", purchase_views.HomeView.as_view() , name="home"),
+urlpatterns = [path("", purchase_views.HomeView.as_view(), name="home")]
 
-]

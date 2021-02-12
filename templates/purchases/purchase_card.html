@@ -1,0 +1,12 @@
+<div class="w-1/2 h-1/5 mb-10 px-2 overflow-hidden">
+    <a href="#" class="flex">
+        <div class="w-1/4 h-24 bg-cover bg-center rounded-lg mb-2 flex" style="background-image: url({{purchase.thumbnail}});"></div>
+        <div class="w-3/4 flex flex-col items-stretch">
+            <span class="ml-2 mb-4 text-black w-full h-10 text-xl text-left overflow-hidden">{{purchase.title}}</span>
+            <div class="w-full flex flex-row">
+                <span class="ml-2 w-1/2 h-10 text-2xl text-left overflow-hidden whitespace-nowrap">{{purchase.host.dong}}</span>
+                <span class="ml-2 w-1/2 h-10 text-2xl text-right overflow-hidden whitespace-nowrap">{{purchase.participants.count}}/{{purchase.max_people}}</span>
+            </div>
+        </div>
+    </a>
+</div>
