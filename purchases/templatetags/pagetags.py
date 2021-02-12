@@ -5,8 +5,6 @@ register = template.Library()
 
 @register.simple_tag
 def page_range(current, last):
-    print("current")
-    print(last)
     begin = current
     end = current
     for i in range(0, 9):
