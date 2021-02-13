@@ -38,7 +38,15 @@ class Purchase(core_model.TimeStampedModel):
             return thumbnail.file.url
         except ValueError:
             return None
+    def ratio(self):
 
+        count = self.participants.count()
+        try:
+            x = count / self.max_people
+            return int(x * 100)
+        except ZeroDivisionError:
+            return 0
+       
 
 class material(Purchase):
     UNIT_KG = "kg"
