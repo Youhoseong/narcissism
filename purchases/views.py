@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from . import models
 from users import models as user_models
 from ipware import get_client_ip
@@ -28,3 +28,8 @@ def Participate(request):
     model = models.Purchase
     user = request.user
     model.participants.add(user)
+
+
+class PurchaseDetailView(DetailView):
+    model = models.Purchase
+    template_name = "purchases/purchase_detail.html"

@@ -22,3 +22,8 @@ def page_range(current, last):
                     begin -= 1
 
     return range(begin, end + 1)
+
+
+@register.simple_tag
+def slide_range(photos):
+    return range(1, photos.count() + 1)
