@@ -2,7 +2,7 @@
     <div class="{{h_and_w|default:'h-12 w-12'}} rounded-full bg-cover bg-center" style="background-image: url('{{user.avatar.url}}');">
 
 {% else %}
-    <div class="{{h_and_w|default:'h-12 w-12'}} bg-gray-700 rounded-full text-white flex justify-center items-center overflow-hidden">
+    <div class="{{h_and_w|default:'h-12 w-12'}} bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-full text-white flex justify-center items-center overflow-hidden">
         <span class="{{text|default:'text-3xl'}}">{{user.username|first}}</span>
 {% endif %}
 </div>

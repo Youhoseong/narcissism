@@ -18,6 +18,7 @@ class PurchaseAdmin(admin.ModelAdmin):
       "title",
       "host",
       "max_people",
+      "ratio"
    )
 
    filter_horizontal = (
