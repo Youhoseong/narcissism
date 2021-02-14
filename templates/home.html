@@ -63,31 +63,31 @@
                 {% endfor %}
             </div>
       
+            <div class="font-sans-kr text-center">
+                {% if page_obj.number > 1 %}
+                    <a href="?page=1">
+                        <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> < </span>
+                    </a>
+                {% endif %}
+                {% page_range page_obj.number page_obj.paginator.num_pages as pages %}
+                {% for page in pages %}
+                    {% if page == page_obj.number %}
+                        <span class="text-xl font-bold border-b border-black">{{page}}</span>
+                    {% else %}
+                        <a href="?page={{page}}" >
+                            <span class="text-xl border-b border-white hover:border-black">{{page}}</span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
+                {% if page_obj.number < page_obj.paginator.num_pages %}
+                    <a href="?page={{page_obj.paginator.num_pages}}">
+                        <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> > </span>
+                    </a>
+                {% endif %}
+            </div>
         {% endif %}
     </div>
     
-    <div class="font-sans-kr text-center">
-        {% if page_obj.number > 1 %}
-            <a href="?page=1">
-                <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> < </span>
-            </a>
-        {% endif %}
-        {% page_range page_obj.number page_obj.paginator.num_pages as pages %}
-        {% for page in pages %}
-            {% if page == page_obj.number %}
-                <span class="text-xl font-bold border-b border-black">{{page}}</span>
-            {% else %}
-                <a href="?page={{page}}" >
-                    <span class="text-xl border-b border-white hover:border-black">{{page}}</span>
-                </a>
-            {% endif %}
-        {% endfor %}
-        {% if page_obj.number < page_obj.paginator.num_pages %}
-            <a href="?page={{page_obj.paginator.num_pages}}">
-                <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> > </span>
-            </a>
-        {% endif %}
-    </div>
 
 </div>
 
