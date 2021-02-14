@@ -7,6 +7,7 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
           var map = new kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
           var temp_lat = 0;
           var temp_lon = 0;
+          var infoshowcontrol=false;
                     
             // HTML5의 geolocation으로 사용할 수 있는지 확인합니다 
             if (navigator.geolocation) {
@@ -24,6 +25,7 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
                         message = '<div class="title" style="padding:5px;">여기에 계신가요?!</div>'; // 인포윈도우에 표시될 내용입니다
                     
                     // 마커와 인포윈도우를 표시합니다
+                    infoshowcontrol = true;
                     displayMarker(locPosition, message);
                         
                 });
@@ -35,12 +37,10 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
                     
                 displayMarker(locPosition, message);
             }
-            setDraggable(false); //드래그 불가하게 설정
-
-            function setDraggable(draggable) {
-                // 마우스 드래그로 지도 이동 가능여부를 설정합니다
-                map.setDraggable(draggable);    
-            }
+  
+            map.setZoomable(false); 
+            map.setDraggable(false); 
+   
 
             // 지도에 마커와 인포윈도우를 표시하는 함수입니다
             function displayMarker(locPosition, message) {
@@ -97,9 +97,11 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
                   for(var i = 0; i < result.length; i++) {
                       // 행정동의 region_type 값은 'H' 이므로
                       if (result[i].region_type === 'H') {
+                          if(infoshowcontrol) {
                            infoDiv.innerHTML = result[i].address_name;
                            infoDiv2.innerHTML = result[i].address_name;
                            temp = result[i].address_name;
+                          }
                           break;
                       }
                   }
@@ -126,9 +128,6 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
                             }
                         });
                 });
-
-
-
                 
             });
           
