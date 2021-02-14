@@ -26,8 +26,8 @@
     color: black;
     font-weight: bold;
     font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
+    transition: 0.5s ease;
+    border-radius: 3px 3px 3px 3px;
     user-select: none;
     }
 
@@ -39,7 +39,7 @@
 
     /* On hover, add a black background color with a little bit see-through */
     .prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0,0,0,0);
     }
 
     /* Caption text */
@@ -81,9 +81,9 @@
     /* Fading animation */
     .fade {
     -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
+    -webkit-animation-duration: 0.5s;
     animation-name: fade;
-    animation-duration: 1.5s;
+    animation-duration: 0.5s;
     }
 
     @-webkit-keyframes fade {
@@ -99,13 +99,13 @@
 
 
 <!-- Slideshow container -->
-<div class="slideshow-container w-full h-full">
+<div class="slideshow-container max-w-full h-full">
 
   <!-- Full-width images with number and caption text -->
     {% for photo in photos %}
         {% block slider_content %}
-            <div class="mySlides fade bg-contain bg-no-repeat w-full h-full items-center">
-                <div class="bg-contain bg-center bg-no-repeat w-full h-full" style="background-image: url('{{photo.file.url}}');"></div>
+            <div class="mySlides fade bg-contain bg-no-repeat max-w-full h-full items-center">
+                <div class="max-w-full bg-contain bg-center bg-no-repeat h-full" style="background-image: url('{{photo.file.url}}');"></div>
             </div>
         {% endblock slider_content %}
     {% endfor %}
@@ -129,27 +129,29 @@
 
     // Next/previous controls
     function plusSlides(n) {
-    showSlides(slideIndex += n);
+        showSlides(slideIndex += n);
     }
 
     // Thumbnail image controls
     function currentSlide(n) {
-    showSlides(slideIndex = n);
+        showSlides(slideIndex = n);
     }
 
     function showSlides(n) {
-    var i;
-    var slides = document.getElementsByClassName("mySlides");
-    var dots = document.getElementsByClassName("dot");
-    if (n > slides.length) {slideIndex = 1}
-    if (n < 1) {slideIndex = slides.length}
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < dots.length; i++) {
-        dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex-1].style.display = "block";
-    dots[slideIndex-1].className += " active";
+        var i;
+        var slides = document.getElementsByClassName("mySlides");
+        var dots = document.getElementsByClassName("dot");
+        if (n > slides.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = slides.length}
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        for (i = 0; i < dots.length; i++) {
+            dots[i].className = dots[i].className.replace(" active", "");
+            console.log(dots[i].className);
+        }
+        console.log(slideIndex);
+        slides[slideIndex-1].style.display = "block";
+        dots[slideIndex-1].className += " active";
     }
 </script>

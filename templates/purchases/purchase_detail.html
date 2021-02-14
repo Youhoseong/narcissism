@@ -5,22 +5,39 @@
 {% endblock page_title %}
 
 {% block content %}
-    <div class="container mx-auto h-96">
-        {% include 'mixins/slider.html' with photos=purchase.photos.all %}
-        <div class="w-full h-24 mt-4 shadow flex flex-row items-stretch place-content-between">
-            <div class="w-2/3 ml-2 flex flex-col items-stretch place-content-between">
-                <span class="ml-2 text-xl text-gray-600 text-left overflow-hidden whitespace-nowrap">호스트: {{purchase.host.username}}</span>
-                <span class="ml-2 text-xl text-gray-600 overflow-hidden text-left whitespace-nowrap">{{purchase.host.dong}}</span>
-            </div>
-            <div class="w-1/3 mr-2 flex flex-col items-stretch place-content-between">
-                <span class="ml-2 text-xl text-gray-600 font-medium overflow-hidden text-right">모집현황</span>
-                <div class="my-3 h-5 relative max-w-xl rounded-full overflow-hidden text-right">
-                <div class="w-full h-full bg-gray-200 absolute"></div>
-                
-                <div class="h-full bg-gradient-to-r from-yellow-400 via-pink-500 to-red-500 absolute" style="width:{{purchase.ratio}}%"></div>
-                <span class="ml-2 w-1/2 h-10 text-sm text-right animate-pulse mr-3">{{purchase.participants.count}}/{{purchase.max_people}}</span>
-            </div>
-            </div>
-        </div>
+
+<div class="container mx-auto h-50vh max-w-full mb-20">
+    {% include 'mixins/slider.html' with photos=purchase.photos.all %}
+</div>
+
+<div class="container mx-auto ">
+    <div class="border-b mb-10">
+
     </div>
+
+    <div class="items-center flex flex-row mx-auto mb-10">
+        
+            <div class="text-center font-medium text-2xl mr-3">
+                {% include "mixins/avatar_thumbnail.html" with user=purchase.host h_and_w='w-10 h-10' %}
+            
+            </div>
+            <div class="mr-3">
+                {{purchase.host.username}}
+            </div>
+            <div>
+                {{purchase.created|date:'F Y'}}
+            </div>
+    </div>
+    <div class="text-center font-medium text-2xl mb-5">
+        [ {{purchase.title}} ]
+    </div>
+    <div class="text-center">
+        {{purchase.explain}}
+    </div>
+
+    <div class="text-center font-light">
+        총 가격: {{purchase.price}}원
+    </div>
+</div>
+
 {% endblock content %}
