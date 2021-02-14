@@ -58,7 +58,7 @@
                 
                 // 지도 중심좌표를 접속위치로 변경합니다
                 map.setCenter(locPosition);    
-                map.setLevel(1)  
+                map.setLevel(3)  
             }    
 
             // 주소-좌표 변환 객체를 생성합니다

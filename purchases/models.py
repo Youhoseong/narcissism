@@ -40,7 +40,6 @@ class Purchase(core_model.TimeStampedModel):
         except ValueError:
             return None
     def ratio(self):
-
         count = self.participants.count()
         try:
             x = count / self.max_people
