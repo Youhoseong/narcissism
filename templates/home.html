@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load pagetags %}
 {% block page_title %} Home {% endblock page_title %}
 
 {% block content %}
 <div class="container mx-auto pb-10 pt-5">
     
-    <div class="container relative rounded-xl bg-gray-800 h-96 mt-10 mb-12 bg-cover bg-bottom" style="background-image:url(https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&)">
+    <div class="container relative rounded-xl bg-gray-800 h-96 mt-10 mb-12 bg-cover bg-bottom shadow-2xl" style="background-image:url(https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&)">
         <div class="container mx-auto flex flex-col absolute bottom-12">
             <span class="mt-7 mr-7 font-body text-right text-yellow-400 text-5xl text-opacity-75">Share with your neighborhood</span>
             <span class="mr-7 font-body text-right text-red-400 text-5xl text-opacity-75">Anything.</span>
@@ -18,7 +19,7 @@
         
         </div>
 
-        <div class="flex flex-row absolute bottom-3 justify-center w-full h-6 ">
+        <div class="flex flex-row absolute bottom-3 justify-center w-full h-6 transition duration-500">
             <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
             <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
             <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
@@ -27,24 +28,84 @@
         </div>
     </div>
 
-    <div class="text-center">
+  
+
+    <div class="container text-center">
+
+
 
         {% if user.is_authenticated %}
+            <div class="container">
+                <div class="w-full my-5 border-t-8"></div>
+                <div class="text-2xl">
+                    <span class="bg-clip-text font-extrabold text-transparent bg-gray-700">
+                       {{user.address}}
+                    </span>
+                    <span class="text-2xl">근처 공동구매</span>   
+                </div>
+                   
+          
+                <div class="w-full my-5 border-b-8"></div>
+            </div>
+            <div class="container w-full text-right">
+                <span>
+                    <button id="newly" onclick="newly_click();" class="border-transparent">최신순</button>
+                    
+                    <span>|</span>
+
+                    <button id="category" onclick="category_click();" class="border-transparent">카테고리</button>
+
+                </span>
+            </div>
+
             
-            <span class="text-2xl font-semibold">{{user.address}} </span>
-            <span class="text-2xl">근처 공동구매</span>
-            <div class="w-full mt-10 border-b border-black"></div>
-            <div class="flex flex-wrap mt-10 mb-10 h-full">
+
+            <div class="flex flex-wrap my-7 h-full">
                 {% for purchase in purchases %}
                     {% include "purchases/purchase_card.html" with purchase=purchase %}
                 {% endfor %}
             </div>
+      
         {% endif %}
     </div>
     
-    <div class="font-sans-kr">
-       homeview experiment {{ip}}
+    <div class="font-sans-kr text-center">
+        {% if page_obj.number > 1 %}
+            <a href="?page=1">
+                <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> < </span>
+            </a>
+        {% endif %}
+        {% page_range page_obj.number page_obj.paginator.num_pages as pages %}
+        {% for page in pages %}
+            {% if page == page_obj.number %}
+                <span class="text-xl font-bold border-b border-black">{{page}}</span>
+            {% else %}
+                <a href="?page={{page}}" >
+                    <span class="text-xl border-b border-white hover:border-black">{{page}}</span>
+                </a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.number < page_obj.paginator.num_pages %}
+            <a href="?page={{page_obj.paginator.num_pages}}">
+                <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> > </span>
+            </a>
+        {% endif %}
     </div>
 
 </div>
+
+<script>
+    var sort_standard = 1;
+
+    function newly_click() {
+        sort_standard = 1;
+        console.log(sort_standard);
+    }
+    function category_click() {
+        sort_standard = 0;
+        console.log(sort_standard);
+    }
+
+</script>
+
 {% endblock content %}

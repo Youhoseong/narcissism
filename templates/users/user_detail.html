@@ -4,15 +4,19 @@
 {% endblock page_title%}
 
 {% block content %}
-    <div class="h-75vh">
-        <div class="container lg:w-5/12 md:w-1/2 xl:w-1/4 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+    <div class="h-75vh mx-auto container">
+        <div class="container lg:w-5/12 md:w-1/2 xl:w-4/12 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
             {% include "mixins/avatar_thumbnail.html" with user=user_obj %}
             
             <div class="flex items-center">
+<<<<<<< HEAD
                 <span class="text-3xl mt-1">{{user_obj.first_name}} {{user_obj.last_name}}</span>
                 {% if user_obj.superhost %}
                     <i class="fas fa-check-circle text-green-400 ml-1"></i>
                 {% endif %}
+=======
+                <span class="text-3xl mt-1">{{user_obj.username}}</span>
+>>>>>>> f8b0d63a8dbeb3e3cae9474c6265a126bd23cb49
             </div>
 
             <span class="text-lg mb-5">{{user_obj.bio}}</span>
@@ -20,6 +24,17 @@
             {% if user == user_obj %}
                 <a href="{% url 'users:update' %}" class="btn-link">Edit Profile</a>
             {% endif %}
+
         </div>
+        {% if user_obj.purchase.count > 0 %}
+            <div class="w-full my-5 border-t-8"></div>
+            <h3 class="text-center text-2xl">{{user_obj.username}}님의 공동구매</h3>
+            <div class="w-full my-5 border-b-8"></div>
+            <div class="w-full flex flex-wrap">
+                {% for purchase in user_obj.purchase.all %}
+                    {% include 'purchases/purchase_card.html' with purchase=purchase %}
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 {% endblock content %}

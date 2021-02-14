@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from . import models
 from users import models as user_models
 from ipware import get_client_ip
@@ -17,8 +17,8 @@ class HomeView(ListView):
     """ HomeView Definition """
 
     model = models.Purchase
-    paginate_by = 10
-    paginate_orphans = 4
+    paginate_by = 8
+    paginate_orphans = 0
     ordering = "-created"
     context_object_name = "purchases"
     template_name = "home.html"
@@ -28,3 +28,8 @@ def Participate(request):
     model = models.Purchase
     user = request.user
     model.participants.add(user)
+
+
+class PurchaseDetailView(DetailView):
+    model = models.Purchase
+    template_name = "purchases/purchase_detail.html"
