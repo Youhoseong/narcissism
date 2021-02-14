@@ -8,9 +8,8 @@ from . import models
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + \
         (("Custom Profile", {"fields": ("avatar", "gender", "bio",
-                                        "birthdate", "address", "login_method","location_verified")}),)
+                                        "birthdate", "address", "qr_code", "login_method","location_verified")}),)
 
-    
     list_display = (
         "username",
         "gender",
@@ -21,5 +20,4 @@ class CustomUserAdmin(UserAdmin):
         "email_verified",
         "login_method",
         "location_verified",
-        
     )

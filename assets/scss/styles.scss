@@ -40,9 +40,15 @@
     @apply w-full text-center rounded-2xl py-5 font-light text-lg;
 }
 
-input{
+input,
+textarea{
     @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
 };
+
+textarea {
+    resize: none;
+    height: 100px;
+}
 
 select {
     @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;

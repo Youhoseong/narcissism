@@ -1,22 +1,16 @@
-from django.shortcuts import render, reverse, redirect
-from django.views.generic import View, FormView, ListView, DetailView
+import os
+from django.shortcuts import render, redirect, reverse
+from django.views.generic import FormView, ListView, DetailView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from . import models
-from . import forms
-from . import models
 from django.contrib.gis.geoip2 import GeoIP2
-from django.shortcuts import render, HttpResponse
-import os
-from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-
-
-
+from django.contrib.messages.views import SuccessMessageMixin
+from . import models, forms
 
 # Create your views here.
-
 
 class LocationException(Exception):
     pass
@@ -49,7 +43,7 @@ class LocationVerifyDetailView(ListView):
 
         return redirect(reverse("core:home"))
 
- 
+
 user_create = csrf_exempt(LocationVerifyDetailView.as_view())
 
 class LocationVerifyView(ListView):
@@ -155,3 +149,32 @@ class SignUpView(FormView):
 class UserProfileView(DetailView):
     model = models.User
     context_object_name = "user_obj"
+
+class UpdateProfileView(SuccessMessageMixin, UpdateView):
+    model = models.User
+    template_name = "users/update-profile.html"
+    fields = (
+        "avatar",
+        "email",
+        "first_name",
+        "last_name",
+        "gender",
+        "bio",
+        "birthdate",
+        "address",
+        "qr_code",
+    )
+    succsess_message = "Profile Updated"
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class=form_class)
+        form.fields['email'].widget.attrs = {'placeholder': "email"}
+        form.fields['first_name'].widget.attrs = {'placeholder': "first_name"}
+        form.fields['last_name'].widget.attrs = {'placeholder': "last_name"}
+        form.fields['bio'].widget.attrs = {'placeholder': "bio"}
+        form.fields['birthdate'].widget.attrs = {'placeholder': "birthdate"}
+        form.fields['address'].widget.attrs = {'placeholder': "address"}
+        return form

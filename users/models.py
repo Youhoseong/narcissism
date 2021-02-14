@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
 from django.db import models
 
-
 class User(AbstractUser):
     GENDER_MALE = "male"
     GENDER_FEMALE = "female"
@@ -26,8 +25,7 @@ class User(AbstractUser):
     birthdate = models.DateField(blank=True, null=True)
     address = models.CharField(max_length=80, blank=True)
 
-    bank_name = models.CharField(max_length=80, blank=True)
-    bank_account = models.CharField(max_length=80, blank=True)
+    qr_code = models.ImageField(upload_to="qr_codes", blank=True)
 
     email_verified = models.BooleanField(default=False)
 
@@ -38,12 +36,6 @@ class User(AbstractUser):
     login_method = models.CharField(
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )
-
-    def bank_info_name(self):
-        return self.bank_name
-
-    def bank_info_account(self):
-        return self.bank_account
 
     def dong(self):
         return self.address.split()[-1]
