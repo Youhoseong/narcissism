@@ -25,27 +25,30 @@ class LocationVerifyDetailView(ListView):
     template_name = "users/location_verify_detail.html"
     model = models.User
     context_object_name = "users"
-
+    lat = 1
+    lon = 1
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
        return super(LocationVerifyDetailView, self).dispatch(request, *args, **kwargs)
 
     def get(self, request):
         client_id = os.environ.get("KAKAO_MAP_KEY")
+        lat = request.POST.get("lat")
+        lon = request.POST.get("lon")
 
         return render(
             request,
             "users/location_verify_detail.html",
             {
                 "client_id_kakao": client_id,
+                "latt": lat,
+                "lonn": lon,
             },
         )
 
     def post(self, request, *args, **kwargs):
         lat = request.POST.get("lat")
         lon = request.POST.get("lon")
-
-        print(lat, lon)
 
         return redirect(reverse("core:home"))
 
