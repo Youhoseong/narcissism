@@ -76,6 +76,7 @@
           // 현재 지도 중심좌표로 주소를 검색해서 지도 좌측 상단에 표시합니다
         
           
+          searchAddrFromCoords(map.getCenter(), displayCenterInfo);
           kakao.maps.event.addListener(map, 'idle', function() {
             searchAddrFromCoords(map.getCenter(), displayCenterInfo);
           });
