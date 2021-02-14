@@ -22,6 +22,7 @@ class Purchase(core_model.TimeStampedModel):
     explain = models.TextField(blank=True)
     max_people = models.IntegerField(default=0)
     participants = models.ManyToManyField(user_model.User, related_name="participate")
+    price = models.IntegerField(default=0)
 
     # 공유 단위, 가격, 총 개수, 남은 개수, 참여자, (별도 클래스) 카테고리...
 
@@ -39,7 +40,6 @@ class Purchase(core_model.TimeStampedModel):
         except ValueError:
             return None
     def ratio(self):
-
         count = self.participants.count()
         try:
             x = count / self.max_people

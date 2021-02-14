@@ -11,14 +11,14 @@ class PurchaseAdmin(admin.ModelAdmin):
    
    inlines = (PhotoInline,)
 
-   fieldsets = (("Custom Profile", {"fields": ("closed", "title", "host", "explain", "max_people", "participants", )}),)
+   fieldsets = (("Custom Profile", {"fields": ("closed", "title", "host", "explain", "price", "max_people", "participants", )}),)
 
    list_display = (
       "closed",
       "title",
       "host",
       "max_people",
-      "ratio"
+      "price"
    )
 
    filter_horizontal = (

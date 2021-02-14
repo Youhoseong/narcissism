@@ -12,48 +12,50 @@
         #centerAddr {display:block;margin-top:2px;font-weight: normal;}
         .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
     </style>
-    <div class="container mx-auto pt-16">
-        <div class="map_wrap">
-        <div id="map" class="bg-gray-400 border rounded-xl w-full h-full relative overflow-hidden"></div>
-        <div class="hAddr">
-            <span class="title">지도중심기준 행정동 주소정보</span>
-            <span id="centerAddr"></span>
+    <div class="container mx-auto mt-36">
+        <div class="container mb-5 h-50vh">
+            <div class="map_wrap">
+                <div id="map" class="bg-gray-400 h-50vh border rounded-xl relative overflow-hidden"></div>
+                <div class="hAddr">
+                    <span class="title">지도중심기준 행정동 주소정보</span>
+                    <span id="centerAddr">로딩중입니다..</span>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
 
-    <div class="container text-center font-dohyun text-3xl my-5 flex flex-col mx-auto">
-    
-        <span class="my-4 p-2 text-gray-500">회원님의 위치를 확인해주세요.</span> 
-
-        <span id="loc" class="p-2 text-2xl animate-bounce"> </span>
-
-    </div>
-
-
-
-    <div class="container h-36 justify-center mx-auto p-2 w-1/2 flex">
+        <div class="container text-center font-dohyun text-3xl my-5 flex flex-col mx-auto">
         
-        <a href="{% url 'users:verify-complete' %}">
-            <span id="btn-yes" class="transition duration-500 transform hover:scale-150 py-3 px-7 font-medium rounded-md my-auto w-1/4 text-center mr-2 h-1/3 border-2 border-black hover:border-yellow-400 hover:text-white hover:bg-yellow-400">
-                일치
-            </span>
-        </a>
-        <a href="{% url 'users:verify-detail' %}">
-            <span id="btn-no" class="transition duration-500 transform hover:scale-110 py-3 px-7 font-medium rounded-md my-auto w-1/4 text-center mr-2 h-1/3 border-2 border-black hover:border-red-400 hover:text-white hover:bg-red-400">
-                다름
-            </span>
-        </a>
-    </div>
-    
-    <div class="text-center text-lg">
-        {{user.username}} 님의 위치 인증 정보를 업데이트 합니다.
-    </div>
+            <span class="my-4 p-2 text-gray-500">회원님의 위치를 확인해주세요.</span> 
 
-    <div class="text-center text-lg">
-        현재 위치를 불러오는데 몇 초의 시간이 걸릴 수 있습니다.
-    </div>
+            <span id="loc" class="p-2 text-2xl animate-bounce"> </span>
 
+        </div>
+
+
+
+        <div class="container h-36 justify-center mx-auto p-2 w-1/2 flex">
+            
+            <a href="{% url 'users:verify-complete' %}">
+                <span id="btn-yes" class="verify_btn h-1/3 w-1/4 my-auto text-black hover:border-yellow-400 hover:text-white hover:bg-yellow-400">
+                    일치
+                </span>
+            </a>
+            <a href="{% url 'users:verify-detail' %}">
+                <span id="btn-no" class="verify_btn my-auto w-1/4 mr-2 h-1/3 hover:border-red-400 hover:text-white hover:bg-red-400">
+                    다름
+                </span>
+            </a>
+        </div>
+        
+        <div class="text-center text-lg">
+            {{user.username}} 님의 위치 인증 정보를 업데이트 합니다.
+        </div>
+
+        <div class="text-center text-lg">
+            현재 위치를 불러오는데 몇 초의 시간이 걸릴 수 있습니다.
+        </div>
+
+    </div>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey={{client_id_kakao}}&libraries=services"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script>
