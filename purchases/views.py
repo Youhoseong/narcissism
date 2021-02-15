@@ -30,12 +30,17 @@ class HomeView(ListView):
     def get(self, request):
         if request.user.is_anonymous:
             return render(request, "home.html")
-        p = models.Purchase.objects.filter(host__address=request.user.address)
+        p = models.Purchase.objects.filter(host__address=request.user.address).order_by('-pk') # 수정필요 =>  게시글에 address
+        
+        material = models.Material.objects.filter(host__address=request.user.address)
+        immaterial = models.Immaterial.objects.filter(host__address=request.user.address)
+      
         paginator = Paginator(p, 10)
+        
         page = request.GET.get("page", 1)
         page_obj = paginator.get_page(page)
         return render(
-            request, "home.html", {"page_obj": page_obj, "purchases": page_obj}
+            request, "home.html", {"page_obj": page_obj, "purchases": page_obj, "materials": material, "immaterials": immaterial}
         )
 
 

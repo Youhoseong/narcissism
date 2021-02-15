@@ -9,14 +9,8 @@
             {% include "mixins/avatar_thumbnail.html" with user=user_obj %}
             
             <div class="flex items-center">
-<<<<<<< HEAD
                 <span class="text-3xl mt-1">{{user_obj.first_name}} {{user_obj.last_name}}</span>
-                {% if user_obj.superhost %}
-                    <i class="fas fa-check-circle text-green-400 ml-1"></i>
-                {% endif %}
-=======
-                <span class="text-3xl mt-1">{{user_obj.username}}</span>
->>>>>>> f8b0d63a8dbeb3e3cae9474c6265a126bd23cb49
+               
             </div>
 
             <span class="text-lg mb-5">{{user_obj.bio}}</span>
@@ -28,7 +22,7 @@
         </div>
         {% if user_obj.purchase.count > 0 %}
             <div class="w-full my-5 border-t-8"></div>
-            <h3 class="text-center text-2xl">{{user_obj.username}}님의 공동구매</h3>
+            <h3 class="text-center text-2xl">{{user_obj.username}}님의 공동구매 게시물</h3>
             <div class="w-full my-5 border-b-8"></div>
             <div class="w-full flex flex-wrap">
                 {% for purchase in user_obj.purchase.all %}

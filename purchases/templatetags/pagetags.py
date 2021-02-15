@@ -1,5 +1,6 @@
 from django import template
 
+from purchases import models as purchases_models
 register = template.Library()
 
 
@@ -27,3 +28,16 @@ def page_range(current, last):
 @register.simple_tag
 def slide_range(photos):
     return range(1, photos.count() + 1)
+
+
+@register.simple_tag
+def check_pk(pk):
+    print(pk)
+    try:
+        m = purchases_models.Material.objects.get(pk=pk)
+        print(m)
+        return m
+    except:
+        m = purchases_models.Immaterial.objects.get(pk=pk)
+        print(m)
+        return m
