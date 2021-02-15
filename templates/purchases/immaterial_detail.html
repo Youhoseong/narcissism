@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block page_title %}
+{{purchase.title}}
+{% endblock page_title %}
+
+{% block content %}
+
+<div class="container mx-auto h-50vh max-w-full mb-20">
+    {% include 'mixins/slider.html' with photos=purchase.photos.all %}
+</div>
+
+<div class="container mx-auto border rounded-lg w-2/3">
+ 
+
+    <div class="items-center flex flex-row mx-auto my-10">
+        <div class="duration-500 container flex align-middle w-2/3 h-22 ml-3 p-2 hover:bg-gray-100 rounded-xl hover:shadow-md">
+            <div class="container flex flex-row">
+                <div class="text-center font-medium text-2xl mr-3">
+                    <a href="{{purchase.host.get_absolute_url}}">    
+                        {% include "mixins/avatar_thumbnail.html" with user=purchase.host h_and_w='w-16 h-16' %}
+                    </a>
+                </div>
+                <div class="mt-1">
+                    <div class="mr-3 text-xl mb-1">
+                        {{purchase.host.username}}
+                    </div>
+                    <div class="mt-1 text-lg text-gray-400">
+                        총 {{purchase.host.purchase.count}}개의 게시글
+                    </div>
+                
+                </div>
+              
+            </div>
+            <div class="w-1/3 text-left my-auto">
+                <a href="#">
+                    <span class="w-1/2 py-2 px-4 h-full duration-500 text-yellow-500 text-lg hover:bg-gray-300 rounded-md">메시지</span>
+                </a>
+            </div>
+        </div>
+        <div class="container text-lg text-right mr-5">
+            <span class="hover:bg-purple-700 duration-500 border rounded-md border-black bg-gray-400 text-white py-2 px-3 mr-2">
+                진행중
+            </span>
+
+            <span class="hover:bg-red-600 duration-500 border rounded-md border-black  text-black py-2 px-3 mr-2">
+                {{purchase.host.dong}}
+            </span>
+            <span class="hover:bg-gray-700 duration-500 border rounded-md border-black bg-gray-300 text-white py-2 px-3">
+                {{purchase.category}}
+            </span>
+        </div>
+    </div>
+    <div class="container border-b border-t">
+        <div class="text-center font-medium text-3xl mt-10 mb-5">
+            [ {{purchase.title}} ]
+        </div>
+        <div class="text-right mr-10 my-5">
+            {{purchase.created|date:'y년 m월 d일'}}
+        </div>
+        <div class="text-center text-xl mb-10 w-1/2 mx-auto">
+            {{purchase.explain}}
+        </div>
+    </div>
+ 
+    <div class="container w-2/3 mx-auto">
+  
+        <div class="container w-full flex h-full border rounded-lg border-gray-100 shadow-md bg-gray-100 text-xl py-10 my-10 text-center">
+            <div class="container w-1/3">
+                <div class="container mx-auto pt-8 pl-8 w-48 h-48 border bg-cover bg-center rounded-lg m-2" style="background-image: url({{purchase.thumbnail}});"></div>
+                <div>총 {{purchase.price | intcomma}}₩</div>
+            </div>
+            <div class="container w-1/2 mt-2 text-center ml-5">
+                <div class="text-2xl font-medium pb-2 border-b border-black mb-5">
+                    공동구매 정보
+                </div>
+
+                <div class=" mb-5">
+                    1인당 지불: {{purchase.price_per_person | intcomma}}₩
+                </div>
+                <div class="mb-5 border rounded-lg p-1">
+                    참여 인원: {{purchase.participants.count}}명 | 총 인원: {{purchase.max_people}}명
+                </div>
+          
+            
+            </div>
+        </div>
+        <div class="container w-1/4 rounded-md border-black mx-auto mb-10">
+            {% if purchase.participants.count >= purchase.max_people %} <!-- 경우의 수:  -->
+                <div class="w-full text-center mb-5">
+                    <span class="text-lg">
+                        마감 되었습니다.
+                    </span>
+                </div>
+            {% elif isIncluded is False or purchase.participants.count == 0 %} 
+                <a href="{% url 'purchases:immaterial-attend' purchase.pk %}">
+                    <button class="border w-full h-16 rounded-md border-black mb-6 bg-yellow-300 hover:bg-yellow-50">
+                        참여
+                    </button>
+                </a>
+            {% endif %}
+            {% if isIncluded is True %}
+                <a href="{% url 'purchases:immaterial-delete' purchase.pk %}">
+                    <button class="border w-full h-16 rounded-md border-black">
+                        취소
+                    </button>
+                </a>
+            {% endif %}
+        </div>
+        <div class="my-3 h-5 relative max-w-full rounded-full overflow-hidden text-right">
+            <div class="w-full h-full bg-gray-200 absolute"></div>
+            
+            <div class="h-full bg-gradient-to-r from-yellow-400 via-pink-500 to-red-500 absolute animate-pulse" style="width:{{purchase.ratio}}%"></div>
+            <span class="ml-2 w-1/2 h-10 text-sm text-right animate-pulse mr-3">{{purchase.participants.count}}/{{purchase.max_people}}</span>
+        </div>    
+    </div>
+</div>
+<div class="h-96 text-center">   
+    여백의 미
+</div>
+
+{% endblock content %}

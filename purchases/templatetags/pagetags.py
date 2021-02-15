@@ -32,7 +32,6 @@ def slide_range(photos):
 
 @register.simple_tag
 def check_pk(pk):
-    print(pk)
     try:
         m = purchases_models.Material.objects.get(pk=pk)
         print(m)
@@ -41,3 +40,12 @@ def check_pk(pk):
         m = purchases_models.Immaterial.objects.get(pk=pk)
         print(m)
         return m
+
+@register.simple_tag
+def check_class(pk):
+    try:
+        m = purchases_models.Material.objects.get(pk=pk)
+        return True 
+    except:
+        m = purchases_models.Immaterial.objects.get(pk=pk)
+        return False
