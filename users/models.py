@@ -25,7 +25,7 @@ class User(AbstractUser):
     birthdate = models.DateField(blank=True, null=True)
     address = models.CharField(max_length=80, blank=True)
 
-    qr_code = models.ImageField(upload_to="qr_codes", blank=True)
+    qr_code = models.FileField(upload_to="qr_codes", blank=True)
 
     email_verified = models.BooleanField(default=False)
 

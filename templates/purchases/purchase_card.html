@@ -4,7 +4,11 @@
             <div class="pt-8 pl-8 w-48 h-48 border bg-cover bg-center rounded-lg m-2" style="background-image: url({{purchase.thumbnail}});"></div>
         </div>
         <div class="container w-1/2 flex flex-col items-stretch">
-            <span class="ml-2 my-4 border-b border-black text-black w-full h-10 text-2xl font-medium text-center overflow-hidden">[{{purchase.title}}]</span>
+            <div>
+                <span class="ml-2 my-4 border-b border-black text-black w-full h-10 text-2xl font-medium text-center overflow-hidden">[{{purchase.title}}] </span>
+                <span>{{purchase.category}}</span>
+       
+            </div>
             <div class="w-full flex flex-col">
                 
                 <span class="ml-2 w-1/2 h-10 text-xl text-gray-600 text-left overflow-hidden whitespace-nowrap">호스트: {{purchase.host.username}}</span>

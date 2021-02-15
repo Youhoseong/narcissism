@@ -90,7 +90,7 @@ def verify_complete(request):
                 user.address = location
                 user.location_verified = True
                 user.save()
-            except Models.User.DoesNotExist:
+            except models.User.DoesNotExist:
                 raise LocationException()
 
         return redirect(reverse("core:home"))

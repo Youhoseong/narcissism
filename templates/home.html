@@ -59,7 +59,9 @@
 
             <div class="flex flex-wrap my-7 h-full">
                 {% for purchase in purchases %}
-                    {% include "purchases/purchase_card.html" with purchase=purchase %}
+                    {% check_pk purchase.pk as p %}
+                    {% include "purchases/purchase_card.html" with purchase=p %}
+               
                 {% endfor %}
             </div>
       
