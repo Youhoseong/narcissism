@@ -7,8 +7,6 @@ from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import render, HttpResponse
 from . import models
-
-
 import requests
 
 # Create your views here.
@@ -32,24 +30,64 @@ class HomeView(ListView):
             return render(request, "home.html")
         p = models.Purchase.objects.filter(host__address=request.user.address).order_by('-pk') # 수정필요 =>  게시글에 address
         
-        material = models.Material.objects.filter(host__address=request.user.address)
-        immaterial = models.Immaterial.objects.filter(host__address=request.user.address)
-      
         paginator = Paginator(p, 10)
         
         page = request.GET.get("page", 1)
         page_obj = paginator.get_page(page)
         return render(
-            request, "home.html", {"page_obj": page_obj, "purchases": page_obj, "materials": material, "immaterials": immaterial}
+            request, "home.html", {"page_obj": page_obj, "purchases": page_obj}
         )
 
 
-def Participate(request):
-    model = models.Purchase
-    user = request.user
-    model.participants.add(user)
+class MaterialDetailView(DetailView):
+    model = models.Material
+    context_object_name="purchase"
+    template_name = "purchases/material_detail.html"
+ 
+
+    def get_context_data(self, **kwargs):
+        context = super(MaterialDetailView, self).get_context_data(**kwargs)
+        isIncluded = models.Material.objects.filter(participants = self.request.user.pk).exists()
+        context.update({'isIncluded': isIncluded})
+        return context
+
+class ImmaterialDetailView(DetailView):
+    model = models.Immaterial
+    context_object_name="purchase"
+    template_name = "purchases/immaterial_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ImmaterialDetailView, self).get_context_data(**kwargs)
+        isIncluded = models.Immaterial.objects.filter(participants = self.request.user.pk).exists()
+        context.update({'isIncluded': isIncluded})
+        return context
+
+def material_attend_view(request, pk):
+    if request.method == 'GET':
+        p = models.Material.objects.get(pk=pk)
+        p.participants.add(request.user)
+        p.save()
+    return redirect(reverse("purchases:material", kwargs={'pk': pk}))
+
+def material_delete_view(request, pk):
+    if request.method == 'GET':
+        p = models.Material.objects.get(pk=pk)
+        p.participants.remove(request.user)
+        p.save()
+    return redirect(reverse("purchases:material", kwargs={'pk': pk}))
+
+def immaterial_attend_view(request, pk):
+    if request.method == 'GET':
+        p = models.Immaterial.objects.get(pk=pk)
+        p.participants.add(request.user)
+        p.save()
+    return redirect(reverse("purchases:immaterial", kwargs={'pk': pk}))
+
+def immaterial_delete_view(request, pk):
+    if request.method == 'GET':
+        p = models.Immaterial.objects.get(pk=pk)
+        p.participants.remove(request.user)
+        p.save()
+    return redirect(reverse("purchases:immaterial", kwargs={'pk': pk}))
 
 
-class PurchaseDetailView(DetailView):
-    model = models.Purchase
-    template_name = "purchases/purchase_detail.html"

@@ -46,7 +46,7 @@ class Purchase(core_model.TimeStampedModel):
             return 0
     
     def price_per_person(self):
-        return self.price / self.max_people
+        return int(self.price / self.max_people)
        
 
 class Material(Purchase):
