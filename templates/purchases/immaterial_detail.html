@@ -86,13 +86,20 @@
             </div>
         </div>
         <div class="container w-1/4 rounded-md border-black mx-auto mb-10">
-            {% if isIncluded is False %} 
+            {% if purchase.participants.count >= purchase.max_people %} <!-- 경우의 수:  -->
+                <div class="w-full text-center mb-5">
+                    <span class="text-lg">
+                        마감 되었습니다.
+                    </span>
+                </div>
+            {% elif isIncluded is False or purchase.participants.count == 0 %} 
                 <a href="{% url 'purchases:immaterial-attend' purchase.pk %}">
                     <button class="border w-full h-16 rounded-md border-black mb-6 bg-yellow-300 hover:bg-yellow-50">
                         참여
                     </button>
                 </a>
-            {% else %}
+            {% endif %}
+            {% if isIncluded is True %}
                 <a href="{% url 'purchases:immaterial-delete' purchase.pk %}">
                     <button class="border w-full h-16 rounded-md border-black">
                         취소

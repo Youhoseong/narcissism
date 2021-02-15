@@ -47,7 +47,7 @@ class MaterialDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(MaterialDetailView, self).get_context_data(**kwargs)
-        isIncluded = models.Material.objects.filter(participants = self.request.user.pk).exists()
+        isIncluded = models.Material.objects.filter(pk= self.kwargs['pk'], participants = self.request.user.pk).exists()
         context.update({'isIncluded': isIncluded})
         return context
 
@@ -58,8 +58,10 @@ class ImmaterialDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ImmaterialDetailView, self).get_context_data(**kwargs)
-        isIncluded = models.Immaterial.objects.filter(participants = self.request.user.pk).exists()
+        print(self.kwargs['pk'])
+        isIncluded = models.Immaterial.objects.filter(pk= self.kwargs['pk'],participants = self.request.user.pk).exists()
         context.update({'isIncluded': isIncluded})
+        print(isIncluded)
         return context
 
 def material_attend_view(request, pk):
