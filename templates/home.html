@@ -7,8 +7,8 @@
     
     <div class="container relative bg-gray-800 h-50vh mt-32 mb-12 bg-cover max-w-full bg-bottom shadow-2xl" style="background-image:url(https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&)">
         <div class="container mx-auto flex flex-col absolute bottom-12">
-            <span class="mt-7 mr-7 font-body text-right text-yellow-400 text-5xl text-opacity-75">Share with your neighborhood</span>
-            <span class="mr-7 font-body text-right text-red-400 text-5xl text-opacity-75">Anything.</span>
+            <span class="mt-7 mr-7 font-body text-right text-yellow-400 text-5xl ">Share with your neighborhood</span>
+            <span class="mr-7 font-body text-right text-red-400 text-5xl">Anything.</span>
 
             <div class="mt-12 mr-9 text-white">
                 <a href="#">
@@ -28,17 +28,17 @@
     </div>
 
   
-    <div class="container mx-auto pb-10 pt-5">
+    <div class="container mx-auto px-4 pb-10 pt-5">
         <div class="container text-center">
 
         {% if user.is_authenticated %}
             <div class="container">
                 <div class="w-full my-5 border-t-8"></div>
-                <div class="text-2xl">
+                <div class="text-xl">
                     <span class="bg-clip-text font-extrabold text-transparent bg-gray-700">
                        {{user.address}}
                     </span>
-                    <span class="text-2xl">근처 공동구매</span>   
+                    <span class="text-xl">근처 공동구매</span>   
                 </div>
                    
           
