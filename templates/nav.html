@@ -3,7 +3,7 @@
     <ul class="flex items-center text-sm font-medium h-full">
             {% if user.is_authenticated %}
                 <li class="nav_link font-sans-kr">
-                    <a href="{% url 'purchases:select' %}">공동구매</a>
+                    <a href="">공동구매</a>
                     <div class="drop-down">
                         <a href="{% url 'purchases:create_m' %}">Material</a>
                         <a href="{% url 'purchases:create_i' %}">Immaterial</a>
