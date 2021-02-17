@@ -15,46 +15,56 @@
 @tailwind components;
 
 .nav_link{
-    @apply mx-4 border-b-4 border-white h-full flex flex-col items-center duration-500;
+    @apply mx-5 border-b-4 border-white h-full flex flex-col items-center duration-500 relative;
     a {
-        @apply w-32 text-center;
+        @apply w-36 text-center;
         padding-bottom: 30px;
         padding-top: 30px;
         display: block;
     };
-    div.drop-down {
-        @apply bg-gray-100 rounded-lg;
+    div.drop-down {   
+        @apply bg-gray-100 rounded-xl duration-500 shadow-xl absolute top-20 border-4 border-gray-400 p-2;
         display: none;
         a {
-            @apply py-4 w-32 border-t border-gray-400 hover:bg-gray-500;
+            @apply py-4 px-1 w-56 mb-2;
+
+            &:hover {
+                @apply bg-gray-200 duration-500 rounded-xl shadow-xl;
+            }
         }
+        
+ 
     }
     &:hover {
-        @apply border-yellow-400 animate-pulse;
+        @apply border-gray-400 duration-500;
         .drop-down {
             display: block;
         }
     }
+    
 };
 
 
 .profile_link{
-    @apply ml-8 border-white h-full flex flex-col items-center;
+    @apply ml-8 border-white h-full flex flex-col items-center relative;
     a {
-        @apply py-4 px-5 w-24;
+        @apply w-24 text-center my-auto;
         display: block;
     }
 
     div.drop-down {
-        @apply bg-gray-100 rounded-lg;
+        @apply bg-gray-100 p-2 rounded-lg duration-500 absolute top-20 right-0 text-center border-4 border-gray-400;
         display: none;
         a {
-            @apply py-4 w-24 border-t border-gray-400;
+            @apply py-4 px-1 w-36 mb-2;
+            &:hover {
+                @apply bg-gray-200 duration-500 rounded-xl shadow-xl;
+            }
         }
     }
 
     &:hover {
-        @apply animate-pulse;
+        
         .drop-down {
             display: block;
         }

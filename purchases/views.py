@@ -38,7 +38,7 @@ class HomeView(ListView):
     def get(self, request):
         if request.user.is_anonymous:
             return render(request, "home.html")
-        p = models.Purchase.objects.filter(host__address=request.user.address).order_by(
+        p = models.Purchase.objects.filter(address=request.user.dong()).order_by(
             "-pk"
         )  # 수정필요 =>  게시글에 address
 
@@ -172,7 +172,7 @@ class CreateMaterialView(FormView):
             explain=explain,
             link_address=link_address,
             host=user,
-            address=user.address,
+            address=user.dong(),
         )
         material.save()
         photos = self.request.FILES.getlist("photos")
