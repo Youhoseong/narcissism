@@ -14,6 +14,7 @@ from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import render, HttpResponse
 from . import models
 from . import forms
+from users import mixins
 
 
 import requests
@@ -49,63 +50,65 @@ class HomeView(ListView):
         )
 
 
-class MaterialDetailView(DetailView):
+class MaterialDetailView(mixins.LoggedInOnlyView, mixins.SameAreaOnlyView, DetailView):
     model = models.Material
     context_object_name = "purchase"
     template_name = "purchases/material_detail.html"
 
-
     def get_context_data(self, **kwargs):
         context = super(MaterialDetailView, self).get_context_data(**kwargs)
-        isIncluded = models.Material.objects.filter(pk= self.kwargs['pk'], participants = self.request.user.pk).exists()
+        isIncluded = models.Material.objects.filter(
+            pk=self.kwargs["pk"], participants=self.request.user.pk
+        ).exists()
         form = comment_forms.CommentForm
-        context.update({'isIncluded': isIncluded, 'form': form})
+        context.update({"isIncluded": isIncluded, "form": form})
         return context
 
     def post(self, request, *args, **kwargs):
-        context = request.POST.get('comment')
+        context = request.POST.get("comment")
         user = user_models.User.objects.get(pk=request.user.pk)
-        purchase_pk = kwargs['pk']
+        purchase_pk = kwargs["pk"]
 
         purchase_obj = purchase_models.Purchase.objects.get(pk=purchase_pk)
 
         comment_obj = comment_models.Comment.objects.create(
-            context = context,
-            writer = user,
-            purchase = purchase_obj
+            context=context, writer=user, purchase=purchase_obj
         )
         comment_obj.save()
-        return redirect(reverse("purchases:material", kwargs={'pk': purchase_pk}))
+        return redirect(reverse("purchases:material", kwargs={"pk": purchase_pk}))
 
 
-class ImmaterialDetailView(DetailView):
+class ImmaterialDetailView(
+    mixins.LoggedInOnlyView, mixins.SameAreaOnlyView, DetailView
+):
     model = models.Immaterial
     context_object_name = "purchase"
     template_name = "purchases/immaterial_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super(ImmaterialDetailView, self).get_context_data(**kwargs)
-        print(self.kwargs['pk'])
-        isIncluded = models.Immaterial.objects.filter(pk= self.kwargs['pk'],participants = self.request.user.pk).exists()
+        print(self.kwargs["pk"])
+        isIncluded = models.Immaterial.objects.filter(
+            pk=self.kwargs["pk"], participants=self.request.user.pk
+        ).exists()
         form = comment_forms.CommentForm
-        context.update({'isIncluded': isIncluded, 'form': form})
+        context.update({"isIncluded": isIncluded, "form": form})
         print(isIncluded)
         return context
 
     def post(self, request, *args, **kwargs):
-        context = request.POST.get('comment')
+        context = request.POST.get("comment")
         user = user_models.User.objects.get(pk=request.user.pk)
-        purchase_pk = kwargs['pk']
+        purchase_pk = kwargs["pk"]
 
         purchase_obj = purchase_models.Purchase.objects.get(pk=purchase_pk)
 
         comment_obj = comment_models.Comment.objects.create(
-            context = context,
-            writer = user,
-            purchase = purchase_obj
+            context=context, writer=user, purchase=purchase_obj
         )
         comment_obj.save()
-        return redirect(reverse("purchases:immaterial", kwargs={'pk': purchase_pk}))
+        return redirect(reverse("purchases:immaterial", kwargs={"pk": purchase_pk}))
+
 
 def material_attend_view(request, pk):
     if request.method == "GET":
@@ -144,17 +147,9 @@ class PurchaseDetailView(DetailView):
     template_name = "purchases/purchase_detail.html"
 
 
-class PurchaseSelectView(View):
-    template_name = "purchases/purchase_select.html"
-
-    def get(self, request):
-        return render(request, "purchases/purchase_select.html")
-
-
 class CreateMaterialView(FormView):
     form_class = forms.CreateMaterialForm
     template_name = "purchases/create_material.html"
-    success_url = reverse_lazy("purchases/")
 
     def form_valid(self, form):
         title = form.cleaned_data.get("title")
@@ -181,7 +176,6 @@ class CreateMaterialView(FormView):
         )
         material.save()
         photos = self.request.FILES.getlist("photos")
-        print(photos)
         if photos is not None:
             for photo in photos:
                 new_photo = models.Photo.objects.create(file=photo, purchases=material)
@@ -192,3 +186,19 @@ class CreateMaterialView(FormView):
 class CreateImmaterialView(FormView):
     form_class = forms.CreateImmaterialForm
     template_name = "purchases/create_immaterial.html"
+
+    def form_valid(self, form):
+        immaterial = form.save()
+        user = self.request.user
+        immaterial.host = user
+        immaterial.address = user.address
+        immaterial.save()
+        form.save_m2m()
+        photos = self.request.FILES.getlist("photos")
+        if photos is not None:
+            for photo in photos:
+                new_photo = models.Photo.objects.create(
+                    file=photo, purchases=immaterial
+                )
+                new_photo.save()
+        return redirect(reverse("purchases:immaterial", kwargs={"pk": immaterial.pk}))

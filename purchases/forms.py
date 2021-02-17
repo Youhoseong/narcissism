@@ -27,3 +27,8 @@ class CreateImmaterialForm(forms.ModelForm):
     photos = forms.FileField(
         widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False
     )
+
+    def save(self, *args, **kwargs):
+        immaterial = super().save(commit=False)
+        return immaterial
+
