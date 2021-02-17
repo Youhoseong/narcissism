@@ -13,7 +13,7 @@
         .bAddr {padding:5px;text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
     </style>
     <div class="container mx-auto mt-36">
-        <div class="container mx-auto h-50vh">
+        <div class="container mx-auto h-50vh px-8">
             <div class="map_wrap">
                 <div id="map" class="bg-gray-400 border rounded-xl w-full h-50vh relative overflow-hidden"></div>
                 <div class="hAddr">
@@ -23,13 +23,13 @@
             </div>
         </div>
 
-        <div class="container text-center font-dohyun text-3xl my-5 flex flex-col mx-auto">
+        <div class="container text-center font-dohyun text-2xl my-5 flex flex-col mx-auto">
         
             <span class="my-4 p-2 text-gray-500">회원님의 위치를 입력해주세요. 정확하지 않은 위치를 보정합니다.</span> 
             <span id="warningmsg" class="text-xl"></span>
             <span id="reasonmsg" class="text-xl"></span>
             <div class="container py-5 w-1/2 mx-auto">
-                <div class="flex flex-col items-center text-2xl">
+                <div class="flex flex-col items-center text-xl">
                     <textarea id="msg" class="border rounded-md w-1/2 mr-3 animate-bounce"></textarea>
                 </div>
             </div>
@@ -46,11 +46,11 @@
     
         </div>
         
-        <div class="text-center text-lg">
+        <div class="text-center text-md">
             {{user.username}} 님의 위치 인증 정보를 업데이트 합니다.
         </div>
 
-        <div class="text-center text-lg">
+        <div class="text-center text-md">
             검색 결과를 불러오는데 몇 초의 시간이 걸릴 수 있습니다.
         </div>
 

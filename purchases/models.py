@@ -48,6 +48,9 @@ class Purchase(core_model.TimeStampedModel):
     def price_per_person(self):
         return int(self.price / self.max_people)
 
+    def dong(self):
+        return self.address.split()[-1]
+
 
 class Material(Purchase):
     category_food = "음식"
