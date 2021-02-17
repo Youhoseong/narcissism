@@ -1,35 +1,32 @@
 {% load static %}
 
-    <ul class="flex items-center text-sm font-medium h-full">
+    <ul class="flex items-center text-md font-medium h-full">
             {% if user.is_authenticated %}
                 <li class="nav_link font-sans-kr">
-                    <a href="{% url 'purchases:select' %}">공동구매</a>
+                    <a href="#">시작하기</a>
                     <div class="drop-down">
-                        <a href="{% url 'purchases:create_m' %}">Material</a>
-                        <a href="{% url 'purchases:create_i' %}">Immaterial</a>
+                        <a href="{% url 'purchases:create_m' %}">물건 공동구매</a>
+                        <a href="{% url 'purchases:create_i' %}">서비스 공동구매</a>
                     </div>
                 </li>
                 <li class="nav_link font-sans-kr ">
-                    <a href="{% url 'users:verify' %}">Location Verify</a>
+                    <a href="{% url 'users:verify' %}">지역인증</a>
                 </li>
     
-                <li class="nav_link font-sans-kr">
-                    <a href="{% url 'users:logout' %}">Logout</a>
-                </li>
                 <li class="profile_link font-sans-kr">
                     <a href="{{user.get_absolute_url}}">{% include "mixins/avatar_thumbnail.html" with user=user %}</a>
                     <div class=drop-down>
-                        <a href="{{user.get_absolute_url}}">내 프로필</a>
-                        <a href="">뭐넣지</a>
+                        <a href="{{user.get_absolute_url}}">프로필</a>
+                        <a href="{% url 'users:logout' %}">로그아웃</a>
                     </div>
                 </li>
             {% else %}
                 <li class="nav_link font-sans-kr">
-                    <a href="{% url 'users:login' %}">Login</a>
+                    <a href="{% url 'users:login' %}">로그인</a>
                 </li>
 
                 <li class="nav_link font-sans-kr">
-                    <a href="{% url 'users:signup' %}">Sign up</a>
+                    <a href="{% url 'users:signup' %}">가입하기</a>
                 </li>
             {% endif %}
 
