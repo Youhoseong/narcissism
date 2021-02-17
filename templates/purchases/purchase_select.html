@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    거래 종류 선택
+{% endblock page_title %}
+
+{% block content %}
+
+<div class="container flex justify-between mx-auto pb-10 pt-5 items-center">
+    <div class="w-1/3 container items-center h-32 border border-black">
+        <a href="{% url 'purchases:create_m' %}">
+            <div class="text-4xl text-center w-full pt-10">Material</div>
+        </a>
+    </div>
+    <div class="w-1/3 container items-center h-32 border border-black">
+        <a href="{% url 'purchases:create_i' %}">
+            <div class="text-4xl text-center w-full pt-10">Imaterial</div>
+        </a>
+    </div>
+</div>
+{% endblock content %}

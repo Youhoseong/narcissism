@@ -15,25 +15,49 @@
 @tailwind components;
 
 .nav_link{
-    @apply mx-8 border-b-4 border-white h-full flex items-center duration-500;
+    @apply mx-4 border-b-4 border-white h-full flex flex-col items-center duration-500;
     a {
-        @apply py-10 px-5;
+        @apply w-32 text-center;
+        padding-bottom: 30px;
+        padding-top: 30px;
+        display: block;
+    };
+    div.drop-down {
+        @apply bg-gray-100 rounded-lg;
+        display: none;
+        a {
+            @apply py-4 w-32 border-t border-gray-400;
+        }
     }
-
     &:hover {
         @apply border-yellow-400 animate-pulse;
+        .drop-down {
+            display: block;
+        }
     }
 };
 
 
 .profile_link{
-    @apply ml-8 border-white h-full flex items-center;
+    @apply ml-8 border-white h-full flex flex-col items-center;
     a {
-        @apply py-10 px-5;
+        @apply py-4 px-5 w-24;
+        display: block;
+    }
+
+    div.drop-down {
+        @apply bg-gray-100 rounded-lg;
+        display: none;
+        a {
+            @apply py-4 w-24 border-t border-gray-400;
+        }
     }
 
     &:hover {
         @apply animate-pulse;
+        .drop-down {
+            display: block;
+        }
     }
 };
 
@@ -43,26 +67,31 @@
    &:hover {
        @apply scale-110;
    }
-}
+};
 
 
 
 .btn{
     @apply w-full text-center rounded-2xl py-5 font-light text-lg;
-}
+};
+
+textarea[name="explain"] {
+    height: 200px;
+};
 
 input,
 textarea{
-    @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
+    @apply rounded-2xl py-5 items-center font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
 };
 
+/*
 textarea {
     resize: none;
     height: 100px;
-}
-
+};
+*/
 select {
     @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
-}
+};
 
 @tailwind utilities;
