@@ -26,7 +26,7 @@
         @apply bg-gray-100 rounded-lg;
         display: none;
         a {
-            @apply py-4 w-32 border-t border-gray-400;
+            @apply py-4 w-32 border-t border-gray-400 hover:bg-gray-500;
         }
     }
     &:hover {

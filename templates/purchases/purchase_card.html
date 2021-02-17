@@ -17,10 +17,10 @@
             </div>
             <div class="w-full flex flex-col">
                 
-                <span class="ml-2 w-1/2 h-10 text-xl text-gray-600 text-left overflow-hidden whitespace-nowrap">호스트: {{purchase.host.username}}</span>
+                <span class="ml-2 w-2/3 h-10 text-xl text-gray-600 text-left overflow-hidden whitespace-nowrap">호스트: {{purchase.host.username}}</span>
 
-                <span class="ml-2 w-1/2 h-10 text-xl text-gray-600 overflow-hidden text-left">1인: {{purchase.price_per_person | intcomma }}₩</span>
-                <span class="ml-2 w-1/2 h-10 text-xl text-gray-600 overflow-hidden text-left">{{purchase.closed|date:'Y년 m월 d일'}}까지 총 <span class="text-red-400">{{purchase.max_people}}</span>명 </span>
+                <span class="ml-2 w-2/3 h-10 text-xl text-gray-600 overflow-hidden text-left">1인: {{purchase.price_per_person | intcomma }}₩</span>
+                <span class="ml-2 w-2/3 h-10 text-xl text-gray-600 overflow-hidden text-left">{{purchase.closed|date:'Y년 m월 d일'}}까지 총 <span class="text-red-400">{{purchase.max_people}}</span>명 </span>
              
             </div>
             <div class="my-3 h-5 relative max-w-xl rounded-full overflow-hidden text-right">
