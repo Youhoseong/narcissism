@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load pagetags %}
 {% block page_title %}
 {{purchase.title}}
 {% endblock page_title %}
@@ -7,7 +8,7 @@
 {% block content %}
 
 <div class="container mx-auto h-50vh max-w-full mb-20">
-    {% include 'mixins/slider.html' with photos=purchase.photos.all %}
+   {% include 'mixins/slider.html' with photos=purchase.photos.all %}
 </div>
 
 <div class="container mx-auto border rounded-lg w-2/3">
@@ -119,8 +120,53 @@
         </div>    
     </div>
 </div>
-<div class="h-96 text-center">   
-    여백의 미
+
+<div class="container mx-auto border w-2/3 my-10 rounded-lg">
+    <div class="container flex my-5 w-full mx-auto">
+        <div class="flex ml-3 mr-5">
+            <a href="{{comment.writer.get_absolute_url}}">    
+                {% include "mixins/avatar_thumbnail.html" with user=request.user %}
+            </a>
+        </div>
+        <div>
+            <form method="POST" class="w-full flex" enctype="multipart/form-data">
+                {% csrf_token %}
+            
+                {% for field in form %}
+                    {{field}}
+                {% endfor %}
+            
+                <button class="border rounded-xl w-1/3 bg-red-500 text-white">등록</button>
+            </form>
+        </div>
+    </div>
+
+    {% sort_comment purchase.comment.all as comments %}
+    {% for comment in comments %}
+
+    <div class="flex my-3 ml-3 border">
+        <div class="container flex">
+            <a href="{{comment.writer.get_absolute_url}}">    
+                {% include "mixins/avatar_thumbnail.html" with user=comment.writer %}
+            </a>
+            <div class="mt-3 ml-3">
+                {{comment.writer}}
+            </div>
+ 
+        </div>
+        <div class="container mr-5 border text-right">
+            {{comment.created |date:'y년 m월 d일'}}
+        </div>
+
+    </div>
+    <div class="ml-3">
+        {{comment.context}}
+    </div>
+
+    <div class="border-b py-3">
+
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock content %}

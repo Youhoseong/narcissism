@@ -1,7 +1,7 @@
 from django import template
 
 from purchases import models as purchases_models
-
+from comments import models as comment_models
 register = template.Library()
 
 
@@ -60,3 +60,9 @@ def check_class(pk):
     except:
         m = purchases_models.Immaterial.objects.get(pk=pk)
         return False
+
+@register.simple_tag
+def sort_comment(comment):
+    comment = comment.order_by('-created')
+
+    return comment
