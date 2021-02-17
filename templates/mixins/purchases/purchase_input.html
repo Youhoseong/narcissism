@@ -1,0 +1,14 @@
+{% load pagetags %}
+
+<div class="input {% if field.errors %}has_error{% endif %} {% test field %} mb-2 flex ">
+    
+    <div class="flex flex-col w-full mx-2">
+        {{field.label}}
+        {{field}}
+    </div>
+    {% if field.errors %}
+        {% for error in field.errors %}
+            <span class="text-red-700 font_medium text-am">{{error}}</span>
+        {% endfor %}
+    {% endif %}
+</div>
