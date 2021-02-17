@@ -1,8 +1,13 @@
 import os
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, FormView
 from django.core.paginator import Paginator
 from users import models as user_models
+from comments import models as comment_models
+from purchases import models as purchase_models
+from comments import models as comment_models
+from comments import forms as comment_forms
+from django.urls import reverse_lazy
 from ipware import get_client_ip
 from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import render, HttpResponse
@@ -43,13 +48,30 @@ class MaterialDetailView(DetailView):
     model = models.Material
     context_object_name="purchase"
     template_name = "purchases/material_detail.html"
- 
+
 
     def get_context_data(self, **kwargs):
         context = super(MaterialDetailView, self).get_context_data(**kwargs)
         isIncluded = models.Material.objects.filter(pk= self.kwargs['pk'], participants = self.request.user.pk).exists()
-        context.update({'isIncluded': isIncluded})
+        form = comment_forms.CommentForm
+        context.update({'isIncluded': isIncluded, 'form': form})
         return context
+
+    def post(self, request, *args, **kwargs):
+        context = request.POST.get('comment')
+        user = user_models.User.objects.get(pk=request.user.pk)
+        purchase_pk = kwargs['pk']
+
+        purchase_obj = purchase_models.Purchase.objects.get(pk=purchase_pk)
+
+        comment_obj = comment_models.Comment.objects.create(
+            context = context,
+            writer = user,
+            purchase = purchase_obj
+        )
+        comment_obj.save()
+        return redirect(reverse("purchases:material", kwargs={'pk': purchase_pk}))
+
 
 class ImmaterialDetailView(DetailView):
     model = models.Immaterial
@@ -60,9 +82,25 @@ class ImmaterialDetailView(DetailView):
         context = super(ImmaterialDetailView, self).get_context_data(**kwargs)
         print(self.kwargs['pk'])
         isIncluded = models.Immaterial.objects.filter(pk= self.kwargs['pk'],participants = self.request.user.pk).exists()
-        context.update({'isIncluded': isIncluded})
+        form = comment_forms.CommentForm
+        context.update({'isIncluded': isIncluded, 'form': form})
         print(isIncluded)
         return context
+
+    def post(self, request, *args, **kwargs):
+        context = request.POST.get('comment')
+        user = user_models.User.objects.get(pk=request.user.pk)
+        purchase_pk = kwargs['pk']
+
+        purchase_obj = purchase_models.Purchase.objects.get(pk=purchase_pk)
+
+        comment_obj = comment_models.Comment.objects.create(
+            context = context,
+            writer = user,
+            purchase = purchase_obj
+        )
+        comment_obj.save()
+        return redirect(reverse("purchases:immaterial", kwargs={'pk': purchase_pk}))
 
 def material_attend_view(request, pk):
     if request.method == 'GET':

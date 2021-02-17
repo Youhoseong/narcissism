@@ -27,6 +27,7 @@ class MaterialPurchaseAdmin(admin.ModelAdmin):
       "category",
       "host",
       "max_people",
+      "address",
       "price",
       "total",
       "unit",

@@ -27,9 +27,7 @@ class Purchase(core_model.TimeStampedModel):
     address = models.CharField(max_length=80, blank=True) # 게시글 작성자 주소.
 
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        print("hello", self.participants)
+
 
     def thumbnail(self):
         try:
@@ -68,6 +66,9 @@ class Material(Purchase):
 
     def amount_per_person(self):
         return self.total / self.max_people
+
+    
+      
 
 class Immaterial(Purchase): # 물건 구매가 아닌 활동을 위한 사람을 구하는 게시글.
     category_service = "인터넷 서비스 공유"

@@ -148,6 +148,14 @@ class SignUpView(FormView):
             login(self.request, user)
         return super().form_valid(form)
 
+    def get_success_url(self):
+        user = models.User.objects.get(pk=self.request.user.pk)
+
+        if user.location_verified:
+            return reverse("core:home")
+        else:
+            return reverse("users:verify")
+
 
 class UserProfileView(DetailView):
     model = models.User
