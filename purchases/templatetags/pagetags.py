@@ -1,6 +1,7 @@
 from django import template
 
 from purchases import models as purchases_models
+
 register = template.Library()
 
 
@@ -41,11 +42,21 @@ def check_pk(pk):
         print(m)
         return m
 
+
+@register.simple_tag
+def test(field):
+    sm_list = ("closed", "category", "max_people", "price", "total", "unit")
+    if field.name in sm_list:
+        return "w-1/3"
+    else:
+        return "w-full"
+
+
 @register.simple_tag
 def check_class(pk):
     try:
         m = purchases_models.Material.objects.get(pk=pk)
-        return True 
+        return True
     except:
         m = purchases_models.Immaterial.objects.get(pk=pk)
         return False

@@ -2,6 +2,13 @@
 
     <ul class="flex items-center text-sm font-medium h-full">
             {% if user.is_authenticated %}
+                <li class="nav_link font-sans-kr">
+                    <a href="{% url 'purchases:select' %}">공동구매</a>
+                    <div class="drop-down">
+                        <a href="{% url 'purchases:create_m' %}">Material</a>
+                        <a href="{% url 'purchases:create_i' %}">Immaterial</a>
+                    </div>
+                </li>
                 <li class="nav_link font-sans-kr ">
                     <a href="{% url 'users:verify' %}">Location Verify</a>
                 </li>
@@ -11,6 +18,10 @@
                 </li>
                 <li class="profile_link font-sans-kr">
                     <a href="{{user.get_absolute_url}}">{% include "mixins/avatar_thumbnail.html" with user=user %}</a>
+                    <div class=drop-down>
+                        <a href="{{user.get_absolute_url}}">내 프로필</a>
+                        <a href="">뭐넣지</a>
+                    </div>
                 </li>
             {% else %}
                 <li class="nav_link font-sans-kr">
