@@ -14,6 +14,7 @@ from django.contrib.gis.geoip2 import GeoIP2
 from django.shortcuts import render, HttpResponse
 from . import models
 from . import forms
+from users import mixins
 
 
 import requests
@@ -49,7 +50,7 @@ class HomeView(ListView):
         )
 
 
-class MaterialDetailView(DetailView):
+class MaterialDetailView(mixins.LoggedInOnlyView, mixins.SameAreaOnlyView, DetailView):
     model = models.Material
     context_object_name = "purchase"
     template_name = "purchases/material_detail.html"
@@ -77,7 +78,9 @@ class MaterialDetailView(DetailView):
         return redirect(reverse("purchases:material", kwargs={"pk": purchase_pk}))
 
 
-class ImmaterialDetailView(DetailView):
+class ImmaterialDetailView(
+    mixins.LoggedInOnlyView, mixins.SameAreaOnlyView, DetailView
+):
     model = models.Immaterial
     context_object_name = "purchase"
     template_name = "purchases/immaterial_detail.html"
@@ -188,6 +191,7 @@ class CreateImmaterialView(FormView):
         immaterial = form.save()
         user = self.request.user
         immaterial.host = user
+        immaterial.address = user.address
         immaterial.save()
         form.save_m2m()
         photos = self.request.FILES.getlist("photos")
