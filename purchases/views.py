@@ -1,11 +1,7 @@
 import os
 from django.shortcuts import render, redirect, reverse
-<<<<<<< HEAD
-from django.views.generic import ListView, DetailView, FormView
-=======
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, View, FormView
->>>>>>> main
 from django.core.paginator import Paginator
 from users import models as user_models
 from comments import models as comment_models
