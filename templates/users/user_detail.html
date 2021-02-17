@@ -1,4 +1,5 @@
 {% extends "base.html" %} 
+{% load pagetags %}
 {% block page_title %}
     {{user_obj.first_name}}'s Profile
 {% endblock page_title%}
@@ -20,15 +21,18 @@
             {% endif %}
 
         </div>
-        {% if user_obj.purchase.count > 0 %}
-            <div class="w-full my-5 border-t-8"></div>
-            <h3 class="text-center text-2xl">{{user_obj.username}}님의 공동구매 게시물</h3>
-            <div class="w-full my-5 border-b-8"></div>
-            <div class="w-full flex flex-wrap">
-                {% for purchase in user_obj.purchase.all %}
-                    {% include 'purchases/purchase_card.html' with purchase=purchase %}
-                {% endfor %}
-            </div>
-        {% endif %}
+        <div class="container text-center ">
+            {% if user_obj.purchase.count > 0 %}
+                <div class="w-full my-5 border-t-8"></div>
+                <h3 class="text-center text-2xl">{{user_obj.username}}님의 공동구매 게시물</h3>
+                <div class="w-full my-5 border-b-8"></div>
+                <div class="h-full flex flex-wrap my-7">
+                    {% for purchase in user_obj.purchase.all %}
+                        {% check_pk purchase.pk as p %}
+                        {% include 'purchases/purchase_card.html' with purchase=p %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock content %}

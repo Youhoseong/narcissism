@@ -32,7 +32,9 @@ class HomeView(ListView):
     def get(self, request):
         if request.user.is_anonymous:
             return render(request, "home.html")
-        p = models.Purchase.objects.filter(host__address=request.user.address)
+        p = models.Purchase.objects.filter(host__address=request.user.address).order_by(
+            "-pk"
+        )  # 수정필요 =>  게시글에 address
 
         paginator = Paginator(p, 10)
         page = request.GET.get("page", 1)
@@ -42,10 +44,66 @@ class HomeView(ListView):
         )
 
 
-def Participate(request):
-    model = models.Purchase
-    user = request.user
-    model.participants.add(user)
+class MaterialDetailView(DetailView):
+    model = models.Material
+    context_object_name = "purchase"
+    template_name = "purchases/material_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(MaterialDetailView, self).get_context_data(**kwargs)
+        isIncluded = models.Material.objects.filter(
+            pk=self.kwargs["pk"], participants=self.request.user.pk
+        ).exists()
+        context.update({"isIncluded": isIncluded})
+        return context
+
+
+class ImmaterialDetailView(DetailView):
+    model = models.Immaterial
+    context_object_name = "purchase"
+    template_name = "purchases/immaterial_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(ImmaterialDetailView, self).get_context_data(**kwargs)
+        print(self.kwargs["pk"])
+        isIncluded = models.Immaterial.objects.filter(
+            pk=self.kwargs["pk"], participants=self.request.user.pk
+        ).exists()
+        context.update({"isIncluded": isIncluded})
+        print(isIncluded)
+        return context
+
+
+def material_attend_view(request, pk):
+    if request.method == "GET":
+        p = models.Material.objects.get(pk=pk)
+        p.participants.add(request.user)
+        p.save()
+    return redirect(reverse("purchases:material", kwargs={"pk": pk}))
+
+
+def material_delete_view(request, pk):
+    if request.method == "GET":
+        p = models.Material.objects.get(pk=pk)
+        p.participants.remove(request.user)
+        p.save()
+    return redirect(reverse("purchases:material", kwargs={"pk": pk}))
+
+
+def immaterial_attend_view(request, pk):
+    if request.method == "GET":
+        p = models.Immaterial.objects.get(pk=pk)
+        p.participants.add(request.user)
+        p.save()
+    return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
+
+
+def immaterial_delete_view(request, pk):
+    if request.method == "GET":
+        p = models.Immaterial.objects.get(pk=pk)
+        p.participants.remove(request.user)
+        p.save()
+    return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
 
 
 class PurchaseDetailView(DetailView):

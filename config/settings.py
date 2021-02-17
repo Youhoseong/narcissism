@@ -37,6 +37,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "geoip2",
+    "django.contrib.humanize",
 ]
 
 PROJECT_APPS = [
