@@ -23,3 +23,12 @@ class CreateImmaterialForm(forms.ModelForm):
         model = models.Immaterial
         fields = ("title", "closed", "explain", "category", "max_people", "price")
         widgets = {"explain": forms.Textarea(attrs={"col": 40, "row": 30})}
+
+    photos = forms.FileField(
+        widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False
+    )
+
+    def save(self, *args, **kwargs):
+        immaterial = super().save(commit=False)
+        return immaterial
+
