@@ -47,6 +47,7 @@ PROJECT_APPS = [
     "lists.apps.ListsConfig",
     "reviews.apps.ReviewsConfig",
     "kakaotalk_channel.apps.KakaotalkChannelConfig",
+    "alarms.apps.AlarmsConfig",
 ]
 
 CHANNEL_LAYERS = {
