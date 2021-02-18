@@ -22,27 +22,42 @@
   </head>
 
 <body class="mt-24">
-  <header class="z-10 container max-w-full flex items-center inset-0 justify-between pl-6 h-20 border-b border-gray-400 fixed bg-white shadow-md">
-   <div class="flex items-center w-1/3">
-      <a href="{% url "core:home" %}" class="mr-12">
-        <img class="w-12" src="{% static 'img/logo1.png' %}" />
+  {% if user.is_authenticated %} 
+    <header class="z-10 container max-w-full flex items-center inset-0 justify-between pl-6 h-20 border-b border-gray-400 fixed bg-white shadow-md">
+    <div class="flex items-center w-1/3">
+        <a href="{% url "core:home" %}" class="mr-12">
+          <img class="w-12" src="{% static 'img/logo1.png' %}" />
 
-      </a>
-      
-      {% block search-bar %}
-        {% if user.is_authenticated %}    
-          {% if user.location_verified %} 
-            <form method="get" action="#" class="w-9/12">
-              <input class="duration-500 border-collapse px-5 font-medium placeholder-black py-3 rounded-lg w-full shadow-md hover:shadow-xl focus:outline-none" name="city" placeholder="검색해보세요." />
-            </form>
-          {% endif %}
-        {% endif %}
-      
-      {% endblock search-bar %}
-  </div>
-    {% include "nav.html" %}
-  </header>
+        </a>
+        
+        {% block search-bar %}
+        
+            {% if user.location_verified %} 
+              <form method="get" action="#" class="w-9/12">
+                <input class="duration-500 border-collapse px-5 font-medium placeholder-black py-3 rounded-lg w-full shadow-md hover:shadow-xl focus:outline-none" name="city" placeholder="검색해보세요." />
+              </form>
+            {% endif %}
+  
+        {% endblock search-bar %}
+    </div>
+      {% include "nav.html" %}
 
-  {% block content %}{% endblock content %}
+    </header>
+
+    {% else %}
+    <header>
+      <div class="flex items-center w-1/3 mx-auto">
+        <a href="{% url "core:home" %}" class="mx-auto flex">
+          <img class="w-20 mr-5" src="{% static 'img/logo1.png' %}" />
+          <span class="bg-clip-text my-auto text-5xl font-dohyun font-extrabold text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500">
+            자아도취
+         </span>
+        </a>
+      </div>
+    </header>
+    {% endif %}
+    
+    {% block content %}{% endblock content %}
+
   </body>
 </html>

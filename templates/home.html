@@ -5,14 +5,14 @@
 {% block content %}
 
     
-    <div class="container relative bg-gray-800 h-50vh mt-32 mb-12 bg-cover max-w-full bg-bottom shadow-2xl" style="background-image:url(https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&)">
+    <div class="container relative bg-gray-800 h-50vh {% if user.is_authenticated %} mt-32 {% else %} mt-8 {% endif %} mb-12 bg-cover max-w-full bg-top shadow-2xl" style="background-image:url(https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&)">
         <div class="container mx-auto flex flex-col absolute bottom-12">
-            <span class="mt-7 mr-7 font-body text-right text-yellow-400 text-5xl ">Share with your neighborhood</span>
+            <span class="mt-7 mr-7 font-body text-right text-white text-5xl">Share with your neighborhood</span>
             <span class="mr-7 font-body text-right text-red-400 text-5xl">Anything.</span>
 
             <div class="mt-12 mr-9 text-white">
-                <a href="#">
-                    <span class="float-right border text-4xl border-solid py-2 px-4 font-body mr-7 rounded-xl hover:text-gray-500 hover:border-gray-400 animate-bounce">Start</span>    
+                <a href="{% if not user.is_authenticated %} {% url 'users:signup' %} {% endif %}">
+                    <span class="float-right border text-4xl border-solid py-2 px-4 font-body mr-7 rounded-xl hover:text-gray-500 hover:border-gray-400 animate-bounce">Sign up</span>    
                 </a>
             </div>
         
@@ -26,6 +26,14 @@
             <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center hover:bg-gray-200 cursor-pointer"></span>
         </div>
     </div>
+
+    {% if not user.is_authenticated %}
+    <div class="text-center">
+      <span class="mr-3 p-2 rounded-lg">
+        <a href="{% url 'users:login' %}">Already have an account? <span class="text-red-400">Login</span></a>
+      </span>
+    </div>
+    {% endif %}
 
   
     <div class="container mx-auto px-4 pb-10 pt-5">
