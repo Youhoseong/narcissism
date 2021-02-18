@@ -24,6 +24,7 @@ urlpatterns = [
     path("", include("core.urls", namespace="core")),
     path("users/", include("users.urls", namespace="users")),
     path("purchases/", include("purchases.urls", namespace="purchases")),
+    path("alarms/", include("alarms.urls", namespace="alarms")),
     # path("chats/", include("chats.urls", namespace="chats")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

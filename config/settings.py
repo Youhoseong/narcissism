@@ -49,6 +49,7 @@ PROJECT_APPS = [
     "reviews.apps.ReviewsConfig",
     "kakaotalk_channel.apps.KakaotalkChannelConfig",
     "comments.apps.CommentsConfig"
+    "alarms.apps.AlarmsConfig",
 ]
 
 CHANNEL_LAYERS = {
