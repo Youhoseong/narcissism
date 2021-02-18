@@ -100,6 +100,12 @@ textarea {
     height: 100px;
 };
 */
+
+select.ui-datepicker-month,
+select.ui-datepicker-year {
+    @apply py-0 px-1;
+}
+
 select {
     @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
 };
