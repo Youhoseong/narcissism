@@ -110,4 +110,47 @@ select {
     @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
 };
 
-@tailwind utilities;
+
+@keyframes messageFadeIn {
+    0% {
+        opacity: 0;
+        transform:translateY(-50px);
+        display: none;
+    }
+
+    5% {
+        opacity: 1;
+        transform:translateY(40px);
+    }
+
+    95% {
+        opacity: 1;
+        transform:translateY(40px);
+    }
+
+    100% {
+        opacity: 0;
+        transform:translateY(-50px);
+    }
+}
+
+.message {
+    
+    animation: messageFadeIn 5s ease-in-out forwards;
+    &.error {
+        @apply bg-red-600 border border-red-600;
+    }
+
+    &.info {
+        @apply bg-blue-500 border border-blue-500;
+    }
+
+    &.success {
+        @apply bg-green-500 border border-green-500;
+    }
+
+    &.warning {
+        @apply bg-yellow-400 border border-yellow-400;
+    }
+}
+ @tailwind utilities;

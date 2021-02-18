@@ -1,0 +1,18 @@
+{% if messages %} 
+    <ul id="msg" class="absolute message mx-auto top-0 left-0 right-0 flex justify-center">
+        {% for message in messages %}
+            <li id="msg-span" class="message font-medium border bg-gray-700 z-20 rounded-full text-white py-4 px-6 text-center {% if message.tags %} {{message.tags}}{% endif %}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+<!--     <script>
+      $(document).ready(function() {
+        $('#msg').fadeIn( 2000, function(){
+            $(this).delay(1000);
+            $(this).fadeOut(2000, function(){});
+        });
+      });
+ 
+    </script> -->
+{% endif %}
+
