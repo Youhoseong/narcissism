@@ -8,25 +8,25 @@
 {% block content %}
 
 <div class="container mx-auto h-50vh max-w-full mb-20">
-    {% include 'mixins/slider.html' with photos=purchase.photos.all %}
+   {% include 'mixins/slider.html' with photos=purchase.photos.all %}
 </div>
 
-<div class="container mx-auto border rounded-lg w-2/3">
+<div class="container mx-auto rounded-xl w-2/3 border">
  
 
     <div class="items-center flex flex-row mx-auto my-10">
         <div class="duration-500 container flex align-middle w-2/3 h-22 ml-3 p-2 hover:bg-gray-100 rounded-xl hover:shadow-md">
             <div class="container flex flex-row">
-                <div class="text-center font-medium text-2xl mr-3">
+                <div class="text-center font-medium text-xl mr-3">
                     <a href="{{purchase.host.get_absolute_url}}">    
-                        {% include "mixins/avatar_thumbnail.html" with user=purchase.host h_and_w='w-16 h-16' %}
+                        {% include "mixins/avatar_thumbnail.html" with user=purchase.host h_and_w='w-12 h-12' %}
                     </a>
                 </div>
                 <div class="mt-1">
-                    <div class="mr-3 text-xl mb-1">
+                    <div class="mr-3 text-lg mb-1">
                         {{purchase.host.username}}
                     </div>
-                    <div class="mt-1 text-lg text-gray-400">
+                    <div class="mt-1 text-md text-gray-400">
                         총 {{purchase.host.purchase.count}}개의 게시글
                     </div>
                 
@@ -35,16 +35,16 @@
             </div>
             <div class="w-1/3 text-left my-auto">
                 <a href="#">
-                    <span class="w-1/2 py-2 px-4 h-full duration-500 text-yellow-500 text-lg hover:bg-gray-300 rounded-md">메시지</span>
+                    <span class="w-1/2 py-2 px-4 h-full duration-500 text-yellow-500 text-md hover:bg-gray-300 rounded-md">메시지</span>
                 </a>
             </div>
         </div>
-        <div class="container text-lg text-right mr-5">
+        <div class="container text-md text-right mr-5">
             <span class="hover:bg-purple-700 duration-500 border rounded-md border-black bg-gray-400 text-white py-2 px-3 mr-2">
                 진행중
             </span>
 
-            <span class="hover:bg-red-600 duration-500 border rounded-md border-black  text-black py-2 px-3 mr-2">
+            <span class="hover:bg-red-600 duration-500 border rounded-md border-black text-black py-2 px-3 mr-2">
                 {{purchase.dong}}
             </span>
             <span class="hover:bg-gray-700 duration-500 border rounded-md border-black bg-gray-300 text-white py-2 px-3">
@@ -53,56 +53,60 @@
         </div>
     </div>
     <div class="container border-b border-t">
-        <div class="text-center font-medium text-3xl mt-10 mb-5">
+        <div class="text-center font-medium text-2xl mt-10 mb-5">
             [ {{purchase.title}} ]
         </div>
         <div class="text-right mr-10 my-5">
             {{purchase.created|date:'y년 m월 d일'}}
         </div>
-        <div class="text-center text-xl mb-10 w-1/2 mx-auto">
+        <div class="text-center text-lg mb-10 w-1/2 mx-auto">
             {{purchase.explain}}
         </div>
     </div>
  
-    <div class="container w-2/3 mx-auto">
+    <div class="container w-11/12 mx-auto">
   
-        <div class="container w-full flex h-full border rounded-lg border-gray-100 shadow-md bg-gray-100 text-xl py-10 my-10 text-center">
-            <div class="container w-1/3">
-                <div class="container mx-auto pt-8 pl-8 w-48 h-48 border bg-cover bg-center rounded-lg m-2" style="background-image: url({{purchase.thumbnail}});"></div>
-                <div>총 {{purchase.price | intcomma}}₩</div>
+        <div class="container w-full flex h-full border rounded-lg border-gray-100 shadow-md bg-gray-100 text-lg py-10 my-10 text-center">
+            <div class="ml-2 container w-1/3">
+                <div class="container mx-auto w-44 h-44 border bg-cover bg-center rounded-lg m-2" style="background-image: url({{purchase.thumbnail}});"></div>
+                <div>{{purchase.price | intcomma}}₩</div>
             </div>
-            <div class="container w-1/2 mt-2 text-center ml-5">
-                <div class="text-2xl font-medium pb-2 border-b border-black mb-5">
+            <div class="container w-1/2 mt-2 text-left ml-5">
+                <div class="text-xl font-medium text-center pb-2 border-b border-black mb-5">
                     공동구매 정보
                 </div>
 
-                <div class=" mb-5">
-                    1인당 지불: {{purchase.price_per_person | intcomma}}₩
+                <div class="mb-5">
+                    <span class="text-black font-medium">1인당 지불:</span> {{purchase.price_per_person | intcomma}}₩
                 </div>
-                <div class="mb-5 border rounded-lg p-1">
-                    참여 인원: {{purchase.participants.count}}명 | 총 인원: {{purchase.max_people}}명
+                <div class="mb-5">
+                    <span class="text-black font-medium">상품 링크:</span> {{purchase.link_address}}
+                </div>
+                <div class="mb-5 border-t pt-4">
+                    <span class="text-black font-medium">참여 인원:</span> {{purchase.participants.count}}명 |  <span class="text-black font-medium">모집 인원:</span> {{purchase.max_people}}명
                 </div>
           
             
             </div>
         </div>
         <div class="container w-1/4 rounded-md border-black mx-auto mb-10">
-            {% if purchase.participants.count >= purchase.max_people %} <!-- 경우의 수:  -->
+            {% if purchase.participants.count >= purchase.max_people %}
                 <div class="w-full text-center mb-5">
                     <span class="text-lg">
                         마감 되었습니다.
                     </span>
                 </div>
+       
             {% elif isIncluded is False or purchase.participants.count == 0 %} 
                 <a href="{% url 'purchases:immaterial-attend' purchase.pk %}">
-                    <button class="border w-full h-16 rounded-md border-black mb-6 bg-yellow-300 hover:bg-yellow-50">
+                    <button class="border w-full h-16 rounded-md border-black mb-6 hover:bg-yellow-300 duration-500">
                         참여
                     </button>
                 </a>
             {% endif %}
             {% if isIncluded is True %}
                 <a href="{% url 'purchases:immaterial-delete' purchase.pk %}">
-                    <button class="border w-full h-16 rounded-md border-black">
+                    <button class="border w-full h-16 rounded-md border-black mt-5">
                         취소
                     </button>
                 </a>
@@ -117,50 +121,61 @@
     </div>
 </div>
 
-<div class="container mx-auto border w-2/3 my-10 rounded-lg">
-    <div class="container flex my-5 w-full mx-auto">
+<div class="container mx-auto w-2/3 my-10">
+    <div class="container flex my-5 w-full mx-auto border-b">
         <div class="flex ml-3 mr-5">
             <a href="{{comment.writer.get_absolute_url}}">    
                 {% include "mixins/avatar_thumbnail.html" with user=request.user %}
             </a>
         </div>
-        <div>
-            <form method="POST" class="w-full flex" enctype="multipart/form-data">
+        <div class="mb-5 w-full">
+            <form method="POST" class="w-full h-28 flex text-md"  enctype="multipart/form-data">
                 {% csrf_token %}
             
                 {% for field in form %}
                     {{field}}
                 {% endfor %}
             
-                <button class="border rounded-xl w-1/3 bg-red-500 text-white">등록</button>
+                <button class="mx-5 border rounded-xl w-1/4 bg-red-500 text-white">등록</button>
             </form>
         </div>
     </div>
-    {% sort_comment purchase.comment.all as comments %}
-    {% for comment in comments %}
-    <div class="flex my-3 ml-3 border">
-        <div class="container flex">
-            <a href="{{comment.writer.get_absolute_url}}">    
-                {% include "mixins/avatar_thumbnail.html" with user=comment.writer %}
-            </a>
-            <div class="mt-3 ml-3">
-                {{comment.writer}}
+    <div class="">
+        {% sort_comment purchase.comment.all as comments %}
+        {% for comment in comments %}
+
+        <div class="flex my-3 ml-3 ">
+            <div class="container flex">
+                <a href="{{comment.writer.get_absolute_url}}">    
+                    {% include "mixins/avatar_thumbnail.html" with user=comment.writer %}
+                </a>
+                <div class="mt-3 ml-3">
+                    {{comment.writer}}
+                </div>
+                <span class="mt-3 ml-3 text-red-300"> 
+                    {% if comment.writer == request.user %}
+                    <a href="{% url 'comments:delete' pk=comment.pk %}">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {% endif %}
+                </span>
+    
             </div>
- 
+            <div class="container mt-3 mr-5 text-sm text-right">
+                {{comment.created |date:'y년 m월 d일'}}
+            </div>
+
         </div>
-        <div class="container mr-5 border text-right">
-            {{comment.created |date:'y년 m월 d일'}}
+        <div class="w-11/12 h-16 ml-16 pt-2 pl-3 text-sm mb-5 bg-gray-200 rounded-2xl">
+            {{comment.context}}
         </div>
 
-    </div>
-    <div class="ml-3">
-        {{comment.context}}
-    </div>
 
-    <div class="border-b py-3">
+        <div class="border-b py-3">
 
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 
 {% endblock content %}
