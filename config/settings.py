@@ -48,7 +48,7 @@ PROJECT_APPS = [
     "lists.apps.ListsConfig",
     "reviews.apps.ReviewsConfig",
     "kakaotalk_channel.apps.KakaotalkChannelConfig",
-    "comments.apps.CommentsConfig"
+    "comments.apps.CommentsConfig",
     "alarms.apps.AlarmsConfig",
 ]
 

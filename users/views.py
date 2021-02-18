@@ -18,7 +18,7 @@ class LocationException(Exception):
     pass
 
 
-class LocationVerifyDetailView(ListView, mixins.LoggedInOnlyView):
+class LocationVerifyDetailView(mixins.LoggedInOnlyView, ListView):
     template_name = "users/location_verify_detail.html"
     model = models.User
     context_object_name = "users"
@@ -50,7 +50,7 @@ class LocationVerifyDetailView(ListView, mixins.LoggedInOnlyView):
 user_create = csrf_exempt(LocationVerifyDetailView.as_view())
 
 
-class LocationVerifyView(ListView, mixins.LoggedInOnlyView):
+class LocationVerifyView(mixins.LoggedInOnlyView, ListView):
     template_name = "users/location_verify.html"
     model = models.User
     context_object_name = "users"
@@ -101,7 +101,7 @@ def verify_complete(request):
         return redirect(reverse("core:home"))
 
 
-class LoginView(FormView, mixins.LoggedOutOnlyView):
+class LoginView(mixins.LoggedOutOnlyView, FormView):
 
     template_name = "users/login.html"
     form_class = forms.LoginForm
@@ -159,12 +159,12 @@ class SignUpView(mixins.LoggedOutOnlyView, FormView):
             return reverse("users:verify")
 
 
-class UserProfileView(DetailView, mixins.LoggedInOnlyView):
+class UserProfileView(mixins.LoggedInOnlyView, DetailView):
     model = models.User
     context_object_name = "user_obj"
 
 
-class UpdateProfileView(SuccessMessageMixin, UpdateView, mixins.LoggedInOnlyView):
+class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
     model = models.User
     template_name = "users/update-profile.html"
     fields = (
