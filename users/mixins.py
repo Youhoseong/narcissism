@@ -28,5 +28,17 @@ class SameAreaOnlyView(UserPassesTestMixin):
         return redirect("core:home")
 
 
+class LocationVerifiedOnlyView(UserPassesTestMixin):
+    def test_func(self):
+        if self.request.user.location_verified:
+            return True
+        else:
+            return False
+
+    def handle_no_permission(self):
+        messages.error(self.request, "지역인증 후 이용해주시기 바랍니다.")
+        return redirect("users:verify")
+
+
 class LoggedInOnlyView(LoginRequiredMixin):
     login_url = reverse_lazy("users:login")
