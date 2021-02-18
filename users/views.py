@@ -81,23 +81,27 @@ class LocationVerifyView(mixins.LoggedInOnlyView, ListView):
 @csrf_exempt
 def verify_complete(request):
     try:
-        location = request.POST.get("location")
-        if location == None:
-            raise LocationException()
-        else:
+        if request.method == 'POST':
+            location = request.POST.get('location')
             print(location)
-            try:
-                user = models.User.objects.get(pk=request.user.pk)
-                print(user.username)
-                user.address = location
-                user.location_verified = True
-                user.save()
-            except models.User.DoesNotExist:
+            if location == None:
                 raise LocationException()
+            else:
+                print(location)
+                try:
+                    user = models.User.objects.get(pk=request.user.pk)
+                    print(user.username)
+                    user.address = location
+                    user.location_verified = True
+                    user.save()
+                except models.User.DoesNotExist:
+                    raise LocationException()
 
+        messages.success(request, f"{request.user.first_name}님의 지역정보를 업데이트 합니다.")
         return redirect(reverse("core:home"))
 
     except LocationException as e:
+        messages.error(request, "지역 인증에 오류가 발생했습니다.")
         return redirect(reverse("core:home"))
 
 
@@ -113,14 +117,13 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         user = authenticate(self.request, username=username, password=password)
         if user is not None:
             login(self.request, user)
+            messages.info(self.request, f"또 뵙네요. {self.request.user.first_name}")
 
         return super().form_valid(form)
 
     def get_success_url(self):
         next_arg = self.request.GET.get("next")
         user = self.request.user
-        print(next_arg)
-        print(user)
         user = models.User.objects.get(pk=self.request.user.pk)
 
         if user.location_verified:
@@ -130,7 +133,7 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
 
 
 def log_out(request):
-    messages.info(request, f"See you later {request.user.first_name}")
+    messages.info(request, f"다음에 또 봐요, {request.user.first_name}")
     logout(request)
     return redirect(reverse("core:home"))
 
@@ -152,6 +155,7 @@ class SignUpView(mixins.LoggedOutOnlyView, FormView):
 
     def get_success_url(self):
         user = models.User.objects.get(pk=self.request.user.pk)
+        messages.info(self.request, f"{self.request.user.first_name} 가입을 축하해요. ")
 
         if user.location_verified:
             return reverse("core:home")
@@ -178,7 +182,8 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
         "address",
         "qr_code",
     )
-    succsess_message = "Profile Updated"
+    success_message = "프로필 새단장 완료!"
+    
 
     def get_object(self, queryset=None):
         return self.request.user
