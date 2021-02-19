@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load pagetags %}
+{% block page_title %}
+    Search
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+    <h2>검색 결과</h2>
+{% if purchase_count > 0 %}
+
+    {% for purchase in purchases %}
+        {% check_pk purchase.pk as p %}
+        {% include "purchases/purchase_card.html" with purchase=p %}
+    {% endfor %}
+
+{% else %}
+    <span>검색 결과가 없습니다.</span>
+
+{% endif %}
+{% endblock content %} 

@@ -233,3 +233,16 @@ class CreateImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormVie
                 new_photo.save()
         messages.success(self.request, "게시물 업로드 완료")
         return redirect(reverse("purchases:immaterial", kwargs={"pk": immaterial.pk}))
+
+
+class SearchView(View):
+    def get(self, request):
+        kwd = request.GET.get("kwd")
+        purchase_count 
+        purchase_object = models.Purchase.objects.filter(title__icontains = kwd)
+        # category에 의한 검색도 하고싶으나... 객체가 달라서 ㅠㅠ
+
+
+        return render(request, "purchases/search.html", {
+            "purchases": purchase_object, "purchases_count": purchase_count,
+        })
