@@ -6,7 +6,7 @@ class CreateMaterialForm(forms.Form):
 
     title = forms.CharField(initial="제목을 작성해주세요")
     category = forms.ChoiceField(choices=models.Material.category_choice, required=True)
-    closed = forms.DateTimeField()
+    closed = forms.DateTimeField(widget=forms.DateInput(attrs={"class": "datepicker"}))
     max_people = forms.IntegerField()
     price = forms.IntegerField()
     total = forms.IntegerField()
