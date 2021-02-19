@@ -15,13 +15,10 @@ from django.shortcuts import render, HttpResponse
 from . import models
 from . import forms
 from users import mixins
-<<<<<<< HEAD
 from alarms import views as alarm_views
 
-=======
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
->>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
 
 import requests
 
@@ -123,13 +120,10 @@ def material_attend_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
-<<<<<<< HEAD
         
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
-=======
         messages.success(request, "공동구매 참여 완료!")
->>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
 
@@ -138,11 +132,7 @@ def material_delete_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.remove(request.user)
         p.save()
-<<<<<<< HEAD
-
-=======
         messages.success(request, "공동구매 취소 완료!")
->>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
 
@@ -151,13 +141,10 @@ def immaterial_attend_view(request, pk):
         p = models.Immaterial.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
-<<<<<<< HEAD
 
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
-=======
         messages.success(request, "공동구매 참여 완료!")
->>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
     return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
 
 
