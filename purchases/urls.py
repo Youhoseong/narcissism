@@ -27,4 +27,5 @@ urlpatterns = [
         views.immaterial_delete_view,
         name="immaterial-delete",
     ),
+    path("search/", views.SearchView.as_view(), name="search"),
 ]

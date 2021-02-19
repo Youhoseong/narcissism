@@ -179,7 +179,6 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
         "gender",
         "bio",
         "birthdate",
-        "address",
         "qr_code",
     )
     success_message = "프로필 새단장 완료!"
@@ -195,5 +194,4 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
         form.fields["last_name"].widget.attrs = {"placeholder": "last_name"}
         form.fields["bio"].widget.attrs = {"placeholder": "bio"}
         form.fields["birthdate"].widget.attrs = {"placeholder": "birthdate"}
-        form.fields["address"].widget.attrs = {"placeholder": "address"}
         return form
