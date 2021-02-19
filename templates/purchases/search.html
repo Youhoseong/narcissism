@@ -9,8 +9,8 @@
 
 {% block content %}
     <h2>검색 결과</h2>
-{% if purchase_count > 0 %}
-
+{% if purchases_count > 0 %}
+    
     {% for purchase in purchases %}
         {% check_pk purchase.pk as p %}
         {% include "purchases/purchase_card.html" with purchase=p %}
