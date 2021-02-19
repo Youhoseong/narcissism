@@ -29,7 +29,9 @@
                 <div class="h-full flex flex-wrap my-7">
                     {% for purchase in user_obj.purchase.all %}
                         {% check_pk purchase.pk as p %}
-                        {% include 'purchases/purchase_card.html' with purchase=p %}
+                        <div class="w-1/2">
+                            {% include 'purchases/purchase_card.html' with purchase=p %}
+                        </div>
                     {% endfor %}
                 </div>
             {% endif %}

@@ -171,7 +171,7 @@ class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView)
         title = form.cleaned_data.get("title")
         closed = form.cleaned_data.get("closed")
         price = form.cleaned_data.get("price")
-        total = form.cleaned_data.get("total")
+        unit = form.cleaned_data.get("unit")
         category = form.cleaned_data.get("category")
         max_people = form.cleaned_data.get("max_people")
         explain = form.cleaned_data.get("explain")
@@ -182,7 +182,7 @@ class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView)
             title=title,
             closed=closed,
             price=price,
-            total=total,
+            unit=unit,
             category=category,
             max_people=max_people,
             explain=explain,

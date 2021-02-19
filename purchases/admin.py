@@ -18,7 +18,7 @@ class MaterialPurchaseAdmin(admin.ModelAdmin):
 
    fieldsets = (("Custom Profile", {
       "fields": (
-         "closed", "title", "category","host", "explain", "price", "max_people", "participants", "unit", "total", "link_address"
+         "closed", "title", "category","host", "explain", "price", "max_people", "participants", "unit", "link_address"
       )}),)
 
    list_display = (
@@ -29,7 +29,6 @@ class MaterialPurchaseAdmin(admin.ModelAdmin):
       "max_people",
       "address",
       "price",
-      "total",
       "unit",
       "amount_per_person",
       "price_per_person",
