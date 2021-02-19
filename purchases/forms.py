@@ -23,9 +23,19 @@ class CreateImmaterialForm(forms.ModelForm):
         model = models.Immaterial
         fields = ("title", "closed", "explain", "category", "max_people", "price")
         widgets = {"explain": forms.Textarea(attrs={"col": 40, "row": 30})}
+        labels = {
+            "title": "제목",
+            "closed": "마감 일자",
+            "explain": "본문",
+            "category": "카테고리",
+            "max_people": "공동구매 모집 인원",
+            "price": "상품 가격",
+        }
 
     photos = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={"multiple": True}), required=False
+        widget=forms.ClearableFileInput(attrs={"multiple": True}),
+        required=False,
+        label="상품 사진",
     )
 
     def save(self, *args, **kwargs):
