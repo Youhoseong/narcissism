@@ -17,6 +17,7 @@
 
             {% for field in form %}
                 <div class="input {% if field.errors %}has_error{% endif %} mb-2">
+                    {{field.label}}
                     {{field}}
                     {% if field.errors %}
                         {% for error in field.errors %}

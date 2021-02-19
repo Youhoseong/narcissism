@@ -4,20 +4,22 @@
     Search
 {% endblock page_title %}
 
-{% block search-bar %}
-{% endblock search-bar %}
+
 
 {% block content %}
-    <h2>검색 결과</h2>
-{% if purchases_count > 0 %}
-    
-    {% for purchase in purchases %}
-        {% check_pk purchase.pk as p %}
-        {% include "purchases/purchase_card.html" with purchase=p %}
-    {% endfor %}
 
-{% else %}
-    <span>검색 결과가 없습니다.</span>
+<div class="container w-full mx-auto text-center">
+    <div class=" mt-32 mb-5 pb-5 text-2xl font-dohyun text-gray-700">총 {{purchases_count}}개의 검색 결과를 찾았습니다.</div>
+    <div class="w-full flex flex-col mx-auto ">
 
-{% endif %}
+        {% for purchase in purchases %}
+            {% check_pk purchase.pk as p %}
+            <div class="mx-auto h-56 w-1/2 mb-10">
+            {% include "purchases/purchase_card.html" with purchase=p %}
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>
 {% endblock content %} 
