@@ -225,11 +225,18 @@ class CreateImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormVie
 class SearchView(View):
     def get(self, request):
         kwd = request.GET.get("kwd")
-        purchase_count 
-        purchase_object = models.Purchase.objects.filter(title__icontains = kwd)
+
+        if kwd=='':
+            purchase_object = 0
+            purchase_count = 0
+     
+        else:
+            purchase_object = models.Purchase.objects.filter(title__icontains = kwd, address=request.user.address)
+            purchase_count = purchase_object.count()
+
         # category에 의한 검색도 하고싶으나... 객체가 달라서 ㅠㅠ
 
-
         return render(request, "purchases/search.html", {
-            "purchases": purchase_object, "purchases_count": purchase_count,
+            "purchases": purchase_object, 
+            "purchases_count": purchase_count,
         })

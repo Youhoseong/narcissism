@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, FormView, CreateView
 from django.urls import reverse_lazy
 from . import models, forms
 from purchases import models as purchase_model
+from django.contrib import messages
 
 # Create your views here.
 
@@ -24,7 +25,7 @@ class MessageView(FormView):
         new_message = form.save()
         """form.save_m2m()"""
         new_message.save()
-
+        messages.success(self.request, "메시지를 전송했습니다.")
         return redirect(reverse("alarms:alarm_list"))
 
 def participant_full(request, purchase_model):
