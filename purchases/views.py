@@ -15,6 +15,7 @@ from django.shortcuts import render, HttpResponse
 from . import models
 from . import forms
 from users import mixins
+from alarms import views as alarm_views
 
 
 import requests
@@ -115,6 +116,9 @@ def material_attend_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
+        
+        if p.participants.count() == p.max_people:
+            alarm_views.participant_full(request, p)
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
 
@@ -123,6 +127,7 @@ def material_delete_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.remove(request.user)
         p.save()
+
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
 
@@ -131,6 +136,9 @@ def immaterial_attend_view(request, pk):
         p = models.Immaterial.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
+
+        if p.participants.count() == p.max_people:
+            alarm_views.participant_full(request, p)
     return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
 
 
