@@ -12,7 +12,7 @@
 
             <div class="mt-12 mr-9 text-white">
                 <a href="{% if not user.is_authenticated %} {% url 'users:signup' %} {% endif %}">
-                    <span class="float-right border text-4xl border-solid py-2 px-4 font-body mr-7 rounded-xl hover:text-gray-500 hover:border-gray-400 animate-bounce">Sign up</span>    
+                    <span class="float-right border text-4xl border-solid py-2 px-4 font-body mr-7 rounded-xl hover:text-gray-500 hover:border-gray-400 animate-bounce">{% if not user.is_authenticated %}Sign up{% else %}Start{% endif %}</span>    
                 </a>
             </div>
         

@@ -15,8 +15,13 @@ from django.shortcuts import render, HttpResponse
 from . import models
 from . import forms
 from users import mixins
+<<<<<<< HEAD
 from alarms import views as alarm_views
 
+=======
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+>>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
 
 import requests
 
@@ -76,6 +81,7 @@ class MaterialDetailView(mixins.LoggedInOnlyView, mixins.SameAreaOnlyView, Detai
             context=context, writer=user, purchase=purchase_obj
         )
         comment_obj.save()
+        messages.success(request, "댓글 업로드 완료!")
         return redirect(reverse("purchases:material", kwargs={"pk": purchase_pk}))
 
 
@@ -108,6 +114,7 @@ class ImmaterialDetailView(
             context=context, writer=user, purchase=purchase_obj
         )
         comment_obj.save()
+        messages.success(request, "댓글 업로드 완료!")
         return redirect(reverse("purchases:immaterial", kwargs={"pk": purchase_pk}))
 
 
@@ -116,9 +123,13 @@ def material_attend_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
+<<<<<<< HEAD
         
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
+=======
+        messages.success(request, "공동구매 참여 완료!")
+>>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
 
@@ -127,7 +138,11 @@ def material_delete_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.remove(request.user)
         p.save()
+<<<<<<< HEAD
 
+=======
+        messages.success(request, "공동구매 취소 완료!")
+>>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
 
@@ -136,9 +151,13 @@ def immaterial_attend_view(request, pk):
         p = models.Immaterial.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
+<<<<<<< HEAD
 
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
+=======
+        messages.success(request, "공동구매 참여 완료!")
+>>>>>>> 3cd35d90c3e783826569c7575c7169753f77fbbd
     return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
 
 
@@ -147,18 +166,20 @@ def immaterial_delete_view(request, pk):
         p = models.Immaterial.objects.get(pk=pk)
         p.participants.remove(request.user)
         p.save()
+        messages.success(request, "공동구매 참여 취소 완료!")
     return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
 
 
-class PurchaseDetailView(DetailView):
+class PurchaseDetailView(mixins.LoggedInOnlyView, DetailView):
     model = models.Purchase
     template_name = "purchases/purchase_detail.html"
 
 
-class CreateMaterialView(FormView):
+class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView):
     form_class = forms.CreateMaterialForm
     template_name = "purchases/create_material.html"
-
+ 
+    
     def form_valid(self, form):
         title = form.cleaned_data.get("title")
         closed = form.cleaned_data.get("closed")
@@ -188,10 +209,11 @@ class CreateMaterialView(FormView):
             for photo in photos:
                 new_photo = models.Photo.objects.create(file=photo, purchases=material)
                 new_photo.save()
+        messages.success(self.request, "게시물 업로드 완료")
         return redirect(reverse("purchases:material", kwargs={"pk": material.pk}))
 
 
-class CreateImmaterialView(FormView):
+class CreateImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView):
     form_class = forms.CreateImmaterialForm
     template_name = "purchases/create_immaterial.html"
 
@@ -209,4 +231,5 @@ class CreateImmaterialView(FormView):
                     file=photo, purchases=immaterial
                 )
                 new_photo.save()
+        messages.success(self.request, "게시물 업로드 완료")
         return redirect(reverse("purchases:immaterial", kwargs={"pk": immaterial.pk}))

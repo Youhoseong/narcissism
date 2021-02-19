@@ -139,6 +139,10 @@ GEOIP_PATH = os.path.join(BASE_DIR, "geoip")
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 MEDIA_URL = "/uploads/"
 
+from django.contrib.messages import constants as messages_constants
+
+MESSAGE_LEVEL = messages_constants.DEBUG
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
