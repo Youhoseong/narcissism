@@ -23,9 +23,10 @@ urlpatterns = [
         name="immaterial-attend",
     ),
     path(
-        "immaterial/delete/<int:pk>",
+        "immaterial/delete/<int:pk>/",
         views.immaterial_delete_view,
         name="immaterial-delete",
     ),
     path("search/", views.SearchView.as_view(), name="search"),
+    path("delete/<int:pk>/", views.purchase_delete_view, name="delete"),
 ]
