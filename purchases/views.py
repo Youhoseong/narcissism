@@ -285,10 +285,6 @@ class EditImmaterialView(UpdateView):
     template_name = "purchases/immaterial_edit.html"
     fields = {"title", "closed", "explain", "category", "max_people", "price"}
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
     def get_object(self, queryset=None):
         immaterial = super().get_object(queryset=queryset)
         if immaterial.host.pk == self.request.user.pk:
