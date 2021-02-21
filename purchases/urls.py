@@ -29,4 +29,14 @@ urlpatterns = [
     ),
     path("search/", views.SearchView.as_view(), name="search"),
     path("delete/<int:pk>/", views.purchase_delete_view, name="delete"),
+    path(
+        "material/edit/<int:pk>/",
+        views.EditMaterialView.as_view(),
+        name="material-edit",
+    ),
+    path(
+        "immaterial/edit/<int:pk>",
+        views.EditImmaterialView.as_view(),
+        name="immaterial-edit",
+    ),
 ]

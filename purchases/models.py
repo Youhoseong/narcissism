@@ -1,6 +1,7 @@
 from django.db import models
 from core import models as core_model
 from users import models as user_model
+from django.shortcuts import reverse
 
 # Create your models here.
 
@@ -27,8 +28,6 @@ class Purchase(core_model.TimeStampedModel):
     )
     price = models.IntegerField(default=0)  # 총 가격
     address = models.CharField(max_length=80, blank=True)  # 게시글 작성자 주소.
-
-
 
     def thumbnail(self):
         try:
@@ -65,7 +64,7 @@ class Material(Purchase):
 
     unit = models.CharField(max_length=5, blank=True)  # 단위
     total = models.IntegerField()  # 총 수량
-    link_address = models.TextField(blank=True)
+    link_address = models.URLField(blank=True)
     category = models.CharField(
         choices=category_choice, max_length=20, blank=False, default=category_food
     )
@@ -73,10 +72,11 @@ class Material(Purchase):
     def amount_per_person(self):
         return self.total / self.max_people
 
-    
-      
+    def get_absolute_url(self):
+        return reverse("purchases:material", kwargs={"pk": self.pk})
 
-class Immaterial(Purchase): # 물건 구매가 아닌 활동을 위한 사람을 구하는 게시글.
+
+class Immaterial(Purchase):  # 물건 구매가 아닌 활동을 위한 사람을 구하는 게시글.
     category_service = "인터넷 서비스 공유"
     category_education = "교육"
     category_hobby = "여가 활동"
@@ -92,3 +92,6 @@ class Immaterial(Purchase): # 물건 구매가 아닌 활동을 위한 사람을
     category = models.CharField(
         choices=category_choice, max_length=20, blank=False, default=category_service
     )
+
+    def get_absolute_url(self):
+        return reverse("purchases:immaterial", kwargs={"pk": self.pk})

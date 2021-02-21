@@ -7,6 +7,11 @@
             <a href="{% url 'purchases:delete' pk=purchase.pk %}?next={{request.path}}"><i class="fas fa-trash-alt absolute right-0"></a></i>
         {% endif %}
     </span>
+    <span class="text-gray-500 px-2 flex text-right relative -right-1 z-10">
+        {% if purchase.host == request.user %}
+            <a href="{% if check %}{% url 'purchases:material-edit' pk=purchase.pk %}{% else %}{% url 'purchases:immaterial-edit' pk=purchase.pk %}{% endif %}"><i class="fas fa-edit absolute top-6 right-0"></a></i>
+        {% endif %}
+    </span>
     <a href="{% if check %}{% url 'purchases:material' purchase.pk %}{% else %}{% url 'purchases:immaterial' purchase.pk %}{% endif %}" class="flex relative">
         <span class="absolute right-5 text-xs top-0">
             <span class="border rounded-md border-black py-1 px-2 mr-1">{{purchase.dong}}</span>

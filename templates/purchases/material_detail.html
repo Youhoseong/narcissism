@@ -50,6 +50,16 @@
             <span class="hover:bg-gray-700 duration-500 border rounded-md border-black bg-gray-300 text-white py-2 px-3">
                 {{purchase.category}}
             </span>
+            <span class="text-red-300 px-3 text-center py-1 text-lg">
+                {% if purchase.host == request.user %}
+                    <a href="{% url 'purchases:delete' pk=purchase.pk %}?next={{request.path}}"><i class="fas fa-trash-alt right-0"></a></i>
+                {% endif %}
+            </span>
+            <span class="text-gray-400 pr-3 text-center py-1 text-lg">
+                {% if purchase.host == request.user %}
+                    <a href="{% url 'purchases:material-edit' pk=purchase.pk %}"><i class="fas fa-edit right-0"></a></i>
+                {% endif %}
+            </span>
         </div>
     </div>
     <div class="container border-b border-t">

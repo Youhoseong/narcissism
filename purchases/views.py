@@ -1,7 +1,8 @@
 import os
+from django.http import Http404
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, View, FormView
+from django.views.generic import ListView, DetailView, View, FormView, UpdateView
 from django.core.paginator import Paginator
 from users import models as user_models
 from comments import models as comment_models
@@ -254,3 +255,43 @@ def purchase_delete_view(request, pk):
         p.delete()
         next = request.GET["next"]
         return redirect(next)
+
+
+class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
+    model = models.Material
+    template_name = "purchases/material_edit.html"
+    fields = (
+        "title",
+        "category",
+        "closed",
+        "max_people",
+        "price",
+        "total",
+        "unit",
+        "explain",
+        "link_address",
+    )
+
+    def get_object(self, queryset=None):
+        material = super().get_object(queryset=queryset)
+        if material.host.pk == self.request.user.pk:
+            return material
+        else:
+            raise Http404()
+
+
+class EditImmaterialView(UpdateView):
+    model = models.Immaterial
+    template_name = "purchases/immaterial_edit.html"
+    fields = {"title", "closed", "explain", "category", "max_people", "price"}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return context
+
+    def get_object(self, queryset=None):
+        immaterial = super().get_object(queryset=queryset)
+        if immaterial.host.pk == self.request.user.pk:
+            return immaterial
+        else:
+            raise Http404()
