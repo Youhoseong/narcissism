@@ -101,6 +101,7 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
                            infoDiv.innerHTML = result[i].address_name;
                            infoDiv2.innerHTML = result[i].address_name;
                            temp = result[i].address_name;
+                           console.log(temp);
                           }
                           break;
                       }
@@ -119,9 +120,8 @@ var container = document.getElementById('map'); //지도를 담을 영역의 DOM
                             },
                             dataType: "json",
                             async: false,
-                            success: function (data) {
-                                // any process in data
-                                alert("successfull")
+                            success: function () {
+                        
                             },
                             failure: function () {
                                 alert("failure");
