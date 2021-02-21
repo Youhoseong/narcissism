@@ -71,8 +71,7 @@ class Material(Purchase):
         choices=category_choice, max_length=20, blank=False, default=category_food
     )
 
-    def amount_per_person(self):
-        return self.total / self.max_people
+
 
     
       

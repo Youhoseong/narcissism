@@ -222,7 +222,7 @@ class CreateImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormVie
         return redirect(reverse("purchases:immaterial", kwargs={"pk": immaterial.pk}))
 
 
-class SearchView(View):
+class SearchView(mixins.LoggedInOnlyView, View):
     def get(self, request):
         kwd = request.GET.get("kwd")
 
