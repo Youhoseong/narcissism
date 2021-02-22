@@ -15,54 +15,142 @@
 @tailwind components;
 
 .nav_link{
-    @apply mx-8 border-b-4 border-white h-full flex items-center duration-500;
+    @apply mx-5 border-b-4 border-white h-full flex flex-col items-center duration-500 relative;
     a {
-        @apply py-10 px-5;
-    }
+        @apply w-36 text-center;
+        padding-bottom: 30px;
+        padding-top: 30px;
+        display: block;
+    };
+    div.drop-down {   
+        @apply bg-gray-100 rounded-xl duration-500 shadow-xl absolute top-20 border-2 pt-1 border-gray-300 p-1;
+        display: none;
+        a {
+            @apply py-3 px-1 w-48 mb-1;
 
-    &:hover {
-        @apply border-yellow-400 animate-pulse;
+            &:hover {
+                @apply bg-gray-200 duration-500 rounded-xl ;
+            }
+        }
+        
+ 
     }
+    &:hover {
+        @apply border-gray-400 duration-500;
+        .drop-down {
+            display: block;
+        }
+    }
+    
 };
 
 
 .profile_link{
-    @apply ml-8 border-white h-full flex items-center;
+    @apply ml-12 border-white h-full flex flex-col items-center relative;
     a {
-        @apply py-10 px-5;
+        @apply w-24 text-center my-auto;
+        display: block;
+    }
+
+    div.drop-down {
+        @apply bg-gray-100 p-1 rounded-lg duration-500 pt-1 absolute top-20 right-3 text-center border-2 border-gray-300;
+        display: none;
+        a {
+            @apply py-3 px-1 w-28 mb-1;
+            &:hover {
+                @apply bg-gray-200 duration-500 rounded-xl;
+            }
+        }
     }
 
     &:hover {
-        @apply animate-pulse;
+        
+        .drop-down {
+            display: block;
+        }
     }
 };
 
 .verify_btn {
-   @apply transition duration-500 transform  py-3 px-7 font-medium rounded-md text-center  mr-2 border-2 border-black;
+   @apply transition duration-500 transform  py-3 px-7 font-medium rounded-md text-center mr-2 border-2 border-black;
 
    &:hover {
        @apply scale-110;
    }
-}
+};
 
 
 
 .btn{
     @apply w-full text-center rounded-2xl py-5 font-light text-lg;
-}
+};
+
+textarea[name="explain"] {
+    height: 200px;
+};
 
 input,
 textarea{
-    @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
+    @apply rounded-2xl py-5 items-center font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
 };
 
+/*
 textarea {
     resize: none;
     height: 100px;
+};
+*/
+
+select.ui-datepicker-month,
+select.ui-datepicker-year {
+    @apply py-0 px-1;
 }
 
 select {
     @apply rounded-2xl py-5 font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
+};
+
+
+@keyframes messageFadeIn {
+    0% {
+        opacity: 0;
+        transform:translateY(-50px);
+        display: none;
+    }
+
+    5% {
+        opacity: 1;
+        transform:translateY(40px);
+    }
+
+    95% {
+        opacity: 1;
+        transform:translateY(40px);
+    }
+
+    100% {
+        opacity: 0;
+        transform:translateY(-50px);
+    }
 }
 
-@tailwind utilities;
+.message {
+    
+    animation: messageFadeIn 5s ease-in-out forwards;
+    &.error {
+        @apply bg-red-600 border border-red-600;
+    }
+
+    &.info {
+        @apply bg-blue-500 border border-blue-500;
+    }
+
+    &.success {
+        @apply bg-green-500 border border-green-500;
+    }
+
+    &.warning {
+        @apply bg-yellow-400 border border-yellow-400;
+    }
+}
+ @tailwind utilities;

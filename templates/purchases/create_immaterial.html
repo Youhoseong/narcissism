@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Create Immaterial
+{% endblock page_title %}
+
+{% block content %}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+    $( function() {
+        $( "#id_closed" ).datepicker({
+            changeMonth: true,
+            changeYear: true
+        });
+    } );
+    </script>
+
+    <div class="container lg:w-5/12 md:w-1/2 xl:w-1/2 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+        {% include "mixins/purchases/purchase_form.html" with form=form cta="Immaterial" %}
+    </div>
+
+{% endblock content %}
