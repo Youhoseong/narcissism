@@ -97,7 +97,7 @@
                     <span class="text-black">{{purchase.unit}} =></span>  {{purchase.max_people}}명이서 분배
                 </div>
                 <div class="mb-5">
-                    <span class="text-black">상품 링크:</span> {{purchase.link_address}}
+                    <span class="text-red-400">상품 링크:</span> {{purchase.link_address}}
                 </div>
                 <div class="mb-5 border-t pt-4">
                     <span class="text-red-400 font-semibold">모집 현황:</span> {{purchase.participants.count}} / {{purchase.max_people}}
@@ -121,7 +121,7 @@
                 </a>
             {% elif isIncluded is False or purchase.participants.count == 0 %} 
                 <a href="{% url 'purchases:material-attend' purchase.pk %}">
-                    <button class="border w-full h-16 rounded-md border-black mb-6 hover:bg-yellow-300 duration-500">
+                    <button class="border w-full h-16 rounded-md border-black mb-6 bg-yellow-300 hover:bg-yellow-50">
                         참여
                     </button>
                 </a>
@@ -173,13 +173,6 @@
                 <div class="mt-3 ml-3">
                     {{comment.writer}}
                 </div>
-                <span class="mt-3 ml-3 text-red-300"> 
-                    {% if comment.writer == request.user %}
-                    <a href="{% url 'comments:delete' pk=comment.pk %}">
-                        <i class="fas fa-trash-alt"></i>
-                    </a>
-                    {% endif %}
-                </span>
     
             </div>
             <div class="container mt-3 mr-5 text-sm text-right">
@@ -190,7 +183,18 @@
         <div class="w-11/12 h-16 ml-16 pt-2 pl-3 text-sm mb-5 bg-gray-200 rounded-2xl">
             {{comment.context}}
         </div>
- 
+        <div class="text-center w-1/2 ml-16 pl-3 rounded-full text-red-400 bg-gray-200">
+            <span class="text-black mr-6">
+                굳
+            </span>
+
+            {% if comment.writer == request.user %}
+                <a href="#">
+                    X
+                </a>
+            {% endif %}
+        </div>
+
         <div class="border-b py-3">
 
         </div>

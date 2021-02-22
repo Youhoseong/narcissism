@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load pagetags %}
+
+{% block content %}
+
+<div class="w-full flex flex-col my-3 mx-auto  items-center">
+    {% for purchase in purchases %}
+        {% check_pk purchase.pk as p %}
+            {% include "purchases/purchase_card.html" with purchase=p %}
+    {% endfor %}
+</div>
+
+{% endblock content %}
