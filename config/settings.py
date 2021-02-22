@@ -33,18 +33,16 @@ DJANGO_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "geoip2",
     "django.contrib.humanize",
 ]
 
 PROJECT_APPS = [
-    # "chats.apps.ChatsConfig",
+
     "users.apps.UsersConfig",
     "purchases.apps.PurchasesConfig",
     "core.apps.CoreConfig",
     "lists.apps.ListsConfig",
     "reviews.apps.ReviewsConfig",
-    "kakaotalk_channel.apps.KakaotalkChannelConfig",
     "comments.apps.CommentsConfig",
     "alarms.apps.AlarmsConfig",
 ]
@@ -130,7 +128,7 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 

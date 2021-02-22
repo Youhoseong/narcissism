@@ -173,6 +173,13 @@
                 <div class="mt-3 ml-3">
                     {{comment.writer}}
                 </div>
+                <span class="mt-3 ml-3 text-red-300"> 
+                    {% if comment.writer == request.user %}
+                    <a href="{% url 'comments:delete' pk=comment.pk %}">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                    {% endif %}
+                </span>
     
             </div>
             <div class="container mt-3 mr-5 text-sm text-right">
@@ -183,17 +190,7 @@
         <div class="w-11/12 h-16 ml-16 pt-2 pl-3 text-sm mb-5 bg-gray-200 rounded-2xl">
             {{comment.context}}
         </div>
-        <div class="text-center w-1/2 ml-16 pl-3 rounded-full text-red-400 bg-gray-200">
-            <span class="text-black mr-6">
-                굳
-            </span>
-
-            {% if comment.writer == request.user %}
-                <a href="#">
-                    X
-                </a>
-            {% endif %}
-        </div>
+     
 
         <div class="border-b py-3">
 
