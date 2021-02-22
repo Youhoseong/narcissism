@@ -227,13 +227,8 @@ class SearchView(mixins.LoggedInOnlyView, View):
     def get(self, request):
         kwd = request.GET.get("kwd")
 
-<<<<<<< HEAD
-        if kwd == "":
-            purchase_object = 0
-=======
         if kwd=='':
             purchase_object = None
->>>>>>> 9bd9b157b5baecea486dbe767a09abfae8153a4b
             purchase_count = 0
 
         else:
