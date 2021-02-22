@@ -260,6 +260,7 @@ def purchase_delete_view(request, pk):
 class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
     model = models.Material
     template_name = "purchases/material_edit.html"
+    success_message = "수정 완료"
     fields = (
         "title",
         "category",
@@ -280,9 +281,10 @@ class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView)
             raise Http404()
 
 
-class EditImmaterialView(UpdateView):
+class EditImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
     model = models.Immaterial
     template_name = "purchases/immaterial_edit.html"
+    success_message = "수정 완료"
     fields = {"title", "closed", "explain", "category", "max_people", "price"}
 
     def get_object(self, queryset=None):
