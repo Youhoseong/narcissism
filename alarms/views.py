@@ -25,6 +25,7 @@ class MessageView(mixins.LoggedInOnlyView, FormView):
     def form_valid(self, form):
         new_message = form.save()
         """form.save_m2m()"""
+        new_message.sender = self.request.user
         new_message.save()
         messages.success(self.request, "메시지를 전송했습니다.")
         return redirect(reverse("alarms:alarm_list"))
