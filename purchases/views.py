@@ -227,14 +227,13 @@ class SearchView(mixins.LoggedInOnlyView, View):
         kwd = request.GET.get("kwd")
 
         if kwd=='':
-            purchase_object = 0
+            purchase_object = None
             purchase_count = 0
      
         else:
             purchase_object = models.Purchase.objects.filter(title__icontains = kwd, address=request.user.address)
             purchase_count = purchase_object.count()
 
-        # category에 의한 검색도 하고싶으나... 객체가 달라서 ㅠㅠ
 
         return render(request, "purchases/search.html", {
             "purchases": purchase_object, 
