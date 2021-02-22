@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.messages.views import SuccessMessageMixin
 from . import models, forms
 from . import mixins
-from users import models as user_models
+from purchases import models as purchase_models
 from django.views.decorators.http import require_http_methods
 # Create your views here.
 
@@ -193,3 +193,17 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
         form.fields["bio"].widget.attrs = {"placeholder": "bio"}
         form.fields["birthdate"].widget.attrs = {"placeholder": "birthdate"}
         return form
+
+class ShopListView(mixins.LoggedInOnlyView, ListView):
+    model = models.User
+    template_name = "users/list.html"
+
+    def get(self, request):
+        return render(
+            request,
+            "users/list.html",
+            {
+                "purchases": request.user.participate.all(),
+            },
+        )
+
