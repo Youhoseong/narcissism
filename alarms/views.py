@@ -29,6 +29,8 @@ class MessageView(mixins.LoggedInOnlyView, FormView):
         messages.success(self.request, "메시지를 전송했습니다.")
         return redirect(reverse("alarms:alarm_list"))
 
+
+
 def participant_full(request, purchase_model):
     print("넘어왓으")
     sender = purchase_model.host

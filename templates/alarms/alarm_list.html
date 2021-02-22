@@ -3,14 +3,13 @@
 {% block content %}
 
 
-
-<div class="flex flex-col my-3 h-full items-center">
-    <a href="{% url 'alarms:message' %}" class="btn bg-red-500 text-white">New Message</a>
+<div class="w-full flex flex-col my-3 mx-auto  items-center">
     {% for alarm in alarms %}
     {% if alarm.receiver == request.user %}
     {% include "alarms/alarm_card.html" with alarm=alarm %}
     {% endif %}
     {% endfor %}
+    <a href="{% url 'alarms:message' %}" class="btn bg-red-500 text-white w-1/3">New Message</a>
 </div>
 
 {% endblock content %}
