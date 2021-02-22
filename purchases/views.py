@@ -190,6 +190,7 @@ class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView)
             host=user,
             address=user.address,
         )
+    
         material.save()
         photos = self.request.FILES.getlist("photos")
         if photos is not None:
