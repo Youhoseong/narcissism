@@ -33,6 +33,7 @@ class User(AbstractUser):
         return reverse("users:profile", kwargs={"pk": self.pk})
 
     location_verified = models.BooleanField(default=False)
+    recent_location_verify_code = models.CharField(max_length=1, blank=True)
     login_method = models.CharField(
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )

@@ -4,20 +4,21 @@ from django.urls import reverse_lazy
 from . import models, forms
 from purchases import models as purchase_model
 from django.contrib import messages
-
+from users import mixins
+from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
-class AlarmView(ListView):
+class AlarmView(mixins.LoggedInOnlyView, ListView):
     model = models.Alarm
     template_name = "alarms/alarm_list.html"
     context_object_name = "alarms"
     ordering = "-created"
 
-class AlarmDetailView(DetailView):
+class AlarmDetailView(mixins.LoggedInOnlyView, DetailView):
     model = models.Alarm
     template_name = "alarms/alarm_detail.html"
 
-class MessageView(FormView):
+class MessageView(mixins.LoggedInOnlyView, FormView):
     template_name = "alarms/write_msg.html"
     form_class = forms.MessageForm
 

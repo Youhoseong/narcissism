@@ -4,9 +4,8 @@
 
 {% block content %}
 
-    
-    <div class="container relative bg-gray-800 h-50vh {% if user.is_authenticated %} mt-32 {% else %} mt-8 {% endif %} mb-12 bg-cover max-w-full bg-top shadow-2xl" style="background-image:url(https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&)">
-        <div class="container mx-auto flex flex-col absolute bottom-12">
+    <div class="container relative bg-gray-800 h-50vh {% if user.is_authenticated %} mt-32 {% else %} mt-8 {% endif %} mb-12 bg-cover max-w-full mx-auto bg-top shadow-2xl" style="background-image:url(https://images.unsplash.com/photo-1472289065668-ce650ac443d2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&)">
+        <div class="container mx-auto flex flex-col absolute bottom-12 right-5">
             <span class="mt-7 mr-7 font-body text-right text-white text-5xl">Share with your neighborhood</span>
             <span class="mr-7 font-body text-right text-red-400 text-5xl">Anything.</span>
 
@@ -40,61 +39,70 @@
         <div class="container text-center">
 
         {% if user.is_authenticated %}
-            <div class="container">
-                <div class="w-full my-5 border-t-8"></div>
-                <div class="text-xl">
-                    <span class="bg-clip-text font-extrabold text-transparent bg-gray-700">
-                       {{user.address}}
-                    </span>
-                    <span class="text-xl">공동구매 현황</span>   
-                </div>
-                   
-          
-                <div class="w-full my-5 border-b-8"></div>
-            </div>
-            <div class="container w-full text-right">
-                <span>
-                    <button id="newly" onclick="newly_click();" class="border-transparent">최신순</button>
+            {% if user.location_verified %}
+                {% ifnotequal user.address "" %}
+                    <div class="container">
+                        <div class="w-full my-5 border-t-8"></div>
+                        <div class="text-xl">
+                            <span class="bg-clip-text font-extrabold text-transparent bg-gray-700">
+                            {{user.address}}
+                            </span>
+                            <span class="text-xl">공동구매 현황</span>   
+                        </div>
+                        
+                
+                        <div class="w-full my-5 border-b-8"></div>
+                    </div>
+                    <div class="container w-full text-right">
+                        <span>
+                            <button id="newly" onclick="newly_click();" class="border-transparent">최신순</button>
+                            
+                            <span>|</span>
+
+                            <button id="category" onclick="category_click();" class="border-transparent">카테고리</button>
+
+                        </span>
+                    </div>
+
                     
-                    <span>|</span>
 
-                    <button id="category" onclick="category_click();" class="border-transparent">카테고리</button>
-
-                </span>
-            </div>
-
+                    <div class="flex flex-wrap my-7 h-full">
+                        {% for purchase in purchases %}
+                            {% check_pk purchase.pk as p %}
+                            <div class="w-1/2">
+                                {% include "purchases/purchase_card.html" with purchase=p %}
+                            </div>
+                        {% endfor %}
+                    </div>
             
-
-            <div class="flex flex-wrap my-7 h-full">
-                {% for purchase in purchases %}
-                    {% check_pk purchase.pk as p %}
-                    {% include "purchases/purchase_card.html" with purchase=p %}
-               
-                {% endfor %}
-            </div>
-      
-            <div class="font-sans-kr text-center">
-                {% if page_obj.number > 1 %}
-                    <a href="?page=1">
-                        <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> < </span>
-                    </a>
-                {% endif %}
-                {% page_range page_obj.number page_obj.paginator.num_pages as pages %}
-                {% for page in pages %}
-                    {% if page == page_obj.number %}
-                        <span class="text-xl font-bold border-b border-black">{{page}}</span>
+                    <div class="font-sans-kr text-center">
+                        {% if page_obj.number > 1 %}
+                            <a href="?page=1">
+                                <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> < </span>
+                            </a>
+                        {% endif %}
+                        {% page_range page_obj.number page_obj.paginator.num_pages as pages %}
+                        {% for page in pages %}
+                            {% if page == page_obj.number %}
+                                <span class="text-xl font-bold border-b border-black">{{page}}</span>
+                            {% else %}
+                                <a href="?page={{page}}" >
+                                    <span class="text-xl border-b border-white hover:border-black">{{page}}</span>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                        {% if page_obj.number < page_obj.paginator.num_pages %}
+                            <a href="?page={{page_obj.paginator.num_pages}}">
+                                <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> > </span>
+                            </a>
+                        {% endif %}
+                    </div>
                     {% else %}
-                        <a href="?page={{page}}" >
-                            <span class="text-xl border-b border-white hover:border-black">{{page}}</span>
-                        </a>
-                    {% endif %}
-                {% endfor %}
-                {% if page_obj.number < page_obj.paginator.num_pages %}
-                    <a href="?page={{page_obj.paginator.num_pages}}">
-                        <span class="text-xl border-b mx-3 border-white hover:border-black font-semibold"> > </span>
-                    </a>
-                {% endif %}
-            </div>
+                        <div class="text-lg"> 지역인증을 진행하면 게시물을 확인할 수 있습니다.  </div>
+                    {% endifnotequal %}
+            {% else %} 
+                        <div class="text-lg"> 지역인증을 진행하면 게시물을 확인할 수 있습니다.  </div>
+            {% endif %}
         {% endif %}
     </div>
     

@@ -1,6 +1,6 @@
 {% load humanize %}
 {% load pagetags %}
-<div class="p-4 transition duration-500 ease-in-out container h-56 w-1/2 mb-10 overflow-hidden shadow hover:shadow-lg rounded-xl border-transparent hover:bg-gray-100 ">
+<div class="p-4 transition duration-500 ease-in-out container h-56 w-full mb-10 overflow-hidden shadow hover:shadow-lg rounded-xl border-transparent hover:bg-gray-100 ">
     {% check_class purchase.pk as check %}
     <span class="text-red-300 px-2 flex text-right relative right-0 z-10">
         {% if purchase.host == request.user %}

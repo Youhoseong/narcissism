@@ -4,13 +4,13 @@ from django.views.generic import FormView, ListView, DetailView, UpdateView
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.gis.geoip2 import GeoIP2
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.contrib.messages.views import SuccessMessageMixin
 from . import models, forms
 from . import mixins
-
+from users import models as user_models
+from django.views.decorators.http import require_http_methods
 # Create your views here.
 
 
@@ -56,54 +56,52 @@ class LocationVerifyView(mixins.LoggedInOnlyView, ListView):
     context_object_name = "users"
 
     def get(self, request):
-        x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
         client_id = os.environ.get("KAKAO_MAP_KEY")
-
-        if x_forwarded_for:
-            ip = x_forwarded_for.split(",")[0]
-        else:
-            ip = request.META.get("REMOTE_ADDR")
-
-        g = GeoIP2()
 
         return render(
             request,
             "users/location_verify.html",
             {
-                "ip": ip,
-                "latt": g.city("218.146.29.228").get("latitude"),
-                "long": g.city("218.146.29.228").get("longitude"),
                 "client_id_kakao": client_id,
             },
         )
 
-
+    
 @csrf_exempt
 def verify_complete(request):
-    try:
-        if request.method == 'POST':
+    if request.method == 'POST':
+        try:
+            user = models.User.objects.get(pk=request.user.pk)
             location = request.POST.get('location')
-            print(location)
-            if location == None:
+            temp_location = location.replace(" ","")
+           
+            if location == None or temp_location == "":
+                user.recent_location_verify_code = "0"
+                user.save()
                 raise LocationException()
             else:
-                print(location)
-                try:
-                    user = models.User.objects.get(pk=request.user.pk)
-                    print(user.username)
-                    user.address = location
-                    user.location_verified = True
-                    user.save()
-                except models.User.DoesNotExist:
-                    raise LocationException()
+                print(location + "앙")
+                user.address = location
+                user.location_verified = True
+                user.recent_location_verify_code = "1"
+                user.save()
+                return redirect(reverse("core:home"))
+   
+        except LocationException:
+            messages.error(request, "지역 업데이트 오류")
+            return redirect(reverse("core:home"))
 
-        messages.success(request, f"{request.user.first_name}님의 지역정보를 업데이트 합니다.")
-        return redirect(reverse("core:home"))
+    else:
+        user = models.User.objects.get(pk=request.user.pk)
 
-    except LocationException as e:
-        messages.error(request, "지역 인증에 오류가 발생했습니다.")
-        return redirect(reverse("core:home"))
+        if user.recent_location_verify_code =="0":
+            messages.error(request, "지역 인증에 오류가 있습니다.")
+            return redirect(reverse("users:verify"))
+        else:
+            messages.success(request, f"{request.user.first_name}님의 지역정보를 업데이트 합니다.")
+            return redirect(reverse("core:home"))
 
+  
 
 class LoginView(mixins.LoggedOutOnlyView, FormView):
 
