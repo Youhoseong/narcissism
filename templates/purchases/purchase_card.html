@@ -16,12 +16,15 @@
     {% endcomment %}
     <a href="{% if check %}{% url 'purchases:material' purchase.pk %}{% else %}{% url 'purchases:immaterial' purchase.pk %}{% endif %}" class="flex relative">
         <span class="absolute right-5 text-xs top-0">
+            {% is_expired purchase as is_expired %}
             {% if purchase.status == "기간 만료" %}
                 <span class="bg-black text-white rounded-md py-1 px-2 mr-1">{{purchase.status}}</span>
             {% elif purchase.status == "모집 완료" %}
                 <span class="bg-yellow-500 text-white rounded-md py-1 px-2 mr-1">{{purchase.status}}</span>
             {% elif purchase.status == "거래 완료" %}
                 <span class="bg-gray-600 text-white rounded-md py-1 px-2 mr-1">{{purchase.status}}</span>
+            {% elif is_expired %}
+                !!!
             {% endif %}
             <span class="border rounded-md border-black py-1 px-2 mr-1">{{purchase.dong}}</span>
             <span class="border rounded-md text-center border-black py-1 px-2">{{purchase.category}}</span>

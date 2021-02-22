@@ -120,10 +120,11 @@ def material_attend_view(request, pk):
     if request.method == "GET":
         p = models.Material.objects.get(pk=pk)
         p.participants.add(request.user)
-        p.save()
 
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
+            p.status = models.Purchase.status_recruite_end
+        p.save()
         messages.success(request, "공동구매 참여 완료!")
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
@@ -141,10 +142,12 @@ def immaterial_attend_view(request, pk):
     if request.method == "GET":
         p = models.Immaterial.objects.get(pk=pk)
         p.participants.add(request.user)
-        p.save()
 
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
+            p.status = models.Purchase.status_recruite_end
+
+        p.save()
         messages.success(request, "공동구매 참여 완료!")
     return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
 
