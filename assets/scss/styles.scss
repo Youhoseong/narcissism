@@ -72,7 +72,7 @@
 };
 
 .verify_btn {
-   @apply transition duration-500 transform  py-3 px-7 font-medium rounded-md text-center mr-2 border-2 border-black;
+   @apply transition duration-500 py-3 px-7 font-medium rounded-md text-center mr-2 border-2 border-black;
 
    &:hover {
        @apply scale-110;

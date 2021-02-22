@@ -35,8 +35,14 @@
         {% block search-bar %}
         
             {% if user.location_verified %} 
-              <form method="get" action="#" class="w-9/12">
-                <input class="duration-500 border-collapse px-5 font-medium placeholder-black py-3 rounded-lg w-full shadow-md hover:shadow-xl focus:outline-none" name="city" placeholder="검색해보세요." />
+              <form method="get" action="{% url 'purchases:search' %}" class="w-9/12">
+                <div class="border-transparent bg-transparent w-2/3  bg-gray-200 rounded-2xl flex relative">
+                  <input class="font-dohyun text-md px-5 border-transparent bg-gray-200 placeholder-gray-400 focus:outline-none py-2 w-full" name="kwd" placeholder="Search keyword...">
+  
+                  </input>
+                  
+                  <button class="fas fa-search text-red-400 absolute mt-1 top-3 right-3"></button>
+                </div>
               </form>
             {% endif %}
   

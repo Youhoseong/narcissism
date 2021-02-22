@@ -20,4 +20,5 @@ class CustomUserAdmin(UserAdmin):
         "email_verified",
         "login_method",
         "location_verified",
+        "recent_location_verify_code"
     )

@@ -1,6 +1,6 @@
 {% load humanize %}
 {% load pagetags %}
-<div class="p-4 transition duration-500 ease-in-out container h-56 w-1/2 mb-10 overflow-hidden shadow hover:shadow-lg rounded-xl border-transparent hover:bg-gray-100 ">
+<div class="p-4 transition duration-500 ease-in-out container h-56 w-full mb-10 overflow-hidden shadow hover:shadow-lg rounded-xl border-transparent hover:bg-gray-100 ">
     {% check_class purchase.pk as check %}
     <a href="{% if check %}{% url 'purchases:material' purchase.pk %}{% else %}{% url 'purchases:immaterial' purchase.pk %}{% endif %}" class="flex relative">
         <span class="absolute right-0 text-xs top-0">

@@ -132,7 +132,6 @@ def material_delete_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.remove(request.user)
         p.save()
-
         messages.success(request, "공동구매 취소 완료!")
     return redirect(reverse("purchases:material", kwargs={"pk": pk}))
 
@@ -172,7 +171,7 @@ class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView)
         title = form.cleaned_data.get("title")
         closed = form.cleaned_data.get("closed")
         price = form.cleaned_data.get("price")
-        total = form.cleaned_data.get("total")
+        unit = form.cleaned_data.get("unit")
         category = form.cleaned_data.get("category")
         max_people = form.cleaned_data.get("max_people")
         explain = form.cleaned_data.get("explain")
@@ -183,7 +182,7 @@ class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView)
             title=title,
             closed=closed,
             price=price,
-            total=total,
+            unit=unit,
             category=category,
             max_people=max_people,
             explain=explain,
@@ -221,3 +220,23 @@ class CreateImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormVie
                 new_photo.save()
         messages.success(self.request, "게시물 업로드 완료")
         return redirect(reverse("purchases:immaterial", kwargs={"pk": immaterial.pk}))
+
+
+class SearchView(mixins.LoggedInOnlyView, View):
+    def get(self, request):
+        kwd = request.GET.get("kwd")
+
+        if kwd=='':
+            purchase_object = 0
+            purchase_count = 0
+     
+        else:
+            purchase_object = models.Purchase.objects.filter(title__icontains = kwd, address=request.user.address)
+            purchase_count = purchase_object.count()
+
+        # category에 의한 검색도 하고싶으나... 객체가 달라서 ㅠㅠ
+
+        return render(request, "purchases/search.html", {
+            "purchases": purchase_object, 
+            "purchases_count": purchase_count,
+        })

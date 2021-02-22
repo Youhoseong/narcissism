@@ -34,7 +34,7 @@
               
             </div>
             <div class="w-1/3 text-left my-auto">
-                <a href="#">
+                <a href="{% url 'alarms:message' %}">
                     <span class="w-1/2 py-2 px-4 h-full duration-500 text-yellow-500 text-md hover:bg-gray-300 rounded-md">메시지</span>
                 </a>
             </div>
@@ -69,7 +69,7 @@
         <div class="container w-full flex h-full border rounded-lg border-gray-100 shadow-md bg-gray-100 text-lg py-10 my-10 text-center">
             <div class="ml-2 container w-1/3">
                 <div class="container mx-auto w-44 h-44 border bg-cover bg-center rounded-lg m-2" style="background-image: url({{purchase.thumbnail}});"></div>
-                <div>{{purchase.price | intcomma}}₩</div>
+                <div>총 {{purchase.price | intcomma}}원</div>
             </div>
             <div class="container w-1/2 mt-2 text-left ml-5">
                 <div class="text-xl font-medium text-center pb-2 border-b border-black mb-5">
@@ -77,13 +77,13 @@
                 </div>
 
                 <div class="mb-5">
-                    <span class="text-black font-medium">1인당 지불:</span> {{purchase.price_per_person | intcomma}}₩
+                    <span class="text-black font-medium">1인당 지불:</span> {{purchase.price_per_person | intcomma}}원
                 </div>
                 <div class="mb-5">
                     <span class="text-black font-medium">상품 링크:</span> {{purchase.link_address}}
                 </div>
                 <div class="mb-5 border-t pt-4">
-                    <span class="text-black font-medium">참여 인원:</span> {{purchase.participants.count}}명 |  <span class="text-black font-medium">모집 인원:</span> {{purchase.max_people}}명
+                    <span class="text-red-400 font-semibold">모집 현황:</span> {{purchase.participants.count}} / {{purchase.max_people}}
                 </div>
           
             
