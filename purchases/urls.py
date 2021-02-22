@@ -39,4 +39,5 @@ urlpatterns = [
         views.EditImmaterialView.as_view(),
         name="immaterial-edit",
     ),
+    path("photo/delete/<int:pk>", views.delete_photo_view, name="photo-delete"),
 ]

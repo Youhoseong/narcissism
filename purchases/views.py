@@ -163,7 +163,12 @@ class PurchaseDetailView(mixins.LoggedInOnlyView, DetailView):
     template_name = "purchases/purchase_detail.html"
 
 
-class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView):
+class CreateMaterialView(
+    SuccessMessageMixin,
+    mixins.LoggedInOnlyView,
+    mixins.LocationVerifiedOnlyView,
+    FormView,
+):
     form_class = forms.CreateMaterialForm
     template_name = "purchases/create_material.html"
 
@@ -201,7 +206,12 @@ class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView)
         return redirect(reverse("purchases:material", kwargs={"pk": material.pk}))
 
 
-class CreateImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView):
+class CreateImmaterialView(
+    SuccessMessageMixin,
+    mixins.LocationVerifiedOnlyView,
+    mixins.LoggedInOnlyView,
+    FormView,
+):
     form_class = forms.CreateImmaterialForm
     template_name = "purchases/create_immaterial.html"
 
@@ -227,7 +237,7 @@ class SearchView(mixins.LoggedInOnlyView, View):
     def get(self, request):
         kwd = request.GET.get("kwd")
 
-        if kwd=='':
+        if kwd == "":
             purchase_object = None
             purchase_count = 0
 
@@ -236,7 +246,6 @@ class SearchView(mixins.LoggedInOnlyView, View):
                 title__icontains=kwd, address=request.user.address
             )
             purchase_count = purchase_object.count()
-
 
         return render(
             request,
@@ -259,17 +268,9 @@ def purchase_delete_view(request, pk):
 
 class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
     model = models.Material
+    form_class = forms.EditMaterialForm
     template_name = "purchases/material_edit.html"
-    fields = (
-        "title",
-        "category",
-        "closed",
-        "max_people",
-        "price",
-        "unit",
-        "explain",
-        "link_address",
-    )
+    success_message = "수정 완료"
 
     def get_object(self, queryset=None):
         material = super().get_object(queryset=queryset)
@@ -278,11 +279,28 @@ class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView)
         else:
             raise Http404()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        return context
 
-class EditImmaterialView(UpdateView):
+    def form_valid(self, form):
+        photos = self.request.FILES.getlist("photos")
+        pk = self.kwargs["pk"]
+        material = models.Material.objects.get(pk=pk)
+        print(pk)
+        if photos is not None:
+            for photo in photos:
+                new_photo = models.Photo.objects.create(file=photo, purchases=material)
+                new_photo.save()
+        return super().form_valid(form)
+
+
+class EditImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
     model = models.Immaterial
     template_name = "purchases/immaterial_edit.html"
-    fields = {"title", "closed", "explain", "category", "max_people", "price"}
+    success_message = "수정 완료"
+    form_class = forms.EditImaterialForm
 
     def get_object(self, queryset=None):
         immaterial = super().get_object(queryset=queryset)
@@ -290,3 +308,25 @@ class EditImmaterialView(UpdateView):
             return immaterial
         else:
             raise Http404()
+
+    def form_valid(self, form):
+        photos = self.request.FILES.getlist("photos")
+        pk = self.kwargs["pk"]
+        immaterial = models.Immaterial.objects.get(pk=pk)
+        print(pk)
+        if photos is not None:
+            for photo in photos:
+                new_photo = models.Photo.objects.create(
+                    file=photo, purchases=immaterial
+                )
+                new_photo.save()
+        return super().form_valid(form)
+
+
+def delete_photo_view(request, pk):
+    if request.method == "GET":
+        photo = models.Photo.objects.get(pk=pk)
+        messages.success(request, "사진 삭제 완료")
+        photo.delete()
+        next = request.GET["next"]
+        return redirect(next)
