@@ -66,10 +66,10 @@
 
                     
 
-                    <div class="flex flex-wrap my-7 h-full">
+                    <div class="flex flex-wrap place-content-between my-7 h-full">
                         {% for purchase in purchases %}
                             {% check_pk purchase.pk as p %}
-                            <div class="w-1/2">
+                            <div class="w-31/64">
                                 {% include "purchases/purchase_card.html" with purchase=p %}
                             </div>
                         {% endfor %}
