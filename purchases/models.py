@@ -50,6 +50,8 @@ class Purchase(core_model.TimeStampedModel):
     def dong(self):
         return self.address.split()[-1]
 
+ 
+
 
 class Material(Purchase):
     category_food = "음식"
@@ -63,14 +65,12 @@ class Material(Purchase):
     )
 
     unit = models.CharField(max_length=5, blank=True)  # 단위
-    total = models.IntegerField()  # 총 수량
     link_address = models.URLField(blank=True)
     category = models.CharField(
         choices=category_choice, max_length=20, blank=False, default=category_food
     )
 
-    def amount_per_person(self):
-        return self.total / self.max_people
+
 
     def get_absolute_url(self):
         return reverse("purchases:material", kwargs={"pk": self.pk})
