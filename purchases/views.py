@@ -1,7 +1,8 @@
 import os
+from django.http import Http404
 from django.shortcuts import render, redirect, reverse
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, View, FormView
+from django.views.generic import ListView, DetailView, View, FormView, UpdateView
 from django.core.paginator import Paginator
 from users import models as user_models
 from comments import models as comment_models
@@ -120,7 +121,7 @@ def material_attend_view(request, pk):
         p = models.Material.objects.get(pk=pk)
         p.participants.add(request.user)
         p.save()
-        
+
         if p.participants.count() == p.max_people:
             alarm_views.participant_full(request, p)
         messages.success(request, "공동구매 참여 완료!")
@@ -165,8 +166,7 @@ class PurchaseDetailView(mixins.LoggedInOnlyView, DetailView):
 class CreateMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, FormView):
     form_class = forms.CreateMaterialForm
     template_name = "purchases/create_material.html"
- 
-    
+
     def form_valid(self, form):
         title = form.cleaned_data.get("title")
         closed = form.cleaned_data.get("closed")
@@ -226,17 +226,68 @@ class SearchView(mixins.LoggedInOnlyView, View):
     def get(self, request):
         kwd = request.GET.get("kwd")
 
-        if kwd=='':
+        if kwd == "":
             purchase_object = 0
             purchase_count = 0
-     
+
         else:
-            purchase_object = models.Purchase.objects.filter(title__icontains = kwd, address=request.user.address)
+            purchase_object = models.Purchase.objects.filter(
+                title__icontains=kwd, address=request.user.address
+            )
             purchase_count = purchase_object.count()
 
         # category에 의한 검색도 하고싶으나... 객체가 달라서 ㅠㅠ
 
-        return render(request, "purchases/search.html", {
-            "purchases": purchase_object, 
-            "purchases_count": purchase_count,
-        })
+        return render(
+            request,
+            "purchases/search.html",
+            {"purchases": purchase_object, "purchases_count": purchase_count},
+        )
+
+
+def purchase_delete_view(request, pk):
+    if request.method == "GET":
+        try:
+            p = models.Material.objects.get(pk=pk)
+        except models.Material.DoesNotExist:
+            p = models.Immaterial.objects.get(pk=pk)
+        messages.success(request, "게시글 삭제 완료")
+        p.delete()
+        next = request.GET["next"]
+        return redirect(next)
+
+
+class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):
+    model = models.Material
+    template_name = "purchases/material_edit.html"
+    fields = (
+        "title",
+        "category",
+        "closed",
+        "max_people",
+        "price",
+        "total",
+        "unit",
+        "explain",
+        "link_address",
+    )
+
+    def get_object(self, queryset=None):
+        material = super().get_object(queryset=queryset)
+        if material.host.pk == self.request.user.pk:
+            return material
+        else:
+            raise Http404()
+
+
+class EditImmaterialView(UpdateView):
+    model = models.Immaterial
+    template_name = "purchases/immaterial_edit.html"
+    fields = {"title", "closed", "explain", "category", "max_people", "price"}
+
+    def get_object(self, queryset=None):
+        immaterial = super().get_object(queryset=queryset)
+        if immaterial.host.pk == self.request.user.pk:
+            return immaterial
+        else:
+            raise Http404()
