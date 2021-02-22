@@ -40,4 +40,10 @@ urlpatterns = [
         name="immaterial-edit",
     ),
     path("photo/delete/<int:pk>", views.delete_photo_view, name="photo-delete"),
+    path("material/close/<int:pk>", views.material_close_view, name="material-close"),
+    path(
+        "immaterial/close/<int:pk>",
+        views.immaterial_close_view,
+        name="immaterial-close",
+    ),
 ]

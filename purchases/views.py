@@ -182,7 +182,6 @@ class CreateMaterialView(
         explain = form.cleaned_data.get("explain")
         link_address = form.cleaned_data.get("link_address")
         user = self.request.user
-
         material = models.Material.objects.create(
             title=title,
             closed=closed,
@@ -195,6 +194,7 @@ class CreateMaterialView(
             host=user,
             address=user.address,
         )
+        material.participants.add(user)
         material.save()
         photos = self.request.FILES.getlist("photos")
         if photos is not None:
@@ -220,6 +220,7 @@ class CreateImmaterialView(
         immaterial.host = user
         immaterial.address = user.address
         immaterial.save()
+        immaterial.participants.add(user)
         form.save_m2m()
         photos = self.request.FILES.getlist("photos")
         if photos is not None:
@@ -329,3 +330,29 @@ def delete_photo_view(request, pk):
         photo.delete()
         next = request.GET["next"]
         return redirect(next)
+
+
+def material_close_view(request, pk):
+    if request.method == "GET":
+        p = models.Material.objects.get(pk=pk)
+        if p.host.pk == request.user.pk:
+            p.status = models.Purchase.status_finished
+            p.save()
+        else:
+            raise Http404()
+
+        messages.success(request, "공동구매 모집 마감 완료!")
+    return redirect(reverse("purchases:material", kwargs={"pk": pk}))
+
+
+def immaterial_close_view(request, pk):
+    if request.method == "GET":
+        p = models.Immaterial.objects.get(pk=pk)
+        if p.host.pk == request.user.pk:
+            p.status = models.Purchase.status_finished
+            p.save()
+        else:
+            raise Http404()
+
+        messages.success(request, "공동구매 모집 마감 완료!")
+    return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))

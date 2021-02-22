@@ -14,7 +14,16 @@ class Photo(core_model.TimeStampedModel):
 
 
 class Purchase(core_model.TimeStampedModel):
-
+    status_ongoing = "진행 중"
+    status_recruite_end = "모집 완료"
+    status_expired = "기간 만료"
+    status_finished = "거래 완료"
+    status_choices = (
+        (status_ongoing, "진행 중"),
+        (status_recruite_end, "모집 완료"),
+        (status_expired, "기간 만료"),
+        (status_finished, "거래 완료"),
+    )
     closed = models.DateTimeField()
     title = models.CharField(max_length=40, blank=True)
     host = models.ForeignKey(
@@ -28,6 +37,9 @@ class Purchase(core_model.TimeStampedModel):
     )
     price = models.IntegerField(default=0)  # 총 가격
     address = models.CharField(max_length=80, blank=True)  # 게시글 작성자 주소.
+    status = models.CharField(
+        choices=status_choices, default=status_ongoing, max_length=16, blank=False
+    )
 
     def thumbnail(self):
         try:
@@ -50,8 +62,6 @@ class Purchase(core_model.TimeStampedModel):
     def dong(self):
         return self.address.split()[-1]
 
- 
-
 
 class Material(Purchase):
     category_food = "음식"
@@ -69,8 +79,6 @@ class Material(Purchase):
     category = models.CharField(
         choices=category_choice, max_length=20, blank=False, default=category_food
     )
-
-
 
     def get_absolute_url(self):
         return reverse("purchases:material", kwargs={"pk": self.pk})

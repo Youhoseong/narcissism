@@ -13,6 +13,10 @@ module.exports = {
       minHeight: {
         "50vh": "50vh",
         "75vh": "75vh",
+      },
+
+      width: {
+        "31/64": "48.4375%",
       }
     },
   },
