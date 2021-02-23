@@ -11,6 +11,7 @@ from . import models, forms
 from . import mixins
 from purchases import models as purchase_models
 from django.views.decorators.http import require_http_methods
+
 # Create your views here.
 
 
@@ -59,22 +60,18 @@ class LocationVerifyView(mixins.LoggedInOnlyView, ListView):
         client_id = os.environ.get("KAKAO_MAP_KEY")
 
         return render(
-            request,
-            "users/location_verify.html",
-            {
-                "client_id_kakao": client_id,
-            },
+            request, "users/location_verify.html", {"client_id_kakao": client_id}
         )
 
-    
+
 @csrf_exempt
 def verify_complete(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         try:
             user = models.User.objects.get(pk=request.user.pk)
-            location = request.POST.get('location')
-            temp_location = location.replace(" ","")
-           
+            location = request.POST.get("location")
+            temp_location = location.replace(" ", "")
+
             if location == None or temp_location == "":
                 user.recent_location_verify_code = "0"
                 user.save()
@@ -86,7 +83,7 @@ def verify_complete(request):
                 user.recent_location_verify_code = "1"
                 user.save()
                 return redirect(reverse("core:home"))
-   
+
         except LocationException:
             messages.error(request, "지역 업데이트 오류")
             return redirect(reverse("core:home"))
@@ -94,14 +91,13 @@ def verify_complete(request):
     else:
         user = models.User.objects.get(pk=request.user.pk)
 
-        if user.recent_location_verify_code =="0":
+        if user.recent_location_verify_code == "0":
             messages.error(request, "지역 인증에 오류가 있습니다.")
             return redirect(reverse("users:verify"))
         else:
             messages.success(request, f"{request.user.first_name}님의 지역정보를 업데이트 합니다.")
             return redirect(reverse("core:home"))
 
-  
 
 class LoginView(mixins.LoggedOutOnlyView, FormView):
 
@@ -149,6 +145,7 @@ class SignUpView(mixins.LoggedOutOnlyView, FormView):
 
         if user is not None:
             login(self.request, user)
+        user.verify_email()
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -180,7 +177,6 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
         "qr_code",
     )
     success_message = "프로필 새단장 완료!"
-    
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -194,16 +190,26 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
         form.fields["birthdate"].widget.attrs = {"placeholder": "birthdate"}
         return form
 
+
 class ShopListView(mixins.LoggedInOnlyView, ListView):
     model = models.User
     template_name = "users/list.html"
 
     def get(self, request):
         return render(
-            request,
-            "users/list.html",
-            {
-                "purchases": request.user.participate.all(),
-            },
+            request, "users/list.html", {"purchases": request.user.participate.all()}
         )
 
+
+def email_verification_view(request, code):
+    try:
+        print(code)
+        user = models.User.objects.get(email_code=code)
+        user.email_verified = True
+        messages.success(request, "이메일이 인증되었습니다")
+        user.save()
+
+    except models.User.DoesNotExist:
+        messages.error(request, "유효하지 않은 인증입니다")
+
+    return redirect(reverse("core:home"))

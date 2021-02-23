@@ -12,5 +12,8 @@ urlpatterns = [
     path("list/", views.ShopListView.as_view(), name="list"),
     path("verify/", views.LocationVerifyView.as_view(), name="verify"),
     path("verify/complete/", views.verify_complete, name="verify-complete"),
-    path("verify/detail/", views.LocationVerifyDetailView.as_view(), name="verify-detail"),
+    path(
+        "verify/detail/", views.LocationVerifyDetailView.as_view(), name="verify-detail"
+    ),
+    path("emailverify/<str:code>/", views.email_verification_view, name="email-verify"),
 ]
