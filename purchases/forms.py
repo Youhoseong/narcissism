@@ -1,5 +1,7 @@
-from . import models
 from django import forms
+import datetime
+from pytz import timezone
+from . import models
 
 
 class CreateMaterialForm(forms.Form):
@@ -22,6 +24,17 @@ class CreateMaterialForm(forms.Form):
         label="상품 사진",
     )
 
+    def clean_closed(self):
+        closed = self.cleaned_data["closed"]
+        today = datetime.datetime.now(timezone("Asia/Seoul"))
+        # 비교를 위해 자료형 변경
+        closed = closed.replace(tzinfo=timezone("Asia/Seoul"))
+
+        if today > closed:
+            raise forms.ValidationError("마감 일자를 확인해주세요")
+        else:
+            return self.cleaned_data.get("closed")
+
 
 class CreateImmaterialForm(forms.ModelForm):
     class Meta:
@@ -42,6 +55,17 @@ class CreateImmaterialForm(forms.ModelForm):
         required=False,
         label="상품 사진",
     )
+
+    def clean_closed(self):
+        closed = self.cleaned_data["closed"]
+        today = datetime.datetime.now(timezone("Asia/Seoul"))
+        # 비교를 위해 자료형 변경
+        closed = closed.replace(tzinfo=timezone("Asia/Seoul"))
+
+        if today > closed:
+            raise forms.ValidationError("마감 일자를 확인해주세요")
+        else:
+            return self.cleaned_data.get("closed")
 
     def save(self, *args, **kwargs):
         immaterial = super().save(commit=False)
@@ -80,6 +104,25 @@ class EditMaterialForm(forms.ModelForm):
             "link_address": "상품 판매 홈페이지 주소",
         }
 
+    def clean_closed(self):
+        closed = self.cleaned_data["closed"]
+        today = datetime.datetime.now(timezone("Asia/Seoul"))
+        # 비교를 위해 자료형 변경
+        closed = closed.replace(tzinfo=timezone("Asia/Seoul"))
+
+        if today > closed:
+            raise forms.ValidationError("마감 일자를 확인해주세요")
+        else:
+            return self.cleaned_data.get("closed")
+
+    def clean_max_people(self):
+        participants_count = self.instance.participants.count()
+        changed_max_people = self.cleaned_data.get("max_people")
+        if participants_count > changed_max_people:
+            raise forms.ValidationError("현재 참가한 인원 수 보다 큰 모집 인원을 입력해주세요")
+        else:
+            return self.cleaned_data.get("max_people")
+
 
 class EditImaterialForm(forms.ModelForm):
     photos = forms.FileField(
@@ -108,3 +151,22 @@ class EditImaterialForm(forms.ModelForm):
             "max_people": "공동구매 모집 인원",
             "price": "상품 가격",
         }
+
+    def clean_closed(self):
+        closed = self.cleaned_data["closed"]
+        today = datetime.datetime.now(timezone("Asia/Seoul"))
+        # 비교를 위해 자료형 변경
+        closed = closed.replace(tzinfo=timezone("Asia/Seoul"))
+
+        if today > closed:
+            raise forms.ValidationError("마감 일자를 확인해주세요")
+        else:
+            return self.cleaned_data.get("closed")
+
+    def clean_max_people(self):
+        participants_count = self.instance.participants.count()
+        changed_max_people = self.cleaned_data.get("max_people")
+        if participants_count > changed_max_people:
+            raise forms.ValidationError("현재 참가한 인원 수 보다 큰 모집 인원을 입력해주세요")
+        else:
+            return self.cleaned_data.get("max_people")
