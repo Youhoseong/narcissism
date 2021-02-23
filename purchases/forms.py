@@ -24,6 +24,17 @@ class CreateMaterialForm(forms.Form):
         label="상품 사진",
     )
 
+    def clean_closed(self):
+        closed = self.cleaned_data["closed"]
+        today = datetime.datetime.now(timezone("Asia/Seoul"))
+        # 비교를 위해 자료형 변경
+        closed = closed.replace(tzinfo=timezone("Asia/Seoul"))
+
+        if today > closed:
+            raise forms.ValidationError("마감 일자를 확인해주세요")
+        else:
+            return self.cleaned_data.get("closed")
+
 
 class CreateImmaterialForm(forms.ModelForm):
     class Meta:
@@ -44,6 +55,17 @@ class CreateImmaterialForm(forms.ModelForm):
         required=False,
         label="상품 사진",
     )
+
+    def clean_closed(self):
+        closed = self.cleaned_data["closed"]
+        today = datetime.datetime.now(timezone("Asia/Seoul"))
+        # 비교를 위해 자료형 변경
+        closed = closed.replace(tzinfo=timezone("Asia/Seoul"))
+
+        if today > closed:
+            raise forms.ValidationError("마감 일자를 확인해주세요")
+        else:
+            return self.cleaned_data.get("closed")
 
     def save(self, *args, **kwargs):
         immaterial = super().save(commit=False)
