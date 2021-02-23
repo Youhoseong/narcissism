@@ -110,8 +110,12 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         password = form.cleaned_data.get("password")
         user = authenticate(self.request, username=username, password=password)
         if user is not None:
-            login(self.request, user)
-            messages.info(self.request, f"또 뵙네요. {self.request.user.first_name}")
+            if user.email_verified:
+                login(self.request, user)
+                messages.info(self.request, f"또 뵙네요. {self.request.user.first_name}")
+            else:
+                messages.error(self.request, "이메일 인증이 완료된 후 로그인이 가능합니다")
+                return super().form_invalid(form)
 
         return super().form_valid(form)
 
@@ -142,9 +146,6 @@ class SignUpView(mixins.LoggedOutOnlyView, FormView):
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
         user = authenticate(self.request, username=username, password=password)
-
-        if user is not None:
-            login(self.request, user)
         user.verify_email()
         return super().form_valid(form)
 
