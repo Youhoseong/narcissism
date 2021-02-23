@@ -290,10 +290,6 @@ class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView)
         else:
             raise Http404()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
     def form_valid(self, form):
         pk = self.kwargs["pk"]
         material = models.Material.objects.get(pk=pk)
