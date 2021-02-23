@@ -1,10 +1,42 @@
 {% extends "base.html" %}
+{% load pagetags %}
 
 {% block content %}
-    {{alarm.sender}}
-    {{alarm.receiver}}
-    {{alarm.title}}
-    {{alarm.created}}
-    {{alarm.content}}
+    {% related_alarm alarm.pk request.user.pk as related_alarm %}
+    <div class="text-center font-dohyun text-2xl mt-32">
+        {% return_alarm alarm.pk as ra %}
+        {% isSelfMessage alarm.pk as isSelf %}
+
+        {% if isSelf %}
+            내게 쓴 쪽지함
+        {% else %}
+            {% if ra.isFirst %}
+                {% if ra.sender == request.user %}
+                    <a href="{{ra.receiver.get_absolute_url}}">{{ra.receiver}}</a> 와의 쪽지함
+                {% else %}
+                    <a href="{{ra.sender.get_absolute_url}}">{{ra.sender}}</a> 와의 쪽지함
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="mx-auto text-center my-6">
+        {% if ra.isFirst %}
+            {% if ra.sender == request.user %}
+                <a href="{% url 'alarms:message' ra.receiver.pk %}">
+            {% else %}
+                <a href="{% url 'alarms:message' ra.sender.pk %}">
+            {% endif %}
+         {% endif %}
+
+            <span class="border-2 border-black px-4 py-2 text-xl text-dohyun rounded-lg hover:bg-yellow-300 hover:border-yellow-300 hover:text-white duration-500 cursor-pointer">
+                send message
+            </span>
+        </a>
+    </div>
+    <div class="container w-full flex flex-col my-3 mx-auto  items-center">
+        {% for re_alarm in related_alarm %}
+            {% include "alarms/alarm_card.html" with alarm=re_alarm %}
+        {% endfor %}
+    </div>
 
 {% endblock content %}

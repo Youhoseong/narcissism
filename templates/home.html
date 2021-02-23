@@ -16,14 +16,6 @@
             </div>
         
         </div>
-
-        <div class="flex flex-row absolute bottom-3 justify-center w-full h-6 transition duration-500">
-            <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
-            <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
-            <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
-            <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center mr-2 hover:bg-gray-200 cursor-pointer"></span>
-            <span class="rounded-full h-3 w-3 bg-gray-500 text-white justify-center hover:bg-gray-200 cursor-pointer"></span>
-        </div>
     </div>
 
     {% if not user.is_authenticated %}
@@ -53,17 +45,7 @@
                 
                         <div class="w-full my-5 border-b-8"></div>
                     </div>
-                    <div class="container w-full text-right">
-                        <span>
-                            <button id="newly" onclick="newly_click();" class="border-transparent">최신순</button>
-                            
-                            <span>|</span>
-
-                            <button id="category" onclick="category_click();" class="border-transparent">카테고리</button>
-
-                        </span>
-                    </div>
-
+        
                     
 
                     <div class="flex flex-wrap place-content-between my-7 h-full">

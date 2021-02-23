@@ -6,5 +6,6 @@ app_name = "alarms"
 urlpatterns = [
     path("", views.AlarmView.as_view(), name="alarm_list"),
     path("<int:pk>/", views.AlarmDetailView.as_view(), name="alarm_detail"),
-    path("message", views.MessageView.as_view(), name="message"),
+    path("message/<int:receiver_pk>/", views.MessageView.as_view(), name="message"),
+    path("check/<int:pk>", views.alarmcheckview, name="check")
 ]

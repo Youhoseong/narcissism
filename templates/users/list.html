@@ -3,7 +3,12 @@
 
 {% block content %}
 
-<div class="w-full flex flex-col my-3 mx-auto  items-center">
+<div class="text-center text-2xl font-dohyun mb-10 mt-32 ">
+    참여한 공동구매 목록
+</div>
+
+<div class="w-1/2 flex flex-col my-3 mx-auto  items-center">
+
     {% for purchase in purchases %}
         {% check_pk purchase.pk as p %}
             {% include "purchases/purchase_card.html" with purchase=p %}

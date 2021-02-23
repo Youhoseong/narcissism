@@ -2,6 +2,8 @@ from django import template
 
 from purchases import models as purchases_models
 from comments import models as comment_models
+from alarms import models as alarm_models
+from users import models as user_models
 register = template.Library()
 
 
@@ -66,3 +68,67 @@ def sort_comment(comment):
     comment = comment.order_by('-created')
 
     return comment
+
+
+@register.simple_tag
+def related_alarm(pk, userpk):
+    alarm = alarm_models.Alarm.objects.get(pk=pk)
+    sender = alarm.sender
+    receiver = alarm.receiver
+
+    related_alarm1 = alarm_models.Alarm.objects.filter(sender=sender, receiver= receiver)
+    related_alarm2 =alarm_models.Alarm.objects.filter(sender=receiver, receiver= sender)
+
+    related_alarm = (related_alarm1 | related_alarm2).order_by("-created")
+
+    for r in related_alarm.all():
+        if r.receiver.pk == userpk:
+            r.ischeck = True
+            r.save()
+
+    return related_alarm
+
+@register.simple_tag
+def return_alarm(pk):
+    alarm = alarm_models.Alarm.objects.get(pk=pk)
+    
+    return alarm
+
+@register.simple_tag
+def isSelfMessage(pk):
+    alarm = alarm_models.Alarm.objects.get(pk=pk)
+
+    if alarm.sender.pk == alarm.receiver.pk:
+        return True
+    else:
+        return False
+
+@register.simple_tag
+def user_alarm_count(pk):
+    user = user_models.User.objects.get(pk=pk)
+    count = 0
+    for alarm in user.alarm_receiver.all():
+        if alarm.ischeck == False:
+            count = count + 1
+    
+    return count
+
+
+@register.simple_tag
+def new_message_check(pk , userpk):
+    alarm = alarm_models.Alarm.objects.get(pk=pk)
+    sender = alarm.sender
+    receiver = alarm.receiver
+
+    related_alarm1 = alarm_models.Alarm.objects.filter(sender=sender, receiver= receiver)
+    related_alarm2 =alarm_models.Alarm.objects.filter(sender=receiver, receiver= sender)
+
+    related_alarm = (related_alarm1 | related_alarm2).order_by("-created")
+
+    for r in related_alarm.all():
+        if r.receiver.pk == userpk:
+            if r.ischeck == False:
+                return True
+
+    return False
+
