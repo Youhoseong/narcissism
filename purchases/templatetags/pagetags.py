@@ -135,6 +135,7 @@ def new_message_check(pk , userpk):
 
     return False
 
+@register.simple_tag
 def is_expired(purchase):
     now = datetime.datetime.now(timezone("Asia/Seoul"))
     closed = purchase.closed.replace(tzinfo=timezone("Asia/Seoul"))
