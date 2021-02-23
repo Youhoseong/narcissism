@@ -169,7 +169,6 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
     template_name = "users/update-profile.html"
     fields = (
         "avatar",
-        "email",
         "first_name",
         "last_name",
         "gender",
@@ -184,7 +183,6 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields["email"].widget.attrs = {"placeholder": "email"}
         form.fields["first_name"].widget.attrs = {"placeholder": "first_name"}
         form.fields["last_name"].widget.attrs = {"placeholder": "last_name"}
         form.fields["bio"].widget.attrs = {"placeholder": "bio"}
