@@ -89,11 +89,25 @@ textarea[name="explain"] {
     height: 200px;
 };
 
+
 input,
 textarea{
     @apply rounded-2xl py-5 items-center font-light text-lg w-full text-left border border-gray-600 px-5 focus:outline-none focus:border-green-500;
+    
 };
 
+form {
+    .input {
+        &.has_error {
+            input {
+                @apply bg-red-200 border-gray-600;
+                &:focus {
+                    @apply border-gray-600;
+                }
+            }
+        }
+    }
+};
 /*
 textarea {
     resize: none;

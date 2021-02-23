@@ -1,9 +1,14 @@
 from django import template
-
 from purchases import models as purchases_models
 from comments import models as comment_models
+<<<<<<< HEAD
 from alarms import models as alarm_models
 from users import models as user_models
+=======
+import datetime
+from pytz import timezone
+
+>>>>>>> main
 register = template.Library()
 
 
@@ -63,14 +68,16 @@ def check_class(pk):
         m = purchases_models.Immaterial.objects.get(pk=pk)
         return False
 
+
 @register.simple_tag
 def sort_comment(comment):
-    comment = comment.order_by('-created')
+    comment = comment.order_by("-created")
 
     return comment
 
 
 @register.simple_tag
+<<<<<<< HEAD
 def related_alarm(pk, userpk):
     alarm = alarm_models.Alarm.objects.get(pk=pk)
     sender = alarm.sender
@@ -132,3 +139,14 @@ def new_message_check(pk , userpk):
 
     return False
 
+=======
+def is_expired(purchase):
+    now = datetime.datetime.now(timezone("Asia/Seoul"))
+    closed = purchase.closed.replace(tzinfo=timezone("Asia/Seoul"))
+    if now > closed:
+        purchase.status = purchases_models.Purchase.status_expired
+        purchase.save()
+        return True
+
+    return False
+>>>>>>> main
