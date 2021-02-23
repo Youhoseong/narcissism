@@ -20,6 +20,7 @@ class CustomUserAdmin(UserAdmin):
                     "qr_code",
                     "login_method",
                     "location_verified",
+                    "email_verified",
                 )
             },
         ),

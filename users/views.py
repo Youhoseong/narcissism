@@ -110,8 +110,12 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         password = form.cleaned_data.get("password")
         user = authenticate(self.request, username=username, password=password)
         if user is not None:
-            login(self.request, user)
-            messages.info(self.request, f"또 뵙네요. {self.request.user.first_name}")
+            if user.email_verified:
+                login(self.request, user)
+                messages.info(self.request, f"또 뵙네요. {self.request.user.first_name}")
+            else:
+                messages.error(self.request, "이메일 인증이 완료된 후 로그인이 가능합니다")
+                return super().form_invalid(form)
 
         return super().form_valid(form)
 
@@ -142,9 +146,6 @@ class SignUpView(mixins.LoggedOutOnlyView, FormView):
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
         user = authenticate(self.request, username=username, password=password)
-
-        if user is not None:
-            login(self.request, user)
         user.verify_email()
         return super().form_valid(form)
 
@@ -168,7 +169,6 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
     template_name = "users/update-profile.html"
     fields = (
         "avatar",
-        "email",
         "first_name",
         "last_name",
         "gender",
@@ -183,7 +183,6 @@ class UpdateProfileView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView
 
     def get_form(self, form_class=None):
         form = super().get_form(form_class=form_class)
-        form.fields["email"].widget.attrs = {"placeholder": "email"}
         form.fields["first_name"].widget.attrs = {"placeholder": "first_name"}
         form.fields["last_name"].widget.attrs = {"placeholder": "last_name"}
         form.fields["bio"].widget.attrs = {"placeholder": "bio"}
