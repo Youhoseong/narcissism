@@ -275,6 +275,14 @@ class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView)
     template_name = "purchases/material_edit.html"
     success_message = "수정 완료"
 
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+        material = models.Material.objects.get(pk=pk)
+        if material.status != purchase_models.Purchase.status_ongoing:
+            messages.error(request, "진행 중인 글만 수정할 수 있습니다.")
+            return redirect(reverse("purchases:material", kwargs={"pk": pk}))
+        return super().get(request, *args, **kwargs)
+
     def get_object(self, queryset=None):
         material = super().get_object(queryset=queryset)
         if material.host.pk == self.request.user.pk:
@@ -284,14 +292,14 @@ class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print(context)
         return context
 
     def form_valid(self, form):
-        photos = self.request.FILES.getlist("photos")
         pk = self.kwargs["pk"]
         material = models.Material.objects.get(pk=pk)
-        print(pk)
+        if material.status != purchase_models.Purchase.status_ongoing:
+            return redirect(reverse("purchases:material", kwargs={"pk": pk}))
+        photos = self.request.FILES.getlist("photos")
         if photos is not None:
             for photo in photos:
                 new_photo = models.Photo.objects.create(file=photo, purchases=material)
@@ -304,6 +312,14 @@ class EditImmaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateVie
     template_name = "purchases/immaterial_edit.html"
     success_message = "수정 완료"
     form_class = forms.EditImaterialForm
+
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
+        immaterial = models.Immaterial.objects.get(pk=pk)
+        if immaterial.status != purchase_models.Purchase.status_ongoing:
+            messages.error(request, "진행 중인 글만 수정할 수 있습니다.")
+            return redirect(reverse("purchases:immaterial", kwargs={"pk": pk}))
+        return super().get(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
         immaterial = super().get_object(queryset=queryset)
