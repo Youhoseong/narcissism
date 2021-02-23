@@ -37,7 +37,6 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
-
     "users.apps.UsersConfig",
     "purchases.apps.PurchasesConfig",
     "core.apps.CoreConfig",
@@ -128,7 +127,7 @@ USE_TZ = True
 
 
 STATIC_URL = "/static/"
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 

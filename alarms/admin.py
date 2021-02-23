@@ -9,6 +9,9 @@ class ListAdmin(admin.ModelAdmin):
         "receiver",
         "content",
         "created",
+        "category",
+        "ischeck",
+        "isFirst",
     )
 
     search_fields = ("sender",)

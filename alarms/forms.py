@@ -6,7 +6,6 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = alarm_model.Alarm
         fields = (
-            "receiver",
             "title",
             "content",
         )

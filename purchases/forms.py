@@ -13,7 +13,7 @@ class CreateMaterialForm(forms.Form):
     closed = forms.DateTimeField(
         widget=forms.DateInput(attrs={"class": "datepicker"}), label="마감 일자"
     )
-    max_people = forms.IntegerField(label="공동구매 모집 인원")
+    max_people = forms.IntegerField(label="공동구매 모집 인원(본인 포함)")
     price = forms.IntegerField(label="상품 가격")
     unit = forms.CharField(label="상품 양(ex. 2kg, 3개..)")
     explain = forms.CharField(widget=forms.Textarea, label="본문")
@@ -39,14 +39,14 @@ class CreateMaterialForm(forms.Form):
 class CreateImmaterialForm(forms.ModelForm):
     class Meta:
         model = models.Immaterial
-        fields = ("title", "closed", "explain", "category", "max_people", "price")
+        fields = ("title", "closed", "category", "max_people", "price", "explain")
         widgets = {"explain": forms.Textarea(attrs={"col": 40, "row": 30})}
         labels = {
             "title": "제목",
             "closed": "마감 일자",
             "explain": "본문",
             "category": "카테고리",
-            "max_people": "공동구매 모집 인원",
+            "max_people": "공동구매 모집 인원(본인 포함)",
             "price": "상품 가격",
         }
 
