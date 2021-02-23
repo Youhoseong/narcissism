@@ -265,8 +265,8 @@ def purchase_delete_view(request, pk):
             p = models.Immaterial.objects.get(pk=pk)
         messages.success(request, "게시글 삭제 완료")
         p.delete()
-        next = request.GET["next"]
-        return redirect(next)
+        
+        return redirect(reverse("core:home"))
 
 
 class EditMaterialView(SuccessMessageMixin, mixins.LoggedInOnlyView, UpdateView):

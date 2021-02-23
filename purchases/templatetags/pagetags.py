@@ -79,8 +79,8 @@ def related_alarm(pk, userpk):
     sender = alarm.sender
     receiver = alarm.receiver
 
-    related_alarm1 = alarm_models.Alarm.objects.filter(sender=sender, receiver= receiver)
-    related_alarm2 =alarm_models.Alarm.objects.filter(sender=receiver, receiver= sender)
+    related_alarm1 = alarm_models.Alarm.objects.filter(sender=sender, receiver=receiver)
+    related_alarm2 = alarm_models.Alarm.objects.filter(sender=receiver, receiver=sender)
 
     related_alarm = (related_alarm1 | related_alarm2).order_by("-created")
 
@@ -91,11 +91,13 @@ def related_alarm(pk, userpk):
 
     return related_alarm
 
+
 @register.simple_tag
 def return_alarm(pk):
     alarm = alarm_models.Alarm.objects.get(pk=pk)
-    
+
     return alarm
+
 
 @register.simple_tag
 def isSelfMessage(pk):
@@ -106,6 +108,7 @@ def isSelfMessage(pk):
     else:
         return False
 
+
 @register.simple_tag
 def user_alarm_count(pk):
     user = user_models.User.objects.get(pk=pk)
@@ -113,18 +116,18 @@ def user_alarm_count(pk):
     for alarm in user.alarm_receiver.all():
         if alarm.ischeck == False:
             count = count + 1
-    
+
     return count
 
 
 @register.simple_tag
-def new_message_check(pk , userpk):
+def new_message_check(pk, userpk):
     alarm = alarm_models.Alarm.objects.get(pk=pk)
     sender = alarm.sender
     receiver = alarm.receiver
 
-    related_alarm1 = alarm_models.Alarm.objects.filter(sender=sender, receiver= receiver)
-    related_alarm2 =alarm_models.Alarm.objects.filter(sender=receiver, receiver= sender)
+    related_alarm1 = alarm_models.Alarm.objects.filter(sender=sender, receiver=receiver)
+    related_alarm2 = alarm_models.Alarm.objects.filter(sender=receiver, receiver=sender)
 
     related_alarm = (related_alarm1 | related_alarm2).order_by("-created")
 
@@ -135,6 +138,8 @@ def new_message_check(pk , userpk):
 
     return False
 
+
+@register.simple_tag
 def is_expired(purchase):
     now = datetime.datetime.now(timezone("Asia/Seoul"))
     closed = purchase.closed.replace(tzinfo=timezone("Asia/Seoul"))
