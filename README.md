@@ -8,3 +8,8 @@
 💻 Frontend: HTML CSS JAVASCRIPT
 
 🤟 김찬현 유호성 허보성 
+
+
+# Demo Video 💁🏻
+https://user-images.githubusercontent.com/33655186/110117253-f4aa5900-7dfb-11eb-9eb8-de6ad8b2bc82.mp4
+
